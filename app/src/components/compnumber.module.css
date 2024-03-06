@@ -1,0 +1,31 @@
+.numberContainer {
+  width: 200px;
+  display: table;
+}
+
+.invert {
+  order: 2;
+}
+
+.compNumber {
+  background-color: transparent;
+  width: 120px;
+  font-size: 60px;
+  border: none;
+  height: 80px;
+}
+
+.white {
+  color: white;
+  margin: 10px 0 0 70px;
+  direction: ltr;
+}
+
+.black {
+  margin-left: auto;
+  margin-right: 70px;
+  color: black;
+  display: block;
+  margin-top: 10px;
+  direction: rtl;
+}

@@ -1,0 +1,22 @@
+.compName {
+  background-color: transparent;
+  width: 80%;
+  font-size: 70px;
+  border: none;
+  overflow-x: visible;
+}
+
+.white {
+  color: white;
+  margin: 20px 0 0 70px;
+  direction: ltr;
+}
+
+.black {
+  color: black;
+  margin-left: auto;
+  display: block;
+  margin-right: 70px;
+  margin-top: 20px;
+  direction: rtl;
+}

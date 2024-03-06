@@ -1,0 +1,25 @@
+.compClub {
+  background-color: transparent;
+  width: 80%;
+  font-size: 60px;
+  border: none;
+  overflow-x: visible;
+  font-style: italic;
+}
+
+.white {
+  color: white;
+  margin: auto;
+  margin-top: 10px;
+  direction: ltr;
+}
+
+.black {
+  color: black;
+  margin: auto;
+  margin-right: 0;
+  padding-left: 50px;
+  display: block;
+  margin-top: 10px;
+  direction: rtl;
+}

@@ -1,0 +1,36 @@
+.cardsContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.akaCard {
+  background-color: #bf0303;
+}
+
+.shiroCard {
+  background-color: white;
+}
+
+.colorName {
+  display: flex;
+  justify-content: space-between;
+}
+
+.akaName {
+  padding-left: 70px;
+  font-size: 40px;
+  color: #bf0303;
+}
+
+.shiroName {
+  padding-right: 70px;
+  font-size: 40px;
+  color: white;
+}
+
+.outerCard {
+  margin-top: 30px;
+  width: 49%;
+  height: 750px;
+  border-radius: 10px;
+}

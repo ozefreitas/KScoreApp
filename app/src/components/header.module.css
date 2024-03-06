@@ -1,0 +1,33 @@
+.headerSpacing {
+  font-size: 60px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+  margin-bottom: 40px;
+  margin-top: 20px;
+}
+
+input {
+  color: white;
+}
+
+.tatamiInput {
+  background-color: transparent;
+  height: 50px;
+  font-size: 60px;
+  width: 100px;
+  border: none;
+}
+
+.kataInput {
+  background-color: transparent;
+  height: 50px;
+  font-size: 60px;
+  width: 350px;
+  border: none;
+}
+
+input:focus {
+  outline: none;
+}
