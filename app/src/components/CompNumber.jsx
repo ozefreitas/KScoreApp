@@ -3,7 +3,7 @@ import styles from "./compnumber.module.css";
 export default function CompNumber({ id }) {
   const invertOrder = id === "aka" ? false : true;
   return (
-    <span
+    <div
       className={`${styles.numberContainer} ${
         invertOrder ? styles.invert : ""
       }`}
@@ -15,6 +15,6 @@ export default function CompNumber({ id }) {
           id === "aka" ? styles.white : styles.black
         }`}
       ></input>
-    </span>
+    </div>
   );
 }

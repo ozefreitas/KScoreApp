@@ -1,10 +1,10 @@
 .headerSpacing {
-  font-size: 60px;
+  font-size: 3vw;
   width: 100%;
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-end;
   padding: 10px;
-  margin-bottom: 40px;
+  margin-bottom: 10px;
   margin-top: 20px;
 }
 
@@ -14,20 +14,25 @@ input {
 
 .tatamiInput {
   background-color: transparent;
-  height: 50px;
-  font-size: 60px;
-  width: 100px;
+  font-size: 3vw;
+  width: 10%;
   border: none;
 }
 
 .kataInput {
   background-color: transparent;
-  height: 50px;
-  font-size: 60px;
-  width: 350px;
+  font-size: 3vw;
+  width: 60%;
   border: none;
 }
 
 input:focus {
   outline: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }

@@ -1,7 +1,12 @@
-.compClub {
-  background-color: transparent;
+.clubContainer {
   width: 80%;
-  font-size: 60px;
+}
+
+.compClub {
+  width: 100%;
+  background-color: transparent;
+  font-size: 3vw;
+  text-transform: uppercase;
   border: none;
   overflow-x: visible;
   font-style: italic;
@@ -10,16 +15,16 @@
 .white {
   color: white;
   margin: auto;
+  padding-left: 40px;
   margin-top: 10px;
   direction: ltr;
 }
 
 .black {
   color: black;
+  width: 95%;
   margin: auto;
-  margin-right: 0;
-  padding-left: 50px;
-  display: block;
+  margin-right: 20px;
   margin-top: 10px;
   direction: rtl;
 }

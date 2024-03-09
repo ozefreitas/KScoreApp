@@ -12,7 +12,12 @@ export default function Header() {
         ></input>
       </span>
       <span>
-        Kata <input className={styles.kataInput} placeholder="Escalão"></input>
+        Kata{" "}
+        <input
+          type="text"
+          className={styles.kataInput}
+          placeholder="Category"
+        ></input>
       </span>
     </div>
   );

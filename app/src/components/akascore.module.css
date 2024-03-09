@@ -1,13 +1,15 @@
 .bigNumberContainer {
+  height: 50vh;
   text-align: center;
   vertical-align: middle;
-  margin-top: -50px;
+  margin-top: -30px;
 }
 
 .bigNumber {
   background-color: transparent;
   width: 100%;
-  font-size: 500px;
+  height: 50vh;
+  font-size: 25vw;
   font-weight: bold;
   border: none;
 }

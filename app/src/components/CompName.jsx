@@ -2,7 +2,7 @@ import styles from "./compname.module.css";
 
 export default function CompName({ id }) {
   return (
-    <div>
+    <div className={styles.nameContainer}>
       <input
         type="text"
         placeholder="Competitor Name"

@@ -1,0 +1,29 @@
+.bigNumberContainer {
+  height: 50vh;
+  text-align: center;
+  vertical-align: middle;
+  margin-top: -30px;
+}
+
+.bigNumber {
+  background-color: transparent;
+  width: 100%;
+  height: 50vh;
+  font-size: 25vw;
+  font-weight: bold;
+  border: none;
+}
+
+.white {
+  color: white;
+  margin: auto;
+  direction: ltr;
+  text-align: center;
+}
+
+.black {
+  color: black;
+  margin: auto;
+  direction: rtl;
+  text-align: center;
+}

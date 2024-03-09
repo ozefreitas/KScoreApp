@@ -1,10 +1,14 @@
 import CompInfo from "./CompInfo";
 import CompName from "./CompName";
 import KataName from "./KataName";
-import Score from "./Score";
+import AkaScore from "./AkaScore";
+import ShiroScore from "./ShiroScore";
 import styles from "./compcard.module.css";
+import { useState } from "react";
 
 export default function CompCard() {
+  const [akaScore, setAkaScore] = useState("");
+  
   return (
     <div>
       <div className={styles.colorName}>
@@ -20,13 +24,17 @@ export default function CompCard() {
           <CompName id="aka"></CompName>
           <CompInfo id="aka"></CompInfo>
           <KataName id="aka"></KataName>
-          <Score id="aka"></Score>
+          <AkaScore
+            id="aka"
+            akaScore={akaScore}
+            setAkaScore={setAkaScore}
+          ></AkaScore>
         </div>
         <div className={`${styles.outerCard} ${styles.shiroCard}`}>
           <CompName id="shiro"></CompName>
           <CompInfo id="shiro"></CompInfo>
           <KataName id="shiro"></KataName>
-          <Score id="shiro"></Score>
+          <ShiroScore id="shiro" akaScore={akaScore}></ShiroScore>
         </div>
       </div>
     </div>

@@ -2,14 +2,14 @@ import styles from "./compclub.module.css";
 
 export default function CompClub({ id }) {
   return (
-    <span>
+    <div className={styles.clubContainer}>
       <input
         type="text"
-        placeholder="Club"
+        placeholder="TEAM"
         className={`${styles.compClub} ${
           id === "aka" ? styles.white : styles.black
         }`}
       ></input>
-    </span>
+    </div>
   );
 }

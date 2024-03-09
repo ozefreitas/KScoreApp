@@ -1,5 +1,5 @@
 .numberContainer {
-  width: 200px;
+  width: 20%;
   display: table;
 }
 
@@ -9,23 +9,22 @@
 
 .compNumber {
   background-color: transparent;
-  width: 120px;
-  font-size: 60px;
+  width: 60%;
+  font-size: 3vw;
   border: none;
   height: 80px;
 }
 
 .white {
+  display: block;
   color: white;
   margin: 10px 0 0 70px;
   direction: ltr;
 }
 
 .black {
-  margin-left: auto;
-  margin-right: 70px;
+  margin: 10px 70px 0 0;
   color: black;
   display: block;
-  margin-top: 10px;
   direction: rtl;
 }
