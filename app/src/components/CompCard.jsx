@@ -6,9 +6,17 @@ import ShiroScore from "./ShiroScore";
 import styles from "./compcard.module.css";
 import { useState } from "react";
 
-export default function CompCard() {
+export default function CompCard({ competitors, kata }) {
+  const [state, setState] = useState({
+    competitorNameShiro: "",
+    competitorTeamShiro: "",
+    competitorNumberShiro: 0,
+    competitorNameAka: "",
+    competitorTeamAka: "",
+    competitorNumberAka: 0,
+  });
   const [akaScore, setAkaScore] = useState("");
-  
+
   return (
     <div>
       <div className={styles.colorName}>
@@ -21,8 +29,13 @@ export default function CompCard() {
       </div>
       <div className={styles.cardsContainer}>
         <div className={`${styles.outerCard} ${styles.akaCard}`}>
-          <CompName id="aka"></CompName>
-          <CompInfo id="aka"></CompInfo>
+          <CompName id="aka" state={state}></CompName>
+          <CompInfo
+            id="aka"
+            state={state}
+            setState={setState}
+            competitors={competitors}
+          ></CompInfo>
           <KataName id="aka"></KataName>
           <AkaScore
             id="aka"
@@ -31,12 +44,18 @@ export default function CompCard() {
           ></AkaScore>
         </div>
         <div className={`${styles.outerCard} ${styles.shiroCard}`}>
-          <CompName id="shiro"></CompName>
-          <CompInfo id="shiro"></CompInfo>
+          <CompName id="shiro" state={state}></CompName>
+          <CompInfo
+            id="shiro"
+            state={state}
+            setState={setState}
+            competitors={competitors}
+          ></CompInfo>
           <KataName id="shiro"></KataName>
           <ShiroScore id="shiro" akaScore={akaScore}></ShiroScore>
         </div>
       </div>
+      {console.log(state)}
     </div>
   );
 }

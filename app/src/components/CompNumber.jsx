@@ -1,7 +1,44 @@
+import { useEffect } from "react";
 import styles from "./compnumber.module.css";
 
-export default function CompNumber({ id }) {
-  const invertOrder = id === "aka" ? false : true;
+export default function CompNumber({ id, state, setState, competitors }) {
+  const invertOrder = id !== "aka";
+  const handleChange = (e) => {
+    if (id === "aka") {
+      setState((prevState) => ({
+        ...prevState,
+        competitorNumberAka: e.target.value,
+      }));
+    } else {
+      setState((prevState) => ({
+        ...prevState,
+        competitorNumberShiro: e.target.value,
+      }));
+    }
+  };
+  
+  useEffect(() => {
+    const changeCompInfo = () => {
+      competitors.map((competitor) => {
+        if (competitor.number === state.competitorNumberShiro) {
+          setState((prevState) => ({
+            ...prevState,
+            competitorNameShiro: competitor.name,
+            competitorTeamShiro: competitor.team,
+          }));
+        } else if (competitor.number === state.competitorNumberAka) {
+          setState((prevState) => ({
+            ...prevState,
+            competitorNameAka: competitor.name,
+            competitorTeamAka: competitor.team,
+          }));
+        }
+      });
+    };
+
+    changeCompInfo();
+  }, [state.competitorNumberAka, state.competitorNumberShiro]);
+
   return (
     <div
       className={`${styles.numberContainer} ${
@@ -14,6 +51,7 @@ export default function CompNumber({ id }) {
         className={`${styles.compNumber} ${
           id === "aka" ? styles.white : styles.black
         }`}
+        onChange={handleChange}
       ></input>
     </div>
   );

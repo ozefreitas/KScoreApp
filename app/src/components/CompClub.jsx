@@ -1,6 +1,6 @@
 import styles from "./compclub.module.css";
 
-export default function CompClub({ id }) {
+export default function CompClub({ id, state }) {
   return (
     <div className={styles.clubContainer}>
       <input
@@ -9,6 +9,10 @@ export default function CompClub({ id }) {
         className={`${styles.compClub} ${
           id === "aka" ? styles.white : styles.black
         }`}
+        value={
+          id === "aka" ? state.competitorTeamAka : state.competitorTeamShiro
+        }
+        readOnly
       ></input>
     </div>
   );
