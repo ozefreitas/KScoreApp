@@ -8,7 +8,7 @@
     "start": "electron-forge start",
     "dev:watch": "npx electronmon .",
     "package": "electron-forge package",
-    "make": "electron-forge make -- --arch='ia32,x64'",
+    "make": "electron-forge make",
     "publish": "electron-forge publish"
   },
   "author": "José Freitas",
