@@ -18,19 +18,19 @@
 
 .akaName {
   padding-left: 70px;
-  font-size: 2.5vw;
+  font-size: 2.3vw;
   color: #bf0303;
 }
 
 .shiroName {
   padding-right: 70px;
-  font-size: 2.5vw;
+  font-size: 2.3vw;
   color: white;
 }
 
 .outerCard {
   margin-top: 10px;
   width: 49%;
-  height: 72vh;
+  height: 67vh;
   border-radius: 10px;
 }

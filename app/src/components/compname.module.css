@@ -17,9 +17,9 @@
 }
 
 .black {
+  float: right;
   color: black;
   margin-left: auto;
-  display: block;
   margin-right: 70px;
   margin-top: 20px;
   direction: rtl;

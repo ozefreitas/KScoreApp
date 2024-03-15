@@ -11,6 +11,10 @@
   height: 80px;
 }
 
+button {
+  display: none;
+}
+
 .white {
   color: white;
   margin-left: 70px;

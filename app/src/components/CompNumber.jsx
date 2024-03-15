@@ -16,7 +16,7 @@ export default function CompNumber({ id, state, setState, competitors }) {
       }));
     }
   };
-  
+
   useEffect(() => {
     const changeCompInfo = () => {
       competitors.map((competitor) => {
@@ -34,8 +34,21 @@ export default function CompNumber({ id, state, setState, competitors }) {
           }));
         }
       });
+      if (state.competitorNumberAka.length === 0) {
+        setState((prevState) => ({
+          ...prevState,
+          competitorNameAka: "",
+          competitorTeamAka: "",
+        }));
+      }
+      if (state.competitorNumberShiro.length === 0) {
+        setState((prevState) => ({
+          ...prevState,
+          competitorNameShiro: "",
+          competitorTeamShiro: "",
+        }));
+      }
     };
-
     changeCompInfo();
   }, [state.competitorNumberAka, state.competitorNumberShiro]);
 
@@ -53,6 +66,7 @@ export default function CompNumber({ id, state, setState, competitors }) {
         }`}
         onChange={handleChange}
       ></input>
+      {console.log(state)}
     </div>
   );
 }

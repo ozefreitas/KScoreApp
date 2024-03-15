@@ -1,6 +1,6 @@
 {
   "name": "KScoreApp",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "An application to count points in SKIP matches",
   "homepage": ".",
   "main": "main.js",

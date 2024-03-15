@@ -6,7 +6,7 @@ import ShiroScore from "./ShiroScore";
 import styles from "./compcard.module.css";
 import { useState } from "react";
 
-export default function CompCard({ competitors, kata }) {
+export default function CompCard({ competitors, katas }) {
   const [state, setState] = useState({
     competitorNameShiro: "",
     competitorTeamShiro: "",
@@ -36,11 +36,12 @@ export default function CompCard({ competitors, kata }) {
             setState={setState}
             competitors={competitors}
           ></CompInfo>
-          <KataName id="aka"></KataName>
+          <KataName id="aka" katas={katas}></KataName>
           <AkaScore
             id="aka"
             akaScore={akaScore}
             setAkaScore={setAkaScore}
+            setState={setState}
           ></AkaScore>
         </div>
         <div className={`${styles.outerCard} ${styles.shiroCard}`}>
@@ -51,11 +52,10 @@ export default function CompCard({ competitors, kata }) {
             setState={setState}
             competitors={competitors}
           ></CompInfo>
-          <KataName id="shiro"></KataName>
+          <KataName id="shiro" katas={katas}></KataName>
           <ShiroScore id="shiro" akaScore={akaScore}></ShiroScore>
         </div>
       </div>
-      {console.log(state)}
     </div>
   );
 }
