@@ -8,11 +8,11 @@ export default function KataName({ id, katas }) {
     e.preventDefault();
     katas.map((kata) => {
       if (id === "aka") {
-        if (kata.kata_id === kataNumber) {
+        if (kata.kata_number === kataNumber) {
           setKataNumber(kata.kata_name);
         }
       } else {
-        if (kata.kata_id === kataNumber) {
+        if (kata.kata_number === kataNumber) {
           setKataNumber(kata.kata_name);
         }
       }
@@ -31,7 +31,9 @@ export default function KataName({ id, katas }) {
           onChange={(e) => setKataNumber(e.target.value)}
           value={kataNumber}
         />
-        <button type="submit">Zerar Kata Name</button>
+        <button className={styles.kataButton} type="submit">
+          Zerar Kata Name
+        </button>
       </div>
     </form>
   );

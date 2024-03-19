@@ -23,26 +23,6 @@ const createMainWindow = () => {
 };
 
 app.whenReady().then(() => {
-  const serverProcess = spawn("node", [
-    path.join(__dirname, "server", "connect.js"),
-  ]);
-
-  serverProcess.stdout.on("data", (data) => {
-    console.log(`Server stdout: ${data}`);
-    // if (data.toString().includes("Server is running")) {
-
-    //   // Server is ready, create the Electron window
-    //   createMainWindow();
-    // }
-  });
-
-  serverProcess.stderr.on("data", (data) => {
-    console.error(`Server stderr: ${data}`);
-  });
-
-  serverProcess.on("close", (code) => {
-    console.log(`Server process exited with code ${code}`);
-  });
 
   createMainWindow();
 
