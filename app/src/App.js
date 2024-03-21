@@ -1,8 +1,12 @@
-import Header from "./components/Header";
-import "./app.css";
-import CompCard from "./components/CompCard";
-import { useState } from "react";
 import NavBar from "./components/NavBar";
+import NavButton from "./components/NavButton";
+import Home from "./pages/Home";
+import KataElim from "./pages/KataElim/KataElim";
+import KataFinal from "./pages/KataFinal/KataFinal";
+import Kumite from "./pages/Kumite";
+import { useState } from "react";
+import { Route, Routes } from "react-router-dom";
+import "./app.css";
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -11,14 +15,35 @@ function App() {
 
   return (
     <div className="App">
-      <Header isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen}></Header>
+      <NavButton
+        isMenuOpen={isMenuOpen}
+        setIsMenuOpen={setIsMenuOpen}
+      ></NavButton>
       <NavBar
         isMenuOpen={isMenuOpen}
+        setIsMenuOpen={setIsMenuOpen}
         setCompetitors={setCompetitors}
         setKatas={setKatas}
       ></NavBar>
-      {console.log(katas)}
-      <CompCard competitors={competitors} katas={katas}></CompCard>
+      <Routes>
+        <Route path="/" element={<Home></Home>}></Route>
+        <Route
+          path="/kataelim"
+          element={
+            <KataElim competitors={competitors} katas={katas}></KataElim>
+          }
+        ></Route>
+        <Route
+          path="/katafinal"
+          element={
+            <KataFinal competitors={competitors} katas={katas}></KataFinal>
+          }
+        ></Route>
+        <Route
+          path="/kumite"
+          element={<Kumite competitors={competitors}></Kumite>}
+        ></Route>
+      </Routes>
     </div>
   );
 }

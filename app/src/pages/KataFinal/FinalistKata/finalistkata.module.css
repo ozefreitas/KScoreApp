@@ -1,0 +1,19 @@
+.kataContainer {
+  width: 100%;
+  height: 50%;
+}
+
+.kataName {
+  background-color: transparent;
+  width: 100%;
+  font-size: 3vw;
+  border: none;
+  height: 80px;
+  color: black;
+  margin-left: 70px;
+  direction: ltr;
+}
+
+.kataButton {
+  display: none;
+}

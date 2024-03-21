@@ -1,0 +1,18 @@
+.finalPontCard {
+  background-color: #bf0303;
+  width: 30%;
+  display: table-cell;
+  margin-left: 1vw;
+  border-radius: 10px;
+}
+
+.finalscore {
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  font-size: 12vw;
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-weight: bold;
+}

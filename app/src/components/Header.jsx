@@ -1,20 +1,10 @@
 import styles from "./header.module.css";
 import React from "react";
-import { IconButton } from "rsuite";
-import { Menu } from "@rsuite/icons";
 
-export default function Header({ isMenuOpen, setIsMenuOpen }) {
-  function handleOnClick() {
-    !isMenuOpen ? setIsMenuOpen(true) : setIsMenuOpen(false);
-    console.log(isMenuOpen);
-  }
+export default function Header() {
+
   return (
     <div className={styles.headerSpacing}>
-      <IconButton
-        onClick={handleOnClick}
-        icon={<Menu />}
-        className={styles.navButton}
-      ></IconButton>
       <span className={styles.tatamiText}>
         Tatami{" "}
         <input

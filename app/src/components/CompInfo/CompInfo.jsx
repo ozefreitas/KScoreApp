@@ -1,5 +1,5 @@
-import CompNumber from "./CompNumber";
-import CompClub from "./CompClub";
+import CompNumber from "../CompNumber/CompNumber";
+import CompClub from "../CompClub/CompClub";
 import styles from "./compinfo.module.css";
 
 export default function CompInfo({ id, state, setState, competitors }) {

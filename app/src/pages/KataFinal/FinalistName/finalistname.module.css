@@ -1,0 +1,16 @@
+.nameContainer {
+  width: 100%;
+  height: 50%;
+}
+
+.compName {
+  background-color: transparent;
+  width: 100%;
+  font-size: 3vw;
+  border: none;
+  overflow-x: visible;
+  color: black;
+  margin: 20px 0 0 70px;
+  padding-top: 2vh;
+  direction: ltr;
+}

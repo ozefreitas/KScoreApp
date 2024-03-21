@@ -1,0 +1,7 @@
+.finalistCard {
+  display: flex;
+  width: 100%;
+  background-color: white;
+  height: 50%;
+  border-radius: 10px;
+}

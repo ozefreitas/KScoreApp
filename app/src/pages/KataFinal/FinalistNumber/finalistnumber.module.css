@@ -1,0 +1,17 @@
+.numberContainer {
+  width: 100%;
+  height: 50%;
+}
+
+.compNumber {
+  text-align: right;
+  width: auto;
+  background-color: transparent;
+  height: 60%;
+  font-size: 3vw;
+  border: none;
+  display: block;
+  color: black;
+  direction: ltr;
+  margin-right: 70px;
+}

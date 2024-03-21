@@ -1,8 +1,8 @@
-import CompInfo from "./CompInfo";
-import CompName from "./CompName";
-import KataName from "./KataName";
-import AkaScore from "./AkaScore";
-import ShiroScore from "./ShiroScore";
+import CompInfo from "../../../components/CompInfo/CompInfo";
+import CompName from "../../../components/CompName/CompName";
+import KataName from "../../../components/KataName/KataName";
+import AkaScore from "../../KataElim/AkaScore/AkaScore";
+import ShiroScore from "../../KataElim/ShiroScore/ShiroScore";
 import styles from "./compcard.module.css";
 import { useState } from "react";
 

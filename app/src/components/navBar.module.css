@@ -1,4 +1,6 @@
 .navContainer {
+  position: absolute;
+  top: 120px;
 }
 
 .navBar {
