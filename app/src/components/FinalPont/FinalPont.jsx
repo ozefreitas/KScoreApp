@@ -1,6 +1,7 @@
 import styles from "./finalpont.module.css";
+import { useCallback, useEffect } from "react";
 
-export default function FinalPont({ sumScore }) {
+export default function FinalPont({ sumScore, setSumScore }) {
   let finalScore = 0;
   const changeFinalScore = () => {
     let minvalue = Infinity;
@@ -13,14 +14,33 @@ export default function FinalPont({ sumScore }) {
         maxvalue = sumScore[property];
       }
       finalScore = finalScore + sumScore[property];
-    };
+    }
     finalScore = finalScore - minvalue - maxvalue;
   };
   if (Object.keys(sumScore).length === 5) {
     changeFinalScore();
-  } else {
-    
   }
+
+  // handle what happens on key press
+  const handleKeyPress = useCallback(
+    (event) => {
+      if (event.ctrlKey === true && event.key === "Backspace") {
+        setSumScore({})
+        document.getElementById("pont_form").reset();
+      }
+    },
+    [setSumScore]
+  );
+
+  useEffect(() => {
+    // attach the event listener
+    document.addEventListener("keydown", handleKeyPress);
+
+    // remove the event listener
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [handleKeyPress]);
 
   return (
     <div className={styles.finalPontCard}>

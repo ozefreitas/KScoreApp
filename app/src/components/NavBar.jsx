@@ -114,6 +114,15 @@ export default function NavBar({
             </li>
             <li>
               <Link
+                to="/teamkata"
+                onClick={handleBarClose}
+                style={{ textDecoration: "none", color: "white" }}
+              >
+                Team Kata
+              </Link>
+            </li>
+            <li>
+              <Link
                 to="/kumite"
                 onClick={handleBarClose}
                 style={{ textDecoration: "none", color: "white" }}

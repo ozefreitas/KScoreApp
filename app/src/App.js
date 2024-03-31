@@ -3,10 +3,11 @@ import NavButton from "./components/NavButton";
 import Home from "./pages/Home";
 import KataElim from "./pages/KataElim/KataElim";
 import KataFinal from "./pages/KataFinal/KataFinal";
-import Kumite from "./pages/Kumite";
+import Kumite from "./pages/Kumite/Kumite";
 import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import "./app.css";
+import TeamKata from "./pages/TeamKata/TeamKata";
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -38,6 +39,10 @@ function App() {
           element={
             <KataFinal competitors={competitors} katas={katas}></KataFinal>
           }
+        ></Route>
+        <Route
+          path="/teamkata"
+          element={<TeamKata katas={katas}></TeamKata>}
         ></Route>
         <Route
           path="/kumite"

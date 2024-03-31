@@ -1,7 +1,7 @@
 .square {
   width: 19.5%;
   background-color: #cfcfcf;
-  height: 20vh;
+  height: 23vh;
   margin-top: auto;
   border-radius: 10px;
 }
@@ -11,7 +11,7 @@
   width: 100%;
   font-size: 5vw;
   background-color: transparent;
-  height: 20vh;
+  height: 23vh;
   border: none;
   color: black;
 }

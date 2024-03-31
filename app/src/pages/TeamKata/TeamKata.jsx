@@ -1,18 +1,18 @@
 import Header from "../../components/Header";
-import FinalistCard from "./FinalistCard/FinalistCard";
-import FinalPont from "../../components/FinalPont/FinalPont";
+import TeamCard from "./TeamCard/TeamCard";
 import PontCard from "../../components/PontCard/PontCard";
-import styles from "./katafinal.module.css";
+import styles from "./teamkata.module.css";
+import FinalPont from "../../components/FinalPont/FinalPont"
 import { useState } from "react";
 
-export default function KataFinal({ competitors, katas }) {
+export default function TeamKata({katas}) {
   const [sumScore, setSumScore] = useState({});
   return (
     <div>
       <Header></Header>
       <div className={styles.flexContainer}>
         <div className={styles.bigContainer}>
-          <FinalistCard competitors={competitors} katas={katas}></FinalistCard>
+          <TeamCard katas={katas}></TeamCard>
           <form id="pont_form" className={styles.pontsContainer}>
             <PontCard judge="1" setSumScore={setSumScore}></PontCard>
             <PontCard judge="2" setSumScore={setSumScore}></PontCard>
