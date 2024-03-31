@@ -9,7 +9,7 @@ export default function KataFinal({ competitors, katas }) {
   const [sumScore, setSumScore] = useState({});
   return (
     <div>
-      <Header></Header>
+      <Header match="kata"></Header>
       <div className={styles.flexContainer}>
         <div className={styles.bigContainer}>
           <FinalistCard competitors={competitors} katas={katas}></FinalistCard>

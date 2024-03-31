@@ -14,6 +14,7 @@ input {
 
 .tatamiText {
   padding-left: 10vw;
+  width: 40%;
 }
 
 .tatamiInput {
@@ -24,10 +25,18 @@ input {
   padding-right: 100px;
 }
 
+.kataText {
+  width: 50%;
+}
+
+.kata {
+  width: 40%;
+}
+
 .kataInput {
   background-color: transparent;
   font-size: 2.7vw;
-  width: 70%;
+  width: 65%;
   border: none;
 }
 

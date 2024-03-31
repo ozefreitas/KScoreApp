@@ -17,3 +17,11 @@
 .kataButton {
   display: none;
 }
+
+.team {
+  height: 100%;
+}
+
+.team input {
+  margin-left: 100px;
+}

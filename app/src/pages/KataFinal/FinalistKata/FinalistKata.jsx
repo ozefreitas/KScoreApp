@@ -1,7 +1,7 @@
-import styles from "./finalistkata.module.css"
+import styles from "./finalistkata.module.css";
 import { useState } from "react";
 
-export default function FinalistKata({ katas }) {
+export default function FinalistKata({ katas, styling }) {
   const [kataNumber, setKataNumber] = useState("");
 
   const handleSubmit = (e) => {
@@ -14,12 +14,12 @@ export default function FinalistKata({ katas }) {
   };
 
   return (
-    <div className={styles.kataContainer}>
-      <form onSubmit={handleSubmit}>
-        <div>
+    <div className={`${styles.kataContainer} ${styles[styling]}`}>
+      <form onSubmit={handleSubmit} className={styles[styling]}>
+        <div className={styles[styling]}>
           <input
             placeholder="Kata Name"
-            className={styles.kataName}
+            className={`${styles.kataName} ${styles[styling]}`}
             type="text"
             onChange={(e) => setKataNumber(e.target.value)}
             value={kataNumber}

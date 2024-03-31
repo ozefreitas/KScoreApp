@@ -1,12 +1,12 @@
 import styles from "./compname.module.css";
 
-export default function CompName({ id, state }) {
+export default function CompName({ match, id, state }) {
   return (
-    <div className={styles.nameContainer}>
+    <div className={`${styles.nameContainer} ${styles[match]}`}>
       <input
         type="text"
         placeholder="Competitor Name"
-        className={`${styles.compName} ${
+        className={`${styles.compName} ${styles[match]} ${
           id === "aka" ? styles.white : styles.black
         }`}
         value={

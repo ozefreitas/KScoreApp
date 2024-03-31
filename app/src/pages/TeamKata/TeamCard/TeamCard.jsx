@@ -6,10 +6,10 @@ export default function TeamCard({ katas }) {
   return (
     <div className={styles.finalistCard}>
       <div>
-        <FinalistKata katas={katas}></FinalistKata>
+        <FinalistKata katas={katas} styling="team"></FinalistKata>
       </div>
       <div>
-        <FinalistClub></FinalistClub>
+        <FinalistClub styling="team"></FinalistClub>
       </div>
     </div>
   );

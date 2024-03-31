@@ -16,3 +16,13 @@
   margin-top: 20px;
   margin-left: 40px;
 }
+
+.team {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.team input {
+  margin-right: 100px;
+}
