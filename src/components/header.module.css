@@ -1,0 +1,56 @@
+.headerSpacing {
+  font-size: 2.7vw;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  margin-bottom: 30px;
+  margin-top: 20px;
+}
+
+input {
+  color: white;
+}
+
+.tatamiText {
+  padding-left: 8vw;
+  width: 35%;
+}
+
+.tatamiInput {
+  background-color: transparent;
+  font-size: 2.7vw;
+  width: 10%;
+  border: none;
+  padding-right: 100px;
+}
+
+.kataText {
+  width: 55%;
+}
+
+.kata {
+  width: 40%;
+}
+
+.kumite {
+  width: 50%;
+}
+
+.kataInput {
+  background-color: transparent;
+  font-size: 2.7vw;
+  width: 65%;
+  border: none;
+}
+
+input:focus {
+  outline: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}

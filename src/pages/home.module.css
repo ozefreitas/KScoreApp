@@ -1,0 +1,19 @@
+.appName {
+  padding: 10px;
+  text-align: center;
+  font-size: 3.2vw;
+  margin: 0;
+}
+
+.centerLogo {
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.centerLogo img {
+  width: 40%;
+  height: 60%;
+  object-fit: contain;
+}

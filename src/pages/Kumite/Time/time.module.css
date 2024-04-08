@@ -1,0 +1,95 @@
+.middleContainer {
+  width: 30%;
+  height: 60vh;
+  border-radius: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  outline: none;
+}
+
+.timeContainer {
+  position: fixed;
+  top: 400px
+}
+
+.middleContainer .timeContainer span {
+  font-size: 7vw;
+  color: yellow;
+  cursor: pointer;
+}
+
+.middleContainer .timeContainer input {
+  /* direction: rtl; */
+  font-size: 12vw;
+  color: yellow;
+  background-color: transparent;
+  border: none;
+  width: 13vw;
+  cursor: pointer;
+}
+
+.middleContainer .timeContainer .minutesInput {
+  width: 7vw;
+}
+
+.middleContainer .timeContainer .millisecondsInput {
+  font-size: 3vw;
+  width: 4vw;
+  top: -50px;
+}
+
+.middleContainer .lastSeconds input {
+  color: orange;
+}
+
+.middleContainer .lastSeconds span {
+  color: orange;
+}
+
+.middleContainer .timerEnded input {
+  animation: blinker 0.8s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
+.matches {
+  margin-top: 300px;
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.akaMatches {
+  display: flex;
+  justify-content: space-evenly;
+  width: 40%;
+  
+}
+
+.shiroMatches {
+  justify-content: space-evenly;
+  display: flex;
+  width: 40%;
+}
+
+.wonMatches {
+  border-radius: 50%;
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+}
+
+.akaMatches .wonMatches {
+  border: 2px solid #bf0303;
+}
+
+.shiroMatches .wonMatches {
+  border: 2px solid white;
+}

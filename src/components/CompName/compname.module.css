@@ -1,0 +1,31 @@
+.nameContainer {
+  width: 100%;
+}
+
+.kumite {
+  height: 50%;
+}
+
+.compName {
+  background-color: transparent;
+  width: 80%;
+  height: 7vh;
+  font-size: 3vw;
+  border: none;
+  overflow-x: visible;
+}
+
+.white {
+  color: white;
+  margin: 10px 0 0 70px;
+  direction: ltr;
+}
+
+.black {
+  float: right;
+  color: black;
+  margin-left: auto;
+  margin-right: 70px;
+  margin-top: 10px;
+  direction: rtl;
+}

@@ -1,0 +1,14 @@
+.pointNumberContainer {
+  width: 40%;
+  height: 40vh;
+  float: left;
+  display: flex;
+}
+
+.pointNumberContainer input {
+  width: 12vw;
+  background-color: transparent;
+  border: none;
+  font-size: 18vw;
+  color: white;
+}

@@ -1,0 +1,13 @@
+.relativePos {
+  position: absolute;
+}
+
+.navButton {
+  color: white;
+  background-color: transparent;
+  border: none;
+  font-size: 2.3vw;
+  cursor: pointer;
+  padding: 10px;
+  outline: none;
+}

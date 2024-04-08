@@ -1,0 +1,79 @@
+.shiroContainer {
+  width: 35%;
+  height: 60vh;
+  border-radius: 10px;
+}
+
+.foulsContainer {
+  width: 70%;
+  margin-top: 10px;
+  margin-left: 3vw;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
+
+.foulGroup {
+  margin-bottom: 10px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.foulType {
+  font-size: 2.5vw;
+  cursor: pointer;
+  display: inline-block;
+  width: 4vw;
+}
+
+.foulSquare {
+  cursor: pointer;
+  display: inline-block;
+  height: 2.7vw;
+  width: 5vw;
+  background-color: white;
+  display: inline-block;
+  border-radius: 20px;
+  margin-left: 1.5vw;
+}
+
+.pointCounterContainer {
+  margin-left: 5vw;
+  font-size: 2.5vw;
+  display: flex;
+  flex-direction: column;
+  height: 40vh;
+  width: 50%;
+  justify-content: center;
+}
+
+.pointCounterContainer div span {
+  display: inline-block;
+  text-align: left;
+  width: 11vw;
+  cursor: pointer;
+}
+
+.pointCounterContainer div input {
+  width: 2vw;
+  background-color: transparent;
+  border: none;
+  font-size: 3vw;
+}
+
+.ippon {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  vertical-align: middle;
+  margin-bottom: 2vh;
+}
+.wazaari {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  vertical-align: middle;
+}

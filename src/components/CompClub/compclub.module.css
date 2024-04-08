@@ -1,0 +1,52 @@
+.clubContainer {
+  width: 80%;
+}
+
+.teamkumite {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.compClub {
+  width: 100%;
+  background-color: transparent;
+  font-size: 3vw;
+  text-transform: uppercase;
+  border: none;
+  overflow-x: visible;
+  font-style: italic;
+}
+
+.white {
+  color: white;
+  margin: auto;
+  padding-left: 40px;
+  margin-top: 10px;
+  direction: ltr;
+}
+
+.black {
+  color: black;
+  margin: auto;
+  margin-right: 20px;
+  margin-top: 10px;
+  direction: rtl;
+}
+
+.kata .black {
+  width: 95%;
+}
+.teamkumite .black {
+  text-align: center;
+  padding: 0;
+  margin: 0;
+}
+
+.teamkumite .white {
+  text-align: center;
+  padding: 0;
+  margin: 0;
+}
+

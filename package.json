@@ -1,31 +1,84 @@
 {
-  "name": "KScoreApp",
-  "version": "0.0.3",
-  "description": "An application to count points in SKIP matches",
-  "homepage": ".",
-  "main": "main.js",
-  "scripts": {
-    "start": "electron-forge start",
-    "dev:watch": "npx electronmon .",
-    "package": "electron-forge package",
-    "make": "electron-forge make",
-    "publish": "electron-forge publish"
-  },
-  "author": "José Freitas",
-  "license": "ISC",
-  "devDependencies": {
-    "@electron-forge/cli": "^7.3.0",
-    "@electron-forge/maker-deb": "^7.3.0",
-    "@electron-forge/maker-rpm": "^7.3.0",
-    "@electron-forge/maker-squirrel": "^7.3.0",
-    "@electron-forge/maker-zip": "^7.3.0",
-    "@electron-forge/plugin-auto-unpack-natives": "^7.3.0",
-    "@electron-forge/plugin-fuses": "^7.3.0",
-    "@electron-forge/publisher-github": "^7.3.0",
-    "electron": "^29.1.0",
-    "electron-packager": "^17.1.2"
-  },
+  "name": "app",
+  "version": "0.1.0",
+  "icon": "public/karate-score.ico",
+  "private": true,
+  "homepage": "./",
+  "main": "public/main.js",
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.0"
+    "@electron/remote": "^2.1.2",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.6.7",
+    "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.4.5",
+    "mongoose": "^8.2.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.22.3",
+    "react-scripts": "^5.0.1",
+    "rsuite": "^5.56.0",
+    "util": "^0.12.5",
+    "wait-on": "^7.2.0",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "package-win": "npm run build && electron-packager . KScoreApp --overwrite --platform=win32 --arch=ia32 --icon='public/karate-score.ico' --prune=true --out=release-builds",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "electron:serve": "concurrently -k \"cross-env BROWSER=none npm run start\" \"npm run electron:start\"",
+    "electron:build": "npm run build && electron-builder",
+    "electron:start": "wait-on tcp:3000 && electron ."
+  },
+  "build": {
+    "files": [
+      "./public/*",
+      "./dist/**/*",
+      "./build/**/*",
+      ".node_modules/**/*",
+      "./package.json",
+      "./dist/index.html",
+      "./src/*.js"
+    ],
+    "extraFiles": [
+      "./src/*.json",
+      "./src/assets/**/*"
+    ],
+    "extraResources": [
+      "./src/assets/**"
+    ],
+    "extraMetadata": {
+      "main": "public/main.js"
+    },
+    "extends": null,
+    "appId": "ksapp",
+    "productName": "Karate Score App",
+    "buildVersion": "1",
+    "icon": "public/karate-score.ico"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@electron-forge/plugin-webpack": "^7.3.1"
   }
 }
