@@ -7,10 +7,10 @@ export default function TeamCard({ match, katas }) {
   return (
     <div className={styles.finalistCard}>
       <div>
-        <FinalistKata katas={katas} styling="team"></FinalistKata>
+        <FinalistKata katas={katas} match={match} ></FinalistKata>
       </div>
       <div>
-        <FinalistClub match={match} styling="team"></FinalistClub>
+        <FinalistClub match={match} ></FinalistClub>
       </div>
     </div>
   );

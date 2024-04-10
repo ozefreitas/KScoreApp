@@ -15,3 +15,7 @@
   border: none;
   color: black;
 }
+
+.overline {
+  text-decoration: line-through 0.2vw;
+}

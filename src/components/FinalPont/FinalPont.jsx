@@ -1,9 +1,17 @@
 import styles from "./finalpont.module.css";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 
-export default function FinalPont({ sumScore, setSumScore }) {
-  let finalScore = 0;
-  const changeFinalScore = () => {
+export default function FinalPont({
+  sumScore,
+  setSumScore,
+  setMinIndex,
+  setMaxIndex,
+}) {
+  const [finalScore, setFinalScore] = useState(0);
+  const scoresIndex = Object.values(sumScore);
+
+  const changeFinalInfo = () => {
+    let final = 0;
     let minvalue = Infinity;
     let maxvalue = -Infinity;
     for (const property in sumScore) {
@@ -13,23 +21,27 @@ export default function FinalPont({ sumScore, setSumScore }) {
       if (sumScore[property] > maxvalue) {
         maxvalue = sumScore[property];
       }
-      finalScore = finalScore + sumScore[property];
+      final = final + sumScore[property];
     }
-    finalScore = finalScore - minvalue - maxvalue;
+    final = final - minvalue - maxvalue;
+    setFinalScore(final);
+    setMinIndex(scoresIndex.findIndex((score) => score === minvalue) + 1);
+    setMaxIndex(scoresIndex.findIndex((score) => score === maxvalue) + 1);
   };
-  if (Object.keys(sumScore).length === 5) {
-    changeFinalScore();
-  }
 
   // handle what happens on key press
   const handleKeyPress = useCallback(
     (event) => {
       if (event.ctrlKey === true && event.key === "Backspace") {
-        setSumScore({})
+        setSumScore({});
+        setMaxIndex("");
+        setMinIndex("");
         document.getElementById("pont_form").reset();
+      } else if (event.key === "Enter" && Object.keys(sumScore).length === 5) {
+        changeFinalInfo();
       }
     },
-    [setSumScore]
+    [setSumScore, sumScore, changeFinalInfo, setMaxIndex, setMinIndex]
   );
 
   useEffect(() => {

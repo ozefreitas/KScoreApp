@@ -53,12 +53,21 @@ export default function AkaInfo() {
         squaresM: newArray,
       }));
     } else if (event.key === "i" && !event.ctrlKey && !isInputFocused()) {
-      setAkaIppon(akaIppon + 1)
+      setAkaIppon(akaIppon + 1);
     } else if (event.key === "w" && !event.ctrlKey && !isInputFocused()) {
-      setAkaWazaari(akaWazaari + 1)
-    } else if (event.key === "Backspace" && event.ctrlKey && !isInputFocused()) {
-      setAkaIppon(0)
-      setAkaWazaari(0)
+      setAkaWazaari(akaWazaari + 1);
+    } else if (
+      event.key === "Backspace" &&
+      event.ctrlKey &&
+      !isInputFocused()
+    ) {
+      setAkaIppon(0);
+      setAkaWazaari(0);
+      setState({
+        squaresK: [],
+        squaresJ: [],
+        squaresM: [],
+      });
     }
   };
 

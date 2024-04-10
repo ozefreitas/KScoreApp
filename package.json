@@ -1,6 +1,8 @@
 {
   "name": "app",
-  "version": "0.1.0",
+  "author": "José Freitas",
+  "description": "App to display scores for SKI-Portugal",
+  "version": "0.2.0",
   "icon": "public/karate-score.ico",
   "private": true,
   "homepage": "./",

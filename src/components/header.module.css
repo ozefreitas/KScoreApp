@@ -30,18 +30,37 @@ input {
 }
 
 .kata {
-  width: 40%;
+  width: 60%;
+}
+
+.teamkata {
+  width: 70%;
 }
 
 .kumite {
-  width: 50%;
+  width: 60%;
 }
 
-.kataInput {
+.teamkumite {
+  width: 75%;
+}
+
+.categoryInput {
+  outline: none;
   background-color: transparent;
   font-size: 2.7vw;
   width: 65%;
   border: none;
+  color: white;
+  width: 70%;
+}
+
+.categoryInput option {
+  color: white;
+  max-height: 30px !important;
+  font-size: 1.5vw;
+  height: 40px;
+  background-color: black;
 }
 
 input:focus {

@@ -66,7 +66,7 @@ export default function NavBar({
           <ul>
             <li>
               <Link
-                to="/"
+                to="/home"
                 onClick={handleBarClose}
                 style={{ textDecoration: "none", color: "white" }}
               >

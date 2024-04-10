@@ -17,12 +17,20 @@
   margin-left: 40px;
 }
 
-.team {
+.katafinal {
+  height: 50%;
+}
+
+.clubContainer .katafinal {
+  height: 100%;
+}
+
+.teamkata {
   height: 100%;
   padding: 0;
   margin: 0;
 }
 
-.team input {
+.teamkata input {
   margin-right: 100px;
 }

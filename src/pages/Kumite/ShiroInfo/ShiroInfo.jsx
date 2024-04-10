@@ -67,6 +67,11 @@ export default function ShiroInfo() {
     ) {
       setShiroIppon(0);
       setShiroWazaari(0);
+      setState({
+        squaresK: [],
+        squaresJ: [],
+        squaresM: [],
+      });
     }
   };
 

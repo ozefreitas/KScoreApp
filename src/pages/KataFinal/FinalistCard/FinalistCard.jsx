@@ -5,7 +5,7 @@ import FinalistNumber from "../FinalistNumber/FinalistNumber";
 import styles from "./finalistcard.module.css";
 import { useState } from "react";
 
-export default function FinalistCard({ competitors, katas }) {
+export default function FinalistCard({ match, competitors, katas }) {
   const [state, setState] = useState({
     competitorName: "",
     competitorTeam: "",
@@ -19,7 +19,7 @@ export default function FinalistCard({ competitors, katas }) {
         <FinalistKata setState={setState} katas={katas}></FinalistKata>
       </div>
       <div>
-        <FinalistClub state={state}></FinalistClub>
+        <FinalistClub match={match} state={state}></FinalistClub>
         <form className={styles.numberForm} id="number_form">
           <FinalistNumber
             state={state}

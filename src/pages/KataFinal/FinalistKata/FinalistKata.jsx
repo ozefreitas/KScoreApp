@@ -1,7 +1,7 @@
 import styles from "./finalistkata.module.css";
 import { useState, useCallback, useEffect } from "react";
 
-export default function FinalistKata({ setState, katas, styling }) {
+export default function FinalistKata({ setState, katas, match }) {
   const [kataNumber, setKataNumber] = useState("");
   const kataAccepted = [];
 
@@ -12,9 +12,11 @@ export default function FinalistKata({ setState, katas, styling }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (kataNumber === "") {
-      new window.Notification("ERRO", {body: "Insira o número do Kata"})
+      new window.Notification("ERRO", { body: "Insira o número do Kata" });
     } else if (!kataAccepted.includes(kataNumber)) {
-      new window.Notification("ERRO", {body: "Número incorreto / Número não existe na lista de katas"})
+      new window.Notification("ERRO", {
+        body: "Número incorreto / Número não existe na lista de katas",
+      });
     }
     katas.map((kata) => {
       if (kata.kata_number === kataNumber) {
@@ -26,13 +28,19 @@ export default function FinalistKata({ setState, katas, styling }) {
   const handleKeyPress = useCallback(
     (event) => {
       if (event.ctrlKey === true && event.key === "Backspace") {
-        document.getElementById("number_form").reset();
-        setKataNumber("");
-        setState((prevState) => ({
-          ...prevState,
-          competitorName: "",
-          competitorTeam: "",
-        }));
+        if (match !== "teamkata") {
+          document.getElementById("number_form").reset();
+          setKataNumber("");
+          setState((prevState) => ({
+            ...prevState,
+            competitorName: "",
+            competitorTeam: "",
+            competitorNumber: 0,
+          }));
+        } else {
+          setKataNumber("");
+          document.getElementById("club_form").reset();
+        }
       }
     },
     [setState]
@@ -49,12 +57,12 @@ export default function FinalistKata({ setState, katas, styling }) {
   }, [handleKeyPress]);
 
   return (
-    <div className={`${styles.kataContainer} ${styles[styling]}`}>
-      <form onSubmit={handleSubmit} className={styles[styling]}>
-        <div className={styles[styling]}>
+    <div className={`${styles.kataContainer} ${styles[match]}`}>
+      <form onSubmit={handleSubmit} className={styles[match]}>
+        <div className={styles[match]}>
           <input
             placeholder="Kata Name"
-            className={`${styles.kataName} ${styles[styling]}`}
+            className={`${styles.kataName} ${styles[match]}`}
             type="text"
             onChange={(e) => setKataNumber(e.target.value)}
             value={kataNumber}

@@ -9,36 +9,56 @@ import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import "./app.css";
 import TeamKata from "./pages/TeamKata/TeamKata";
+import Login from "./pages/Login/Login";
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [competitors, setCompetitors] = useState([]);
   const [katas, setKatas] = useState([]);
+  const [isPinRight, setIsPinRight] = useState(false);
 
   return (
     <div className="App">
-      <NavButton
-        isMenuOpen={isMenuOpen}
-        setIsMenuOpen={setIsMenuOpen}
-      ></NavButton>
-      <NavBar
-        isMenuOpen={isMenuOpen}
-        setIsMenuOpen={setIsMenuOpen}
-        setCompetitors={setCompetitors}
-        setKatas={setKatas}
-      ></NavBar>
+      {isPinRight ? (
+        <div>
+          <NavButton
+            isMenuOpen={isMenuOpen}
+            setIsMenuOpen={setIsMenuOpen}
+          ></NavButton>
+          <NavBar
+            isMenuOpen={isMenuOpen}
+            setIsMenuOpen={setIsMenuOpen}
+            setCompetitors={setCompetitors}
+            setKatas={setKatas}
+          ></NavBar>
+        </div>
+      ) : (
+        ""
+      )}
       <Routes>
-        <Route path="/" element={<Home></Home>}></Route>
+        <Route
+          path="/"
+          element={<Login isPinRight={isPinRight} setIsPinRight={setIsPinRight}></Login>}
+        ></Route>
+        <Route path="/home" element={<Home></Home>}></Route>
         <Route
           path="/kataelim"
           element={
-            <KataElim match="kata" competitors={competitors} katas={katas}></KataElim>
+            <KataElim
+              match="kata"
+              competitors={competitors}
+              katas={katas}
+            ></KataElim>
           }
         ></Route>
         <Route
           path="/katafinal"
           element={
-            <KataFinal match="katafinal" competitors={competitors} katas={katas}></KataFinal>
+            <KataFinal
+              match="katafinal"
+              competitors={competitors}
+              katas={katas}
+            ></KataFinal>
           }
         ></Route>
         <Route
@@ -51,7 +71,12 @@ function App() {
         ></Route>
         <Route
           path="/teamkumite"
-          element={<TeamKumite match="teamkumite" competitors={competitors}></TeamKumite>}
+          element={
+            <TeamKumite
+              match="teamkumite"
+              competitors={competitors}
+            ></TeamKumite>
+          }
         ></Route>
       </Routes>
     </div>
