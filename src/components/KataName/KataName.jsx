@@ -1,8 +1,22 @@
 import styles from "./kataname.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function KataName({ id, katas }) {
   const [kataNumber, setKataNumber] = useState("");
+  const handleKeyPress = (event) => {
+    if (event.code === "Backspace" && event.ctrlKey) {
+      setKataNumber("")
+    }
+  };
+  useEffect(() => {
+    // attach the event listener
+    document.addEventListener("keydown", handleKeyPress);
+
+    // remove the event listener
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [handleKeyPress]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

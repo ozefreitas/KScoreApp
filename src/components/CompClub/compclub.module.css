@@ -35,6 +35,10 @@
   direction: rtl;
 }
 
+.kumite .black {
+  width: 95%;
+}
+
 .kata .black {
   width: 95%;
 }

@@ -11,7 +11,7 @@ export default function AkaScore({ id, akaScore, setAkaScore }) {
         setAkaScore(event.key);
       }
 
-      if (event.key === "Backspace") {
+      if (event.key === "Backspace" && event.ctrlKey) {
         setAkaScore("");
       }
     },
