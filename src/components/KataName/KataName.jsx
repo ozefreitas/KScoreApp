@@ -1,13 +1,16 @@
 import styles from "./kataname.module.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 export default function KataName({ id, katas }) {
   const [kataNumber, setKataNumber] = useState("");
-  const handleKeyPress = (event) => {
-    if (event.code === "Backspace" && event.ctrlKey) {
-      setKataNumber("")
-    }
-  };
+  const handleKeyPress = useCallback(
+    (event) => {
+      if (event.code === "Backspace" && event.ctrlKey) {
+        setKataNumber("");
+      }
+    },
+    [setKataNumber]
+  );
   useEffect(() => {
     // attach the event listener
     document.addEventListener("keydown", handleKeyPress);
@@ -37,7 +40,7 @@ export default function KataName({ id, katas }) {
     <form onSubmit={handleSubmit}>
       <div className={styles.upperLayer}>
         <input
-          placeholder="Kata Name"
+          placeholder="Nome Kata"
           className={`${styles.kataName} ${
             id === "aka" ? styles.white : styles.black
           }`}

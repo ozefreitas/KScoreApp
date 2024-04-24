@@ -10,6 +10,8 @@ import { Route, Routes } from "react-router-dom";
 import "./app.css";
 import TeamKata from "./pages/TeamKata/TeamKata";
 import Login from "./pages/Login/Login";
+import GroupDraw from "./pages/GroupDraw/GroupDraw";
+import MatchesDraw from "./pages/MatchesDraw/MatchesDraw";
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -38,9 +40,24 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={<Login isPinRight={isPinRight} setIsPinRight={setIsPinRight}></Login>}
+          element={
+            <Login
+              isPinRight={isPinRight}
+              setIsPinRight={setIsPinRight}
+            ></Login>
+          }
         ></Route>
         <Route path="/home" element={<Home></Home>}></Route>
+        <Route
+          path="/groupdraw"
+          element={
+            <GroupDraw competitors={competitors} draw="group"></GroupDraw>
+          }
+        ></Route>
+        <Route
+          path="/matchesdraw"
+          element={<MatchesDraw draw="matches"></MatchesDraw>}
+        ></Route>
         <Route
           path="/kataelim"
           element={

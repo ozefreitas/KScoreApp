@@ -1,0 +1,43 @@
+.boxContainer {
+  width: 45%;
+  height: 4vw;
+  padding: 10px;
+  border: 1px solid #bf0303;
+  border-radius: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.compLabels {
+  font-size: 2.7vw;
+}
+
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: #fff;
+  margin: 1vh;
+  font: inherit;
+  color: currentColor;
+  width: 2em;
+  height: 2em;
+  border: 0.15em solid currentColor;
+  border-radius: 0.15em;
+  transform: translateY(-0.075em);
+  display: grid;
+  place-content: center;
+}
+
+input[type="checkbox"]::before {
+  content: "";
+  width: 1.25em;
+  height: 1.25em;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1.5em 1.5em #bf0303;
+}
+
+input[type="checkbox"]:checked::before {
+  transform: scale(1);
+}

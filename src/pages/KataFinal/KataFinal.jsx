@@ -30,7 +30,6 @@ export default function KataFinal({ match, competitors, katas }) {
     }
   }, [minIndex, maxIndex]);
 
-  console.log(state)
   return (
     <div>
       <Header match="kata"></Header>
@@ -71,6 +70,7 @@ export default function KataFinal({ match, competitors, katas }) {
         </div>
         <FinalPont
           sumScore={sumScore}
+          setState={setState}
           setSumScore={setSumScore}
           setMinIndex={setMinIndex}
           setMaxIndex={setMaxIndex}

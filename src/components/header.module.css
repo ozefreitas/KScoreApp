@@ -8,8 +8,16 @@
   margin-top: 20px;
 }
 
+.group {
+  justify-content: center;
+}
+
 input {
   color: white;
+}
+
+.categoryInput .valorDefault {
+  color: grey;
 }
 
 .tatamiText {
@@ -52,7 +60,10 @@ input {
   width: 65%;
   border: none;
   color: white;
-  width: 70%;
+}
+
+.valueDefault {
+  color: rgb(72, 72, 72)
 }
 
 .categoryInput option {
@@ -73,3 +84,5 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
+
+

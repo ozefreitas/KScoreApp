@@ -6,7 +6,7 @@ export default function FinalistName({state}) {
       <input
         className={styles.compName}
         type="text"
-        placeholder="Competitor Name"
+        placeholder="Nome Competidor"
         // className={}
         value={state.competitorName}
         readOnly

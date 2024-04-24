@@ -14,6 +14,7 @@ export default function NavBar({
     document.getElementById("Kata_Picker").click();
   };
 
+
   let where;
 
   const handleCompFile = (e) => {
@@ -70,12 +71,12 @@ export default function NavBar({
                 onClick={handleBarClose}
                 style={{ textDecoration: "none", color: "white" }}
               >
-                Home
+                Início
               </Link>
             </li>
             <li>
               <span onClick={handleClickCompetitor}>
-                Upload Competitor List
+                Inserir Lista de Competidores
               </span>
               <input
                 id="Competitor_Picker"
@@ -85,7 +86,25 @@ export default function NavBar({
               ></input>
             </li>
             <li>
-              <span onClick={handleClickKata}>Upload Kata List</span>
+              <Link
+                to="/groupdraw"
+                onClick={handleBarClose}
+                style={{ textDecoration: "none", color: "white" }}
+              >
+                Fazer Novo Sorteio (por Escalão)
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/matchesdraw"
+                onClick={handleBarClose}
+                style={{ textDecoration: "none", color: "white" }}
+              >
+                Fazer Novo Sorteio (dentro de Grupo)
+              </Link>
+            </li>
+            <li>
+              <span onClick={handleClickKata}>Inserir Lista de Katas</span>
               <input
                 id="Kata_Picker"
                 type="file"
@@ -99,7 +118,7 @@ export default function NavBar({
                 onClick={handleBarClose}
                 style={{ textDecoration: "none", color: "white" }}
               >
-                Kata Elimination
+                Kata Eliminação
               </Link>
             </li>
             <li>
@@ -108,7 +127,7 @@ export default function NavBar({
                 onClick={handleBarClose}
                 style={{ textDecoration: "none", color: "white" }}
               >
-                Kata Finals
+                Kata Finais
               </Link>
             </li>
             <li>
@@ -117,7 +136,7 @@ export default function NavBar({
                 onClick={handleBarClose}
                 style={{ textDecoration: "none", color: "white" }}
               >
-                Team Kata
+                Kata Equipa
               </Link>
             </li>
             <li>
@@ -135,7 +154,7 @@ export default function NavBar({
                 onClick={handleBarClose}
                 style={{ textDecoration: "none", color: "white" }}
               >
-                Team Kumite
+                Kumite Equipa
               </Link>
             </li>
             <li>
@@ -144,7 +163,7 @@ export default function NavBar({
                 onClick={handleBarClose}
                 style={{ textDecoration: "none", color: "white" }}
               >
-                Credits
+                Créditos
               </Link>
             </li>
           </ul>

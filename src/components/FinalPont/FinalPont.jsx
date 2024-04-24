@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 
 export default function FinalPont({
   sumScore,
+  setState,
   setSumScore,
   setMinIndex,
   setMaxIndex,
@@ -36,12 +37,35 @@ export default function FinalPont({
         setSumScore({});
         setMaxIndex("");
         setMinIndex("");
+        setFinalScore(0);
+        setState({
+          overline1: undefined,
+          overline2: undefined,
+          overline3: undefined,
+          overline4: undefined,
+          overline5: undefined,
+        });
         document.getElementById("pont_form").reset();
       } else if (event.key === "Enter" && Object.keys(sumScore).length === 5) {
         changeFinalInfo();
+        const activeElement = document.activeElement;
+        if (activeElement.type === "number") {
+          activeElement.blur();
+        }
+      } else if (Object.keys(sumScore).length !== 5) {
+        setState({
+          overline1: undefined,
+          overline2: undefined,
+          overline3: undefined,
+          overline4: undefined,
+          overline5: undefined,
+        });
+        new window.Notification("ERRO", {
+          body: "Insira pontuação/Pontuação errada",
+        });
       }
     },
-    [setSumScore, sumScore, changeFinalInfo, setMaxIndex, setMinIndex]
+    [setSumScore, setState, sumScore, changeFinalInfo, setMaxIndex, setMinIndex]
   );
 
   useEffect(() => {

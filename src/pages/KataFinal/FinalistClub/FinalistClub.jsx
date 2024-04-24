@@ -8,13 +8,13 @@ export default function FinalistClub({ match, state }) {
           <input
             className={`${styles.clubName} ${styles[match]}`}
             type="text"
-            placeholder="TEAM"
+            placeholder="clube"
           ></input>
         ) : (
           <input
             className={`${styles.clubName} ${styles[match]}`}
             type="text"
-            placeholder="TEAM"
+            placeholder="clube"
             value={state.competitorTeam}
             readOnly
           ></input>

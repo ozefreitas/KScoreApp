@@ -1,12 +1,6 @@
 import styles from "./pontcard.module.css";
-import { useState  } from "react";
 
-export default function PontCard({
-  judge,
-  setSumScore,
-  overline
-}) {
-
+export default function PontCard({ judge, setSumScore, overline }) {
   const handleChange = (e) => {
     const score = parseFloat(e.target.value);
     if (e.target.value.trim() !== "") {
@@ -18,7 +12,9 @@ export default function PontCard({
     if (isNaN(score)) {
       setSumScore((prevSumScore) => {
         const key = judge;
-        return { ...prevSumScore, [key]: "" };
+        const { [key]: _, ...rest } = prevSumScore;
+        // return { ...prevSumScore, [key]: "valor de merda" };
+        return rest;
       });
     }
   };

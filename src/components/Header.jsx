@@ -1,24 +1,29 @@
 import styles from "./header.module.css";
-import React from "react";
+import React, { useState } from "react";
 
-export default function Header({ match }) {
+export default function Header({ match, draw, setCategory }) {
+  const [isDefault, setIsDefault] = useState(true);
+
   let matchType;
+  const matchTypes = ["kata", "teamkata", "kumite", "teamkumite"];
   const renderMatchType = () => {
-    if (match === "teamkata") {
+    if (match === matchTypes[0]) {
+      matchType = "Kata ";
+    } else if (match === matchTypes[1]) {
       matchType = "Kata Equipa ";
-    } else if (match === "kumite") {
+    } else if (match === matchTypes[2]) {
       matchType = "Kumite ";
-    } else if (match === "teamkumite") {
+    } else if (match === matchTypes[3]) {
       matchType = "Kumite Equipa ";
     } else {
-      matchType = "Kata ";
+      matchType = "Escalão ";
     }
     return matchType;
   };
 
   const options = [
     "Infantil Masculino",
-    "Infantial Feminino",
+    "Infantil Feminino",
     "Iniciado Masculino",
     "Iniciado Feminino",
     "Juvenil Masculino",
@@ -67,30 +72,48 @@ export default function Header({ match }) {
 
   renderMatchType();
 
+  const handleChanche = (event) => {
+    if (draw === "group" || draw === "matches") {
+      setCategory(event.target.value);
+    } else if (event.target.value !== "default") {
+      setIsDefault(false);
+    }
+  };
+
   return (
-    <div className={styles.headerSpacing}>
-      <span className={styles.tatamiText}>
-        Tatami{" "}
-        <input
-          className={styles.tatamiInput}
-          type="number"
-          placeholder="0"
-        ></input>
-      </span>
+    <div className={`${styles.headerSpacing} ${styles[draw]}`}>
+      {matchType !== "Escalão " ? (
+        <span className={styles.tatamiText}>
+          Tatami{" "}
+          <input
+            className={styles.tatamiInput}
+            type="number"
+            placeholder="0"
+          ></input>
+        </span>
+      ) : (
+        ""
+      )}
       <span className={`${styles.kataText} ${styles[match]}`}>
         {matchType}
-        <select id="categoryList" name="categoryList" className={styles.categoryInput}>
+        <select
+          id="categoryList"
+          name="categoryList"
+          defaultValue="default"
+          className={`${styles.categoryInput} ${
+            isDefault ? styles.valueDefault : ""
+          }`}
+          onChange={handleChanche}
+        >
+          <option value="default" disabled>
+            Selecionar Categoria
+          </option>
           {options.map((option, index) => (
             <option key={index} value={option}>
               {option}
             </option>
           ))}
         </select>
-        {/* <input
-          type="text"
-          className={styles.categoryInput}
-          placeholder="Category"
-        ></input> */}
       </span>
     </div>
   );

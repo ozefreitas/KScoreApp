@@ -5,7 +5,7 @@ export default function CompName({ match, id, state }) {
     <div className={`${styles.nameContainer} ${styles[match]}`}>
       <input
         type="text"
-        placeholder="Competitor Name"
+        placeholder="Nome Competidor"
         className={`${styles.compName} ${styles[match]} ${
           id === "aka" ? styles.white : styles.black
         }`}

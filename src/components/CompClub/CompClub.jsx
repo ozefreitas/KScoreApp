@@ -6,7 +6,7 @@ export default function CompClub({ id, match, state }) {
       {match === "kumite" || match === "kata" ? (
         <input
           type="text"
-          placeholder="TEAM"
+          placeholder="clube"
           className={`${styles.compClub} ${
             id === "aka" ? styles.white : styles.black
           }`}

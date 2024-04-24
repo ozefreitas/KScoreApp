@@ -43,7 +43,7 @@ export default function FinalistKata({ setState, katas, match }) {
         }
       }
     },
-    [setState]
+    [setState, match]
   );
 
   useEffect(() => {
@@ -61,7 +61,7 @@ export default function FinalistKata({ setState, katas, match }) {
       <form onSubmit={handleSubmit} className={styles[match]}>
         <div className={styles[match]}>
           <input
-            placeholder="Kata Name"
+            placeholder="Nome Kata"
             className={`${styles.kataName} ${styles[match]}`}
             type="text"
             onChange={(e) => setKataNumber(e.target.value)}
