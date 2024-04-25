@@ -1,5 +1,6 @@
 .relativePos {
   position: absolute;
+  z-index: 2;
 }
 
 .navButton {
@@ -10,4 +11,5 @@
   cursor: pointer;
   padding: 10px;
   outline: none;
+  z-index: 2;
 }

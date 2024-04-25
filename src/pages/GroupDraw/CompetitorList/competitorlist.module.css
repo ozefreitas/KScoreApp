@@ -1,5 +1,5 @@
 .centerForm {
-  margin-top: 7vh;
+  margin-top: 12vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -11,7 +11,7 @@
   height: 65vh;
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 20px;
   align-content: flex-start;
   align-items: center;
   justify-content: space-between;

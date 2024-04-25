@@ -75,6 +75,9 @@ export default function Header({ match, draw, setCategory }) {
   const handleChanche = (event) => {
     if (draw === "group" || draw === "matches") {
       setCategory(event.target.value);
+      if (event.target.value !== "default") {
+        setIsDefault(false);
+      }
     } else if (event.target.value !== "default") {
       setIsDefault(false);
     }

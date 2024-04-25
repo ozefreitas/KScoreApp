@@ -32,7 +32,8 @@ export default function NavBar({
   let fileReader;
 
   const handleFileChosen = (file, where) => {
-    fileReader = new FileReader();
+    try {fileReader = new FileReader()}
+    catch {}
     if (where === "Competitor_Picker") {
       fileReader.onloadend = handleCompRead;
       fileReader.readAsText(file);
