@@ -5,7 +5,7 @@ import KataElim from "./pages/KataElim/KataElim";
 import KataFinal from "./pages/KataFinal/KataFinal";
 import Kumite from "./pages/Kumite/Kumite";
 import TeamKumite from "./pages/TeamKumite/TeamKumite";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import "./app.css";
 import TeamKata from "./pages/TeamKata/TeamKata";
@@ -16,8 +16,30 @@ import MatchesDraw from "./pages/MatchesDraw/MatchesDraw";
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [competitors, setCompetitors] = useState([]);
+  const [newCompetitors, setNewCompetitors] = useState([]);
   const [katas, setKatas] = useState([]);
   const [isPinRight, setIsPinRight] = useState(false);
+
+  const mergeCompetitors = (jsonResources) => {
+    const groupedCompetitors = {};
+    jsonResources.forEach((resource) => {
+      const key = `${resource.number}-${resource.name}-${resource.team}`;
+      if (groupedCompetitors[key]) {
+        groupedCompetitors[key].category.push(resource.category);
+      } else {
+        groupedCompetitors[key] = {
+          ...resource,
+          category: [resource.category],
+        };
+      }
+    });
+    const mergedCompetitors = Object.values(groupedCompetitors);
+    return mergedCompetitors;
+  };
+
+  useEffect(() => {
+    setNewCompetitors(mergeCompetitors(competitors));
+  }, [competitors]);
 
   return (
     <div className="App">
@@ -51,7 +73,7 @@ function App() {
         <Route
           path="/groupdraw"
           element={
-            <GroupDraw competitors={competitors} draw="group"></GroupDraw>
+            <GroupDraw competitors={newCompetitors} draw="group"></GroupDraw>
           }
         ></Route>
         <Route
@@ -63,7 +85,7 @@ function App() {
           element={
             <KataElim
               match="kata"
-              competitors={competitors}
+              competitors={newCompetitors}
               katas={katas}
             ></KataElim>
           }
@@ -73,7 +95,7 @@ function App() {
           element={
             <KataFinal
               match="katafinal"
-              competitors={competitors}
+              competitors={newCompetitors}
               katas={katas}
             ></KataFinal>
           }
@@ -84,14 +106,14 @@ function App() {
         ></Route>
         <Route
           path="/kumite"
-          element={<Kumite match="kumite" competitors={competitors}></Kumite>}
+          element={<Kumite match="kumite" competitors={newCompetitors}></Kumite>}
         ></Route>
         <Route
           path="/teamkumite"
           element={
             <TeamKumite
               match="teamkumite"
-              competitors={competitors}
+              competitors={newCompetitors}
             ></TeamKumite>
           }
         ></Route>

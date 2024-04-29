@@ -14,13 +14,17 @@ export default function NavBar({
     document.getElementById("Kata_Picker").click();
   };
 
-
   let where;
 
   const handleCompFile = (e) => {
     const inputFile = e.target.files[0];
     where = e.target.id;
-    handleFileChosen(inputFile, where);
+    if (inputFile instanceof Blob) {
+      handleFileChosen(inputFile, where);
+    } else {
+      console.error("Invalid file selected/No file selected");
+      alert("No file select/Invalid file selected")
+    }
   };
 
   const handleKataFile = (e) => {
@@ -32,8 +36,9 @@ export default function NavBar({
   let fileReader;
 
   const handleFileChosen = (file, where) => {
-    try {fileReader = new FileReader()}
-    catch {}
+    try {
+      fileReader = new FileReader();
+    } catch {}
     if (where === "Competitor_Picker") {
       fileReader.onloadend = handleCompRead;
       fileReader.readAsText(file);

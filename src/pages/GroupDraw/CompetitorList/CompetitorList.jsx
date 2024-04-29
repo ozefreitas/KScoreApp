@@ -8,11 +8,11 @@ export default function CompetitorList({
   compList,
   setCompList,
   setGroups,
-  refProp,
+  drawRef,
 }) {
-  const ScrollDemo = () => {
+  const ScrollDraw = () => {
     const executeScroll = () =>
-      refProp.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      drawRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
     if (category !== null) {
       executeScroll();
     }
@@ -21,13 +21,10 @@ export default function CompetitorList({
   useEffect(() => {
     const updatedCompList = {};
     competitors.forEach((competitor) => {
-      // console.log(competitor.category.includes(category))
-      // if (competitor.category === category) {
       if (competitor.category.includes(category)) {
         updatedCompList[competitor.name] = true;
       }
     });
-    console.log(updatedCompList);
     setCompList(updatedCompList);
   }, [competitors, category, setCompList]);
 
@@ -67,8 +64,24 @@ export default function CompetitorList({
     const randomNumber = generateUniqueRandomNumbers(1, filtered.length);
     const generatedGroups = generateGroups(randomNumber, 4);
     setGroups(generatedGroups);
-    ScrollDemo();
+    ScrollDraw();
   };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleSubmit(event);
+    }
+  };
+
+  useEffect(() => {
+    // attach the event listener
+    document.addEventListener("keydown", handleKeyPress);
+
+    // remove the event listener
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [handleKeyPress]);
 
   return (
     <div className={styles.centerForm}>
@@ -97,7 +110,12 @@ export default function CompetitorList({
               ></CompetitorItem>
             ))}
       </form>
-      <button type="submit" form="group_form" className={styles.drawButton}>
+      <button
+        type="submit"
+        form="group_form"
+        onKeyDown={handleKeyPress}
+        className={styles.drawButton}
+      >
         Iniciar Sorteio
       </button>
     </div>

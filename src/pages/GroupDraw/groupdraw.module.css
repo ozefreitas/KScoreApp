@@ -10,12 +10,29 @@
 .drawContainer {
   display: flex;
   justify-content: center;
-  height: 1000px;
+  /* min-height: 800px; */
+  min-height: 90%;
+  height: fit-content;
   position: relative;
   outline: none;
   width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
+}
+
+.backToTop {
+  width: 100%;
+  text-align: center;
+  font-size: 2vw;
+}
+
+.backToTop span {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.backToTop span:hover{
+  color: blue
 }
 
 ::-webkit-scrollbar {
