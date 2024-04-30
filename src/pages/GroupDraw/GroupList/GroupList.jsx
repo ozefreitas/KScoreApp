@@ -17,13 +17,15 @@ export default function GroupList({ compList, groups }) {
     }
   }
   createGroup(groups, filtered);
-  
+
   return (
     <div className={styles.drawnGroupsDiv}>
       {groupByComp.map((group, index) => (
         <div key={index} className={styles.eachGroup}>
           {group.map((indivGroup, index) => (
-            <div key={index}>{indivGroup}</div>
+            <div key={index}>
+              {indivGroup.split("|")[0]} {indivGroup.split("|")[1]}
+            </div>
           ))}
         </div>
       ))}

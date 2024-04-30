@@ -6,6 +6,7 @@ export default function NavBar({
   setIsMenuOpen,
   setCompetitors,
   setKatas,
+  blinking,
 }) {
   const handleClickCompetitor = () => {
     document.getElementById("Competitor_Picker").click();
@@ -23,7 +24,7 @@ export default function NavBar({
       handleFileChosen(inputFile, where);
     } else {
       console.error("Invalid file selected/No file selected");
-      alert("No file select/Invalid file selected")
+      alert("No file select/Invalid file selected");
     }
   };
 
@@ -80,7 +81,7 @@ export default function NavBar({
                 Início
               </Link>
             </li>
-            <li>
+            <li className={`${blinking ? styles.blinker : ""}`}>
               <span onClick={handleClickCompetitor}>
                 Inserir Lista de Competidores
               </span>

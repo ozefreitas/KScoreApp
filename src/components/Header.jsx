@@ -1,9 +1,13 @@
 import styles from "./header.module.css";
 import React, { useState } from "react";
 
-export default function Header({ match, draw, setCategory }) {
-  const [isDefault, setIsDefault] = useState(true);
-
+export default function Header({
+  match,
+  draw,
+  setCategory,
+  isDefault,
+  setIsDefault,
+}) {
   let matchType;
   const matchTypes = ["kata", "teamkata", "kumite", "teamkumite"];
   const renderMatchType = () => {
@@ -77,9 +81,13 @@ export default function Header({ match, draw, setCategory }) {
       setCategory(event.target.value);
       if (event.target.value !== "default") {
         setIsDefault(false);
+      } else {
+        setIsDefault(true);
       }
     } else if (event.target.value !== "default") {
       setIsDefault(false);
+    } else if (event.target.value === "default") {
+      setIsDefault(true);
     }
   };
 
@@ -108,9 +116,7 @@ export default function Header({ match, draw, setCategory }) {
           }`}
           onChange={handleChanche}
         >
-          <option value="default" disabled>
-            Selecionar Categoria
-          </option>
+          <option value="default">Selecionar Categoria</option>
           {options.map((option, index) => (
             <option key={index} value={option}>
               {option}

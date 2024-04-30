@@ -3,18 +3,20 @@ import { Menu } from "@rsuite/icons";
 import { useEffect, useCallback } from "react";
 import styles from "./navButton.module.css";
 
-export default function NavButton({ isMenuOpen, setIsMenuOpen }) {
+export default function NavButton({ isMenuOpen, setIsMenuOpen, setBlinking }) {
   function handleOnClick() {
     !isMenuOpen ? setIsMenuOpen(true) : setIsMenuOpen(false);
+    setBlinking(false)
   }
 
   const handleKeyPress = useCallback(
     (event) => {
       if (event.key === "Escape") {
         setIsMenuOpen(false)
+        setBlinking(false)
       }
     },
-    [setIsMenuOpen]
+    [setIsMenuOpen, setBlinking]
   );
 
   useEffect(() => {

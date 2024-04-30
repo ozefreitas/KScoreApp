@@ -17,10 +17,39 @@
   justify-content: space-between;
 }
 
+.compFileMIssing {
+  width: 100%;
+  text-align: center;
+  margin-top: 10vh;
+  font-size: 1.7vw;
+}
+
+.openMenu {
+  cursor: pointer;
+  text-decoration: underline;
+  color: rgb(0, 104, 145);
+}
+
 .drawButton {
   display: inline-block;
+  background-color: #bf0303;
+  color: white;
+  border: none;
   padding: 15px;
   margin-top: 5vh;
+  margin-right: 2vw;
   font-size: 2vw;
   border-radius: 20px;
+  cursor: pointer;
+}
+
+.clearButton {
+  display: inline-block;
+  background-color: #bf0303;
+  color: white;
+  border: none;
+  padding: 15px;
+  font-size: 2vw;
+  border-radius: 20px;
+  cursor: pointer;
 }

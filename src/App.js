@@ -18,6 +18,7 @@ function App() {
   const [competitors, setCompetitors] = useState([]);
   const [newCompetitors, setNewCompetitors] = useState([]);
   const [katas, setKatas] = useState([]);
+  const [blinking, setBlinking] = useState(false);
   const [isPinRight, setIsPinRight] = useState(false);
 
   const mergeCompetitors = (jsonResources) => {
@@ -48,12 +49,14 @@ function App() {
           <NavButton
             isMenuOpen={isMenuOpen}
             setIsMenuOpen={setIsMenuOpen}
+            setBlinking={setBlinking}
           ></NavButton>
           <NavBar
             isMenuOpen={isMenuOpen}
             setIsMenuOpen={setIsMenuOpen}
             setCompetitors={setCompetitors}
             setKatas={setKatas}
+            blinking={blinking}
           ></NavBar>
         </div>
       ) : (
@@ -73,7 +76,14 @@ function App() {
         <Route
           path="/groupdraw"
           element={
-            <GroupDraw competitors={newCompetitors} draw="group"></GroupDraw>
+            <GroupDraw
+              competitors={newCompetitors}
+              draw="group"
+              isMenuOpen={isMenuOpen}
+              setIsMenuOpen={setIsMenuOpen}
+              setBlinking={setBlinking}
+              blinking={blinking}
+            ></GroupDraw>
           }
         ></Route>
         <Route
@@ -106,7 +116,9 @@ function App() {
         ></Route>
         <Route
           path="/kumite"
-          element={<Kumite match="kumite" competitors={newCompetitors}></Kumite>}
+          element={
+            <Kumite match="kumite" competitors={newCompetitors}></Kumite>
+          }
         ></Route>
         <Route
           path="/teamkumite"

@@ -2,7 +2,9 @@
   margin-top: 120px;
   width: 90%;
   display: flex;
-  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-evenly;
   align-items: center;
 }
 

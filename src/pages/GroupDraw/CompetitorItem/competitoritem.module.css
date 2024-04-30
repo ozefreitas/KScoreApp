@@ -11,6 +11,8 @@
 
 .compLabels {
   font-size: 2.7vw;
+  cursor: pointer;
+  width: 100%;
 }
 
 input[type="checkbox"] {
@@ -27,6 +29,7 @@ input[type="checkbox"] {
   transform: translateY(-0.075em);
   display: grid;
   place-content: center;
+  cursor: pointer;
 }
 
 input[type="checkbox"]::before {

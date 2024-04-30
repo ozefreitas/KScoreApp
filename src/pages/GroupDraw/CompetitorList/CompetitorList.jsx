@@ -5,28 +5,45 @@ import styles from "./competitorlist.module.css";
 export default function CompetitorList({
   competitors,
   category,
+  setCategory,
   compList,
   setCompList,
   setGroups,
   drawRef,
+  topRef,
+  setIsDefault,
+  isMenuOpen,
+  setIsMenuOpen,
+  setBlinking,
+  blinking,
 }) {
   const ScrollDraw = () => {
     const executeScroll = () =>
       drawRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-    if (category !== null) {
+    if (category !== "default") {
       executeScroll();
+    } else {
+      alert("Selecionar Escalão para proceder a sorteio");
     }
+  };
+
+  const ScrollTop = () => {
+    const executeScroll = () =>
+      topRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    executeScroll();
   };
 
   useEffect(() => {
     const updatedCompList = {};
     competitors.forEach((competitor) => {
       if (competitor.category.includes(category)) {
-        updatedCompList[competitor.name] = true;
+        updatedCompList[`${competitor.name}|${competitor.number}`] = true;
       }
     });
     setCompList(updatedCompList);
-  }, [competitors, category, setCompList]);
+    setBlinking(false);
+    setIsMenuOpen(false);
+  }, [competitors, category, setCompList, setBlinking, setIsMenuOpen]);
 
   function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -73,6 +90,18 @@ export default function CompetitorList({
     }
   };
 
+  const handleClick = () => {
+    function selectElement(id, valueToSelect) {
+      let element = document.getElementById(id);
+      element.value = valueToSelect;
+    }
+    selectElement("categoryList", "default");
+    setGroups([]);
+    setCategory("default");
+    setIsDefault(true);
+    ScrollTop();
+  };
+
   useEffect(() => {
     // attach the event listener
     document.addEventListener("keydown", handleKeyPress);
@@ -90,7 +119,31 @@ export default function CompetitorList({
         onSubmit={handleSubmit}
         className={styles.notHidden}
       >
-        {category !== null
+        {competitors.length === 0 ? (
+          <div className={styles.compFileMIssing}>
+            <p>Ficheiro com lista de competidores não detetado.</p>
+            <p>
+              Selecione o ficheiro no{" "}
+              <span
+                className={styles.openMenu}
+                onClick={() => {
+                  if (isMenuOpen) {
+                    setBlinking(true);
+                  } else {
+                    setIsMenuOpen(!isMenuOpen);
+                    setBlinking(!blinking);
+                  }
+                }}
+              >
+                menu de navegação
+              </span>
+              .
+            </p>
+          </div>
+        ) : (
+          ""
+        )}
+        {category !== "default"
           ? competitors
               .filter((competitor) => competitor.category.includes(category))
               .map((competitor, index) => (
@@ -110,14 +163,19 @@ export default function CompetitorList({
               ></CompetitorItem>
             ))}
       </form>
-      <button
-        type="submit"
-        form="group_form"
-        onKeyDown={handleKeyPress}
-        className={styles.drawButton}
-      >
-        Iniciar Sorteio
-      </button>
+      <div id="buttonsDiv">
+        <button
+          type="submit"
+          form="group_form"
+          onKeyDown={handleKeyPress}
+          className={styles.drawButton}
+        >
+          Iniciar Sorteio
+        </button>
+        <button onClick={handleClick} className={styles.clearButton}>
+          Limpar
+        </button>
+      </div>
     </div>
   );
 }
