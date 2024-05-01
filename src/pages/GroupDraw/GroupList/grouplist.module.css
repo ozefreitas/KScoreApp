@@ -8,6 +8,18 @@
   align-items: center;
 }
 
+.downloadButton {
+  width: 15%;
+  background-color: #bf0303;
+  color: white;
+  border: none;
+  padding: 15px;
+  margin-top: 5vh;
+  font-size: 2vw;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
 .eachGroup {
   display: flex;
   flex-direction: column;

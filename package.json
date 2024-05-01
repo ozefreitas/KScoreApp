@@ -2,7 +2,7 @@
   "name": "kscoreapp",
   "author": "José Freitas",
   "description": "App to display scores for SKI-Portugal",
-  "version": "0.3.3",
+  "version": "0.4.0",
   "icon": "public/karate-score.ico",
   "private": true,
   "homepage": "./",
@@ -16,6 +16,7 @@
     "concurrently": "^8.2.2",
     "cross-env": "^7.0.3",
     "dotenv": "^16.4.5",
+    "electron": "^30.0.1",
     "mongoose": "^8.2.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -24,7 +25,9 @@
     "rsuite": "^5.56.0",
     "util": "^0.12.5",
     "wait-on": "^7.2.0",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "webpack": "^5.91.0",
+    "xlsx": "^0.18.5"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -81,6 +84,8 @@
     ]
   },
   "devDependencies": {
-    "@electron-forge/plugin-webpack": "^7.3.1"
+    "@electron-forge/plugin-webpack": "^7.3.1",
+    "customize-cra": "^1.0.0",
+    "react-app-rewired": "^2.2.1"
   }
 }

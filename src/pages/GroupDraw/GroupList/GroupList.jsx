@@ -1,22 +1,43 @@
 import styles from "./grouplist.module.css";
 
-export default function GroupList({ compList, groups }) {
+export default function GroupList({ compList, groups, category }) {
+  const ipcRenderer = window.ipcRenderer;
+  const groupByComp = [];
+  const data = [];
   var keys = Object.keys(compList);
   var filtered = keys.filter((key) => {
     return compList[key];
   });
 
-  const groupByComp = [];
   function createGroup(groupsArray, compsArray) {
     for (let i = 0; i < groupsArray.length; i++) {
       const oneGroup = [];
       for (let j = 0; j < groupsArray[i].length; j++) {
+        const row = [];
         oneGroup.push(compsArray[groupsArray[i][j] - 1]);
+        row.push(
+          i,
+          compsArray[groupsArray[i][j] - 1].split("|")[0],
+          compsArray[groupsArray[i][j] - 1].split("|")[1]
+        );
+        data.push(row);
       }
       groupByComp.push(oneGroup);
     }
   }
   createGroup(groups, filtered);
+
+  function triggerExcelGenerationWithData(data, file) {
+    console.log("Executou a triggerExcelGenerationWithData");
+    ipcRenderer.send("generate-excel", data, file);
+  }
+
+  const handleClick = () => {
+    data.splice(0, 0, ["Grupo", "Nome", "Dorsal"]);
+    const drawFile = `${category.split(" ").join("_")}_Draw.xlsx`;
+    console.log(drawFile)
+    triggerExcelGenerationWithData(data, drawFile);
+  };
 
   return (
     <div className={styles.drawnGroupsDiv}>
@@ -29,6 +50,9 @@ export default function GroupList({ compList, groups }) {
           ))}
         </div>
       ))}
+      <button className={styles.downloadButton} onClick={handleClick}>
+        Descarregar
+      </button>
     </div>
   );
 }

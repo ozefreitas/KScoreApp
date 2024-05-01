@@ -24,7 +24,7 @@
   width: 100%;
   text-align: center;
   font-size: 2vw;
-  padding-top: 5vh;
+  padding-top: 3vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -38,17 +38,6 @@
 
 .backToTop span:hover {
   color: rgb(0, 104, 145);
-}
-
-.downloadButton {
-  width: 15%;
-  background-color: #bf0303;
-  color: white;
-  border: none;
-  padding: 15px;
-  font-size: 2vw;
-  border-radius: 20px;
-  cursor: pointer;
 }
 
 ::-webkit-scrollbar {

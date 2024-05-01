@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import CompetitorItem from "../CompetitorItem/CompetitorItem";
 import styles from "./competitorlist.module.css";
 
@@ -17,6 +17,8 @@ export default function CompetitorList({
   setBlinking,
   blinking,
 }) {
+  const [compToChange, setCompToChange] = useState({});
+
   const ScrollDraw = () => {
     const executeScroll = () =>
       drawRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -41,6 +43,7 @@ export default function CompetitorList({
       }
     });
     setCompList(updatedCompList);
+    setCompToChange(updatedCompList);
     setBlinking(false);
     setIsMenuOpen(false);
   }, [competitors, category, setCompList, setBlinking, setIsMenuOpen]);
@@ -73,14 +76,15 @@ export default function CompetitorList({
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    var keys = Object.keys(compList);
+    var keys = Object.keys(compToChange);
     var filtered = keys.filter((key) => {
-      return compList[key];
+      return compToChange[key];
     });
 
     const randomNumber = generateUniqueRandomNumbers(1, filtered.length);
     const generatedGroups = generateGroups(randomNumber, 4);
     setGroups(generatedGroups);
+    setCompList(compToChange);
     ScrollDraw();
   };
 
@@ -150,16 +154,16 @@ export default function CompetitorList({
                 <CompetitorItem
                   key={index}
                   competitor={competitor}
-                  compList={compList}
-                  setCompList={setCompList}
+                  compToChange={compToChange}
+                  setCompToChange={setCompToChange}
                 ></CompetitorItem>
               ))
           : competitors.map((competitor, index) => (
               <CompetitorItem
                 key={index}
                 competitor={competitor}
-                compList={compList}
-                setCompList={setCompList}
+                compToChange={compToChange}
+                setCompToChange={setCompToChange}
               ></CompetitorItem>
             ))}
       </form>

@@ -3,6 +3,7 @@ import styles from "./groupdraw.module.css";
 import CompetitorList from "./CompetitorList/CompetitorList";
 import { useRef, useState } from "react";
 import GroupList from "./GroupList/GroupList";
+// const ipcRenderer = window.require("electron").ipcRenderer;
 
 export default function GroupDraw({
   draw,
@@ -19,6 +20,7 @@ export default function GroupDraw({
   const drawRef = useRef(null);
   const topRef = useRef(null);
 
+  // console.log(compList)
   const ScrollTop = () => {
     const executeScroll = () =>
       topRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -50,10 +52,9 @@ export default function GroupDraw({
         blinking={blinking}
       ></CompetitorList>
       <div ref={drawRef} className={styles.drawContainer}>
-        <GroupList compList={compList} groups={groups}></GroupList>
+        <GroupList compList={compList} groups={groups} category={category}></GroupList>
       </div>
       <div className={styles.backToTop}>
-        <button className={styles.downloadButton}>Descarregar</button>
         <span onClick={ScrollTop}>Voltar ao topo</span>
       </div>
     </div>

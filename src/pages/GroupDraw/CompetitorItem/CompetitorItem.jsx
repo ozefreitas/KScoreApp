@@ -1,12 +1,17 @@
 import styles from "./competitoritem.module.css";
 
-export default function CompetitorItem({ competitor, compList, setCompList }) {
+export default function CompetitorItem({
+  competitor,
+  compToChange,
+  setCompToChange,
+}) {
   const handleChange = (event) => {
-    const compChange = {...compList}
-    const { name, checked } = event.target;
-    compChange[name] = checked
-    setCompList(compChange)
-  }
+    const compChange = { ...compToChange };
+    const { name, value, checked } = event.target;
+    compChange[`${name}|${value}`] = checked;
+    setCompToChange(compChange);
+  };
+
   return (
     <div className={styles.boxContainer}>
       <label htmlFor={competitor.number} className={styles.compLabels}>
