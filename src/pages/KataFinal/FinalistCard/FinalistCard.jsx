@@ -5,7 +5,14 @@ import FinalistNumber from "../FinalistNumber/FinalistNumber";
 import styles from "./finalistcard.module.css";
 import { useState } from "react";
 
-export default function FinalistCard({ match, competitors, katas }) {
+export default function FinalistCard({
+  match,
+  competitors,
+  katas,
+  setShowNotification,
+  setNotificationTitle,
+  setNotificationBody,
+}) {
   const [state, setState] = useState({
     competitorName: "",
     competitorTeam: "",
@@ -16,7 +23,13 @@ export default function FinalistCard({ match, competitors, katas }) {
     <div className={styles.finalistCard}>
       <div>
         <FinalistName state={state}></FinalistName>
-        <FinalistKata setState={setState} katas={katas}></FinalistKata>
+        <FinalistKata
+          setState={setState}
+          katas={katas}
+          setShowNotification={setShowNotification}
+          setNotificationTitle={setNotificationTitle}
+          setNotificationBody={setNotificationBody}
+        ></FinalistKata>
       </div>
       <div>
         <FinalistClub match={match} state={state}></FinalistClub>

@@ -6,7 +6,14 @@ import ShiroScore from "../../KataElim/ShiroScore/ShiroScore";
 import styles from "./compcard.module.css";
 import { useState, useEffect, useCallback } from "react";
 
-export default function CompCard({ match, competitors, katas }) {
+export default function CompCard({
+  match,
+  competitors,
+  katas,
+  setShowNotification,
+  setNotificationTitle,
+  setNotificationBody,
+}) {
   const [state, setState] = useState({
     competitorNameShiro: "",
     competitorTeamShiro: "",
@@ -67,7 +74,13 @@ export default function CompCard({ match, competitors, katas }) {
               competitors={competitors}
             ></CompInfo>
           </form>
-          <KataName id="aka" katas={katas}></KataName>
+          <KataName
+            id="aka"
+            katas={katas}
+            setShowNotification={setShowNotification}
+            setNotificationTitle={setNotificationTitle}
+            setNotificationBody={setNotificationBody}
+          ></KataName>
           <AkaScore
             id="aka"
             akaScore={akaScore}

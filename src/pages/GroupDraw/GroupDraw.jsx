@@ -3,24 +3,30 @@ import styles from "./groupdraw.module.css";
 import CompetitorList from "./CompetitorList/CompetitorList";
 import { useRef, useState } from "react";
 import GroupList from "./GroupList/GroupList";
-// const ipcRenderer = window.require("electron").ipcRenderer;
+import CustomNotification from "../../components/CustomNotification/CustomNotification";
 
 export default function GroupDraw({
   draw,
   competitors,
-  setIsMenuOpen,
   isMenuOpen,
-  setBlinking,
+  setIsMenuOpen,
   blinking,
+  setBlinking,
+  isDefault,
+  setIsDefault,
+  showNotification,
+  setShowNotification,
+  notificationTitle,
+  setNotificationTitle,
+  notificationBody,
+  setNotificationBody,
 }) {
   const [category, setCategory] = useState("default");
   const [compList, setCompList] = useState({});
   const [groups, setGroups] = useState([]);
-  const [isDefault, setIsDefault] = useState(true);
   const drawRef = useRef(null);
   const topRef = useRef(null);
 
-  // console.log(compList)
   const ScrollTop = () => {
     const executeScroll = () =>
       topRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -29,6 +35,15 @@ export default function GroupDraw({
 
   return (
     <div className={styles.scrollable}>
+      {showNotification ? (
+        <CustomNotification
+          setShowNotification={setShowNotification}
+          title={notificationTitle}
+          body={notificationBody}
+        ></CustomNotification>
+      ) : (
+        ""
+      )}
       <Header
         draw={draw}
         setCategory={setCategory}
@@ -50,9 +65,16 @@ export default function GroupDraw({
         setIsMenuOpen={setIsMenuOpen}
         setBlinking={setBlinking}
         blinking={blinking}
+        setShowNotification={setShowNotification}
+        setNotificationTitle={setNotificationTitle}
+        setNotificationBody={setNotificationBody}
       ></CompetitorList>
       <div ref={drawRef} className={styles.drawContainer}>
-        <GroupList compList={compList} groups={groups} category={category}></GroupList>
+        <GroupList
+          compList={compList}
+          groups={groups}
+          category={category}
+        ></GroupList>
       </div>
       <div className={styles.backToTop}>
         <span onClick={ScrollTop}>Voltar ao topo</span>

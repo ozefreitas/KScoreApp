@@ -4,8 +4,21 @@ import FinalPont from "../../components/FinalPont/FinalPont";
 import PontCard from "../../components/PontCard/PontCard";
 import styles from "./katafinal.module.css";
 import { useState, useEffect } from "react";
+import CustomNotification from "../../components/CustomNotification/CustomNotification";
 
-export default function KataFinal({ match, competitors, katas }) {
+export default function KataFinal({
+  match,
+  competitors,
+  katas,
+  isDefault,
+  setIsDefault,
+  showNotification,
+  setShowNotification,
+  notificationTitle,
+  setNotificationTitle,
+  notificationBody,
+  setNotificationBody,
+}) {
   const [sumScore, setSumScore] = useState({});
   const [minIndex, setMinIndex] = useState("");
   const [maxIndex, setMaxIndex] = useState("");
@@ -32,13 +45,29 @@ export default function KataFinal({ match, competitors, katas }) {
 
   return (
     <div>
-      <Header match="kata"></Header>
+      {showNotification ? (
+        <CustomNotification
+          setShowNotification={setShowNotification}
+          title={notificationTitle}
+          body={notificationBody}
+        ></CustomNotification>
+      ) : (
+        ""
+      )}
+      <Header
+        match="kata"
+        isDefault={isDefault}
+        setIsDefault={setIsDefault}
+      ></Header>
       <div className={styles.flexContainer}>
         <div className={styles.bigContainer}>
           <FinalistCard
             match={match}
             competitors={competitors}
             katas={katas}
+            setShowNotification={setShowNotification}
+            setNotificationTitle={setNotificationTitle}
+            setNotificationBody={setNotificationBody}
           ></FinalistCard>
           <form id="pont_form" className={styles.pontsContainer}>
             <PontCard
@@ -74,6 +103,9 @@ export default function KataFinal({ match, competitors, katas }) {
           setSumScore={setSumScore}
           setMinIndex={setMinIndex}
           setMaxIndex={setMaxIndex}
+          setShowNotification={setShowNotification}
+          setNotificationTitle={setNotificationTitle}
+          setNotificationBody={setNotificationBody}
         ></FinalPont>
       </div>
     </div>

@@ -16,6 +16,9 @@ export default function CompetitorList({
   setIsMenuOpen,
   setBlinking,
   blinking,
+  setShowNotification,
+  setNotificationTitle,
+  setNotificationBody,
 }) {
   const [compToChange, setCompToChange] = useState({});
 
@@ -25,7 +28,9 @@ export default function CompetitorList({
     if (category !== "default") {
       executeScroll();
     } else {
-      alert("Selecionar Escalão para proceder a sorteio");
+      setShowNotification(true);
+      setNotificationTitle("Erro de Input");
+      setNotificationBody("Selecionar Escalão para proceder a sorteio");
     }
   };
 
@@ -43,6 +48,7 @@ export default function CompetitorList({
       }
     });
     setCompList(updatedCompList);
+    setGroups([])
     setCompToChange(updatedCompList);
     setBlinking(false);
     setIsMenuOpen(false);

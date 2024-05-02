@@ -1,7 +1,14 @@
 import styles from "./finalistkata.module.css";
 import { useState, useCallback, useEffect } from "react";
 
-export default function FinalistKata({ setState, katas, match }) {
+export default function FinalistKata({
+  setState,
+  katas,
+  match,
+  setShowNotification,
+  setNotificationTitle,
+  setNotificationBody,
+}) {
   const [kataNumber, setKataNumber] = useState("");
   const kataAccepted = [];
 
@@ -12,11 +19,15 @@ export default function FinalistKata({ setState, katas, match }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (kataNumber === "") {
-      new window.Notification("ERRO", { body: "Insira o número do Kata" });
+      setShowNotification(true);
+      setNotificationTitle("Erro de Input");
+      setNotificationBody("Insira o número do Kata");
     } else if (!kataAccepted.includes(kataNumber)) {
-      new window.Notification("ERRO", {
-        body: "Número incorreto / Número não existe na lista de katas",
-      });
+      setShowNotification(true);
+      setNotificationTitle("Erro de Input");
+      setNotificationBody(
+        "Número incorreto / Número não existe na lista de katas"
+      );
     }
     katas.map((kata) => {
       if (kata.kata_number === kataNumber) {
@@ -27,7 +38,7 @@ export default function FinalistKata({ setState, katas, match }) {
 
   const handleKeyPress = useCallback(
     (event) => {
-      if (event.ctrlKey === true && event.key === "Backspace") {
+      if (event.ctrlKey && event.key === "Backspace") {
         if (match !== "teamkata") {
           document.getElementById("number_form").reset();
           setKataNumber("");

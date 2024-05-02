@@ -20,6 +20,10 @@ function App() {
   const [katas, setKatas] = useState([]);
   const [blinking, setBlinking] = useState(false);
   const [isPinRight, setIsPinRight] = useState(false);
+  const [isDefault, setIsDefault] = useState(true);
+  const [showNotification, setShowNotification] = useState(false);
+  const [notificationTitle, setNotificationTitle] = useState("");
+  const [notificationBody, setNotificationBody] = useState("");
 
   const mergeCompetitors = (jsonResources) => {
     const groupedCompetitors = {};
@@ -81,8 +85,16 @@ function App() {
               draw="group"
               isMenuOpen={isMenuOpen}
               setIsMenuOpen={setIsMenuOpen}
-              setBlinking={setBlinking}
               blinking={blinking}
+              setBlinking={setBlinking}
+              isDefault={isDefault}
+              setIsDefault={setIsDefault}
+              showNotification={showNotification}
+              setShowNotification={setShowNotification}
+              notificationTitle={notificationTitle}
+              setNotificationTitle={setNotificationTitle}
+              notificationBody={notificationBody}
+              setNotificationBody={setNotificationBody}
             ></GroupDraw>
           }
         ></Route>
@@ -97,6 +109,14 @@ function App() {
               match="kata"
               competitors={newCompetitors}
               katas={katas}
+              isDefault={isDefault}
+              setIsDefault={setIsDefault}
+              showNotification={showNotification}
+              setShowNotification={setShowNotification}
+              notificationTitle={notificationTitle}
+              setNotificationTitle={setNotificationTitle}
+              notificationBody={notificationBody}
+              setNotificationBody={setNotificationBody}
             ></KataElim>
           }
         ></Route>
@@ -107,17 +127,49 @@ function App() {
               match="katafinal"
               competitors={newCompetitors}
               katas={katas}
+              isDefault={isDefault}
+              setIsDefault={setIsDefault}
+              showNotification={showNotification}
+              setShowNotification={setShowNotification}
+              notificationTitle={notificationTitle}
+              setNotificationTitle={setNotificationTitle}
+              notificationBody={notificationBody}
+              setNotificationBody={setNotificationBody}
             ></KataFinal>
           }
         ></Route>
         <Route
           path="/teamkata"
-          element={<TeamKata match="teamkata" katas={katas}></TeamKata>}
+          element={
+            <TeamKata
+              match="teamkata"
+              katas={katas}
+              isDefault={isDefault}
+              setIsDefault={setIsDefault}
+              showNotification={showNotification}
+              setShowNotification={setShowNotification}
+              notificationTitle={notificationTitle}
+              setNotificationTitle={setNotificationTitle}
+              notificationBody={notificationBody}
+              setNotificationBody={setNotificationBody}
+            ></TeamKata>
+          }
         ></Route>
         <Route
           path="/kumite"
           element={
-            <Kumite match="kumite" competitors={newCompetitors}></Kumite>
+            <Kumite
+              match="kumite"
+              competitors={newCompetitors}
+              isDefault={isDefault}
+              setIsDefault={setIsDefault}
+              showNotification={showNotification}
+              setShowNotification={setShowNotification}
+              notificationTitle={notificationTitle}
+              setNotificationTitle={setNotificationTitle}
+              notificationBody={notificationBody}
+              setNotificationBody={setNotificationBody}
+            ></Kumite>
           }
         ></Route>
         <Route
@@ -126,6 +178,14 @@ function App() {
             <TeamKumite
               match="teamkumite"
               competitors={newCompetitors}
+              isDefault={isDefault}
+              setIsDefault={setIsDefault}
+              showNotification={showNotification}
+              setShowNotification={setShowNotification}
+              notificationTitle={notificationTitle}
+              setNotificationTitle={setNotificationTitle}
+              notificationBody={notificationBody}
+              setNotificationBody={setNotificationBody}
             ></TeamKumite>
           }
         ></Route>

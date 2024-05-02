@@ -1,3 +1,4 @@
+import CustomNotification from "../CustomNotification/CustomNotification";
 import styles from "./finalpont.module.css";
 import { useCallback, useEffect, useState } from "react";
 
@@ -7,6 +8,9 @@ export default function FinalPont({
   setSumScore,
   setMinIndex,
   setMaxIndex,
+  setShowNotification,
+  setNotificationTitle,
+  setNotificationBody,
 }) {
   const [finalScore, setFinalScore] = useState(0);
   const scoresIndex = Object.values(sumScore);
@@ -30,9 +34,9 @@ export default function FinalPont({
     setMaxIndex(scoresIndex.findIndex((score) => score === maxvalue) + 1);
   };
 
-  // handle what happens on key press
   const handleKeyPress = useCallback(
     (event) => {
+      const activeElement = document.activeElement;
       if (event.ctrlKey === true && event.key === "Backspace") {
         setSumScore({});
         setMaxIndex("");
@@ -48,10 +52,13 @@ export default function FinalPont({
         document.getElementById("pont_form").reset();
       } else if (event.key === "Enter" && Object.keys(sumScore).length === 5) {
         changeFinalInfo();
-        const activeElement = document.activeElement;
         if (activeElement.type === "number") {
           activeElement.blur();
         }
+      } else if (event.key === "Enter" && activeElement.type === "number" && Object.keys(sumScore).length !== 5) {
+        setShowNotification(true);
+        setNotificationTitle("Erro de Input");
+        setNotificationBody("Insira pontuação/Pontuação errada");
       } else if (Object.keys(sumScore).length !== 5) {
         setState({
           overline1: undefined,
@@ -59,9 +66,6 @@ export default function FinalPont({
           overline3: undefined,
           overline4: undefined,
           overline5: undefined,
-        });
-        new window.Notification("ERRO", {
-          body: "Insira pontuação/Pontuação errada",
         });
       }
     },

@@ -1,6 +1,7 @@
 import styles from "./grouplist.module.css";
 
 export default function GroupList({ compList, groups, category }) {
+  console.log(compList)
   const ipcRenderer = window.ipcRenderer;
   const groupByComp = [];
   const data = [];
@@ -28,7 +29,6 @@ export default function GroupList({ compList, groups, category }) {
   createGroup(groups, filtered);
 
   function triggerExcelGenerationWithData(data, file) {
-    console.log("Executou a triggerExcelGenerationWithData");
     ipcRenderer.send("generate-excel", data, file);
   }
 
