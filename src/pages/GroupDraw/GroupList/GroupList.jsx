@@ -1,7 +1,6 @@
 import styles from "./grouplist.module.css";
 
 export default function GroupList({ compList, groups, category }) {
-  console.log(compList)
   const ipcRenderer = window.ipcRenderer;
   const groupByComp = [];
   const data = [];

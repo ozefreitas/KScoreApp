@@ -1,5 +1,5 @@
-import NavBar from "./components/NavBar";
-import NavButton from "./components/NavButton";
+import NavBar from "./components/NavBar/NavBar";
+import NavButton from "./components/NavButton/NavButton";
 import Home from "./pages/Home";
 import KataElim from "./pages/KataElim/KataElim";
 import KataFinal from "./pages/KataFinal/KataFinal";
@@ -12,13 +12,14 @@ import TeamKata from "./pages/TeamKata/TeamKata";
 import Login from "./pages/Login/Login";
 import GroupDraw from "./pages/GroupDraw/GroupDraw";
 import MatchesDraw from "./pages/MatchesDraw/MatchesDraw";
+import Credits from "./pages/Credits/Credits";
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [competitors, setCompetitors] = useState([]);
   const [newCompetitors, setNewCompetitors] = useState([]);
   const [katas, setKatas] = useState([]);
-  const [blinking, setBlinking] = useState(false);
+  const [blinking, setBlinking] = useState({ comp: false, kata: false });
   const [isPinRight, setIsPinRight] = useState(false);
   const [isDefault, setIsDefault] = useState(true);
   const [showNotification, setShowNotification] = useState(false);
@@ -100,7 +101,14 @@ function App() {
         ></Route>
         <Route
           path="/matchesdraw"
-          element={<MatchesDraw draw="matches"></MatchesDraw>}
+          element={
+            <MatchesDraw
+              draw="matches"
+              competitors={newCompetitors}
+              isMenuOpen={isMenuOpen}
+              setIsMenuOpen={setIsMenuOpen}
+            ></MatchesDraw>
+          }
         ></Route>
         <Route
           path="/kataelim"
@@ -109,6 +117,10 @@ function App() {
               match="kata"
               competitors={newCompetitors}
               katas={katas}
+              isMenuOpen={isMenuOpen}
+              setIsMenuOpen={setIsMenuOpen}
+              blinking={blinking}
+              setBlinking={setBlinking}
               isDefault={isDefault}
               setIsDefault={setIsDefault}
               showNotification={showNotification}
@@ -127,6 +139,10 @@ function App() {
               match="katafinal"
               competitors={newCompetitors}
               katas={katas}
+              isMenuOpen={isMenuOpen}
+              setIsMenuOpen={setIsMenuOpen}
+              blinking={blinking}
+              setBlinking={setBlinking}
               isDefault={isDefault}
               setIsDefault={setIsDefault}
               showNotification={showNotification}
@@ -144,6 +160,10 @@ function App() {
             <TeamKata
               match="teamkata"
               katas={katas}
+              isMenuOpen={isMenuOpen}
+              setIsMenuOpen={setIsMenuOpen}
+              blinking={blinking}
+              setBlinking={setBlinking}
               isDefault={isDefault}
               setIsDefault={setIsDefault}
               showNotification={showNotification}
@@ -161,6 +181,10 @@ function App() {
             <Kumite
               match="kumite"
               competitors={newCompetitors}
+              isMenuOpen={isMenuOpen}
+              setIsMenuOpen={setIsMenuOpen}
+              blinking={blinking}
+              setBlinking={setBlinking}
               isDefault={isDefault}
               setIsDefault={setIsDefault}
               showNotification={showNotification}
@@ -178,6 +202,10 @@ function App() {
             <TeamKumite
               match="teamkumite"
               competitors={newCompetitors}
+              isMenuOpen={isMenuOpen}
+              setIsMenuOpen={setIsMenuOpen}
+              blinking={blinking}
+              setBlinking={setBlinking}
               isDefault={isDefault}
               setIsDefault={setIsDefault}
               showNotification={showNotification}
@@ -189,6 +217,7 @@ function App() {
             ></TeamKumite>
           }
         ></Route>
+        <Route path="/credits" element={<Credits></Credits>}></Route>
       </Routes>
     </div>
   );

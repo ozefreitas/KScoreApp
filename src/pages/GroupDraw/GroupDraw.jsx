@@ -1,4 +1,4 @@
-import Header from "../../components/Header";
+import Header from "../../components/Header/Header";
 import styles from "./groupdraw.module.css";
 import CompetitorList from "./CompetitorList/CompetitorList";
 import { useRef, useState } from "react";
@@ -55,7 +55,6 @@ export default function GroupDraw({
         competitors={competitors}
         category={category}
         setCategory={setCategory}
-        compList={compList}
         setCompList={setCompList}
         setGroups={setGroups}
         drawRef={drawRef}

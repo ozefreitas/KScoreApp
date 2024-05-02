@@ -1,10 +1,29 @@
 import styles from "./customnotification.module.css";
+import { useEffect, useCallback } from "react";
 
 export default function CustomNotification({
   setShowNotification,
   title,
   body,
 }) {
+  const handleKeyPress = useCallback(
+    (event) => {
+      if (event.key === "Escape" || event.key === "Enter") {
+        setShowNotification(false)
+      }
+    },
+    [setShowNotification]
+  );
+
+  useEffect(() => {
+    // attach the event listener
+    document.addEventListener("keydown", handleKeyPress);
+
+    // remove the event listener
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [handleKeyPress]);
   return (
     <div className={styles.wideBody}>
       <div className={styles.notificationMainBody}>

@@ -1,0 +1,13 @@
+.creditsContainer {
+    text-align: center;
+}
+
+.creditsContainer h1 {
+    font-size: 4vw;
+
+}
+
+.creditsContainer p {
+    font-size: 2.5vw;
+    padding-bottom: 2vw;
+}

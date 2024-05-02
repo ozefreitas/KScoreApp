@@ -3,6 +3,10 @@ import Kumite from "../Kumite/Kumite";
 export default function TeamKumite({
   competitors,
   match,
+  isMenuOpen,
+  setIsMenuOpen,
+  blinking,
+  setBlinking,
   isDefault,
   setIsDefault,
   showNotification,
@@ -17,6 +21,10 @@ export default function TeamKumite({
       <Kumite
         match={match}
         competitors={competitors}
+        isMenuOpen={isMenuOpen}
+        setIsMenuOpen={setIsMenuOpen}
+        blinking={blinking}
+        setBlinking={setBlinking}
         isDefault={isDefault}
         setIsDefault={setIsDefault}
         showNotification={showNotification}

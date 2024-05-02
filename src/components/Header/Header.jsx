@@ -1,5 +1,4 @@
 import styles from "./header.module.css";
-import React, { useState } from "react";
 
 export default function Header({
   match,
@@ -100,6 +99,8 @@ export default function Header({
             className={styles.tatamiInput}
             type="number"
             placeholder="0"
+            min="0"
+            max="3"
           ></input>
         </span>
       ) : (

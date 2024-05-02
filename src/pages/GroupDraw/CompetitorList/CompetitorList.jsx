@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import CompetitorItem from "../CompetitorItem/CompetitorItem";
+import CompFileMissing from "../../../components/FileMissing/FileMissing";
 import styles from "./competitorlist.module.css";
 
 export default function CompetitorList({
   competitors,
   category,
   setCategory,
-  compList,
   setCompList,
   setGroups,
   drawRef,
@@ -14,8 +14,8 @@ export default function CompetitorList({
   setIsDefault,
   isMenuOpen,
   setIsMenuOpen,
-  setBlinking,
   blinking,
+  setBlinking,
   setShowNotification,
   setNotificationTitle,
   setNotificationBody,
@@ -48,11 +48,18 @@ export default function CompetitorList({
       }
     });
     setCompList(updatedCompList);
-    setGroups([])
+    setGroups([]);
     setCompToChange(updatedCompList);
     setBlinking(false);
     setIsMenuOpen(false);
-  }, [competitors, category, setCompList, setBlinking, setIsMenuOpen]);
+  }, [
+    competitors,
+    category,
+    setCompList,
+    setGroups,
+    setBlinking,
+    setIsMenuOpen,
+  ]);
 
   function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -130,26 +137,12 @@ export default function CompetitorList({
         className={styles.notHidden}
       >
         {competitors.length === 0 ? (
-          <div className={styles.compFileMIssing}>
-            <p>Ficheiro com lista de competidores não detetado.</p>
-            <p>
-              Selecione o ficheiro no{" "}
-              <span
-                className={styles.openMenu}
-                onClick={() => {
-                  if (isMenuOpen) {
-                    setBlinking(true);
-                  } else {
-                    setIsMenuOpen(!isMenuOpen);
-                    setBlinking(!blinking);
-                  }
-                }}
-              >
-                menu de navegação
-              </span>
-              .
-            </p>
-          </div>
+          <CompFileMissing
+            blinking={blinking}
+            setBlinking={setBlinking}
+            isMenuOpen={isMenuOpen}
+            setIsMenuOpen={setIsMenuOpen}
+          ></CompFileMissing>
         ) : (
           ""
         )}

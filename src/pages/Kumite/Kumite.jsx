@@ -1,14 +1,19 @@
-import Header from "../../components/Header";
+import Header from "../../components/Header/Header";
 import AkaInfo from "./AkaInfo/AkaInfo";
 import KumiteCompCard from "./KumiteCompCard/KumiteCompCard";
 import ShiroInfo from "./ShiroInfo/ShiroInfo";
 import Time from "./Time/Time";
 import styles from "./kumite.module.css";
 import CustomNotification from "../../components/CustomNotification/CustomNotification";
+import FileMissing from "../../components/FileMissing/FileMissing";
 
 export default function Kumite({
   competitors,
   match,
+  isMenuOpen,
+  setIsMenuOpen,
+  blinking,
+  setBlinking,
   isDefault,
   setIsDefault,
   showNotification,
@@ -34,12 +39,27 @@ export default function Kumite({
         isDefault={isDefault}
         setIsDefault={setIsDefault}
       ></Header>
-      <KumiteCompCard match={match} competitors={competitors}></KumiteCompCard>
-      <div className={styles.kumiteInfoMainContainer}>
-        <AkaInfo></AkaInfo>
-        <Time match={match}></Time>
-        <ShiroInfo></ShiroInfo>
-      </div>
+
+      {competitors.length !== 0 ? (
+        <div>
+          <KumiteCompCard
+            match={match}
+            competitors={competitors}
+          ></KumiteCompCard>
+          <div className={styles.kumiteInfoMainContainer}>
+            <AkaInfo></AkaInfo>
+            <Time match={match}></Time>
+            <ShiroInfo></ShiroInfo>
+          </div>
+        </div>
+      ) : (
+        <FileMissing
+          blinking={blinking}
+          setBlinking={setBlinking}
+          isMenuOpen={isMenuOpen}
+          setIsMenuOpen={setIsMenuOpen}
+        ></FileMissing>
+      )}
     </div>
   );
 }

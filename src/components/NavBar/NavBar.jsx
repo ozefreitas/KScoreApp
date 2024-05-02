@@ -81,7 +81,7 @@ export default function NavBar({
                 Início
               </Link>
             </li>
-            <li className={`${blinking ? styles.blinker : ""}`}>
+            <li className={`${blinking.comp ? styles.blinker : ""}`}>
               <span onClick={handleClickCompetitor}>
                 Inserir Lista de Competidores
               </span>
@@ -110,7 +110,7 @@ export default function NavBar({
                 Fazer Novo Sorteio (dentro de Grupo)
               </Link>
             </li>
-            <li>
+            <li className={`${blinking.kata ? styles.blinker : ""}`}>
               <span onClick={handleClickKata}>Inserir Lista de Katas</span>
               <input
                 id="Kata_Picker"
