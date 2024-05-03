@@ -34,10 +34,10 @@ export default function GroupList({ compList, groups, category }) {
   const handleClick = () => {
     data.splice(0, 0, ["Grupo", "Nome", "Dorsal"]);
     const drawFile = `${category.split(" ").join("_")}_Draw.xlsx`;
-    console.log(drawFile)
+    console.log(drawFile);
     triggerExcelGenerationWithData(data, drawFile);
   };
-
+  console.log(groupByComp)
   return (
     <div className={styles.drawnGroupsDiv}>
       {groupByComp.map((group, index) => (
@@ -49,9 +49,13 @@ export default function GroupList({ compList, groups, category }) {
           ))}
         </div>
       ))}
-      <button className={styles.downloadButton} onClick={handleClick}>
-        Descarregar
-      </button>
+      {groups.length !== 0 ? (
+        <button className={styles.downloadButton} onClick={handleClick}>
+          Descarregar
+        </button>
+      ) : (
+        ""
+      )}
     </div>
   );
 }

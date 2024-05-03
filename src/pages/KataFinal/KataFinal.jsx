@@ -36,6 +36,12 @@ export default function KataFinal({
   });
 
   useEffect(() => {
+    setBlinking((prevState) => ({
+      ...prevState,
+      comp: false,
+      kata: false,
+    }));
+    setIsMenuOpen(false);
     if (minIndex !== "" && maxIndex !== "") {
       setState((prevState) => ({
         ...prevState,
@@ -46,7 +52,7 @@ export default function KataFinal({
         [`overline${maxIndex}`]: true,
       }));
     }
-  }, [minIndex, maxIndex]);
+  }, [competitors, katas, setBlinking, setIsMenuOpen, minIndex, maxIndex]);
 
   return (
     <div>
@@ -64,7 +70,7 @@ export default function KataFinal({
         isDefault={isDefault}
         setIsDefault={setIsDefault}
       ></Header>
-      {competitors.length !== 0 ? (
+      {competitors.length !== 0 && katas.length !== 0 ? (
         <div className={styles.flexContainer}>
           <div className={styles.bigContainer}>
             <FinalistCard
@@ -117,6 +123,8 @@ export default function KataFinal({
       ) : (
         <FileMissing
           match={match}
+          competitors={competitors}
+          katas={katas}
           blinking={blinking}
           setBlinking={setBlinking}
           isMenuOpen={isMenuOpen}

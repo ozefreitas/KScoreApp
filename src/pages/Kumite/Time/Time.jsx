@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import styles from "./time.module.css";
 
-export default function Time({match}) {
+export default function Time({ match }) {
   const [milliseconds, setMilliseconds] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
@@ -123,8 +123,6 @@ export default function Time({match}) {
     }
   };
 
-  console.log(matchClick);
-
   const changeMinutes = (e) => {
     setIsRunning(false);
     setMinutes(e.target.value);
@@ -167,48 +165,52 @@ export default function Time({match}) {
           ></input>
         </span>
       </div>
-      {match !== "kumite" ? <div className={styles.matches}>
-        <div className={styles.akaMatches}>
-          <div
-            id="aka1"
-            className={styles.wonMatches}
-            style={matchClick.aka1}
-            onClick={handleDivClick}
-          ></div>
-          <div
-            id="aka2"
-            className={styles.wonMatches}
-            style={matchClick.aka2}
-            onClick={handleDivClick}
-          ></div>
-          <div
-            id="aka3"
-            className={styles.wonMatches}
-            style={matchClick.aka3}
-            onClick={handleDivClick}
-          ></div>
+      {match !== "kumite" ? (
+        <div className={styles.matches}>
+          <div className={styles.akaMatches}>
+            <div
+              id="aka1"
+              className={styles.wonMatches}
+              style={matchClick.aka1}
+              onClick={handleDivClick}
+            ></div>
+            <div
+              id="aka2"
+              className={styles.wonMatches}
+              style={matchClick.aka2}
+              onClick={handleDivClick}
+            ></div>
+            <div
+              id="aka3"
+              className={styles.wonMatches}
+              style={matchClick.aka3}
+              onClick={handleDivClick}
+            ></div>
+          </div>
+          <div className={styles.shiroMatches}>
+            <div
+              id="shiro1"
+              className={styles.wonMatches}
+              style={matchClick.shiro1}
+              onClick={handleDivClick}
+            ></div>
+            <div
+              id="shiro2"
+              className={styles.wonMatches}
+              style={matchClick.shiro2}
+              onClick={handleDivClick}
+            ></div>
+            <div
+              id="shiro3"
+              className={styles.wonMatches}
+              style={matchClick.shiro3}
+              onClick={handleDivClick}
+            ></div>
+          </div>
         </div>
-        <div className={styles.shiroMatches}>
-          <div
-            id="shiro1"
-            className={styles.wonMatches}
-            style={matchClick.shiro1}
-            onClick={handleDivClick}
-          ></div>
-          <div
-            id="shiro2"
-            className={styles.wonMatches}
-            style={matchClick.shiro2}
-            onClick={handleDivClick}
-          ></div>
-          <div
-            id="shiro3"
-            className={styles.wonMatches}
-            style={matchClick.shiro3}
-            onClick={handleDivClick}
-          ></div>
-        </div>
-      </div> : ""}
+      ) : (
+        ""
+      )}
     </div>
   );
 }

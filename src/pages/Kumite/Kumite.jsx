@@ -6,6 +6,7 @@ import Time from "./Time/Time";
 import styles from "./kumite.module.css";
 import CustomNotification from "../../components/CustomNotification/CustomNotification";
 import FileMissing from "../../components/FileMissing/FileMissing";
+import { useEffect } from "react";
 
 export default function Kumite({
   competitors,
@@ -23,6 +24,14 @@ export default function Kumite({
   notificationBody,
   setNotificationBody,
 }) {
+  useEffect(() => {
+    setBlinking((prevState) => ({
+      ...prevState,
+      comp: false,
+    }));
+    setIsMenuOpen(false);
+  }, [competitors, setBlinking, setIsMenuOpen]);
+
   return (
     <div>
       {showNotification ? (
@@ -54,6 +63,7 @@ export default function Kumite({
         </div>
       ) : (
         <FileMissing
+          competitors={competitors}
           blinking={blinking}
           setBlinking={setBlinking}
           isMenuOpen={isMenuOpen}

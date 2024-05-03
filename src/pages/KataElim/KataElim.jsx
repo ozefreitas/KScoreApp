@@ -10,7 +10,6 @@ export default function KataElim({
   katas,
   isMenuOpen,
   setIsMenuOpen,
-  blinking,
   setBlinking,
   isDefault,
   setIsDefault,
@@ -22,9 +21,13 @@ export default function KataElim({
   setNotificationBody,
 }) {
   useEffect(() => {
-    setBlinking(false);
+    setBlinking((prevState) => ({
+      ...prevState,
+      comp: false,
+      kata: false
+    }));
     setIsMenuOpen(false);
-  }, [competitors, setBlinking, setIsMenuOpen]);
+  }, [competitors, katas, setBlinking, setIsMenuOpen]);
 
   return (
     <div>
@@ -42,7 +45,7 @@ export default function KataElim({
         isDefault={isDefault}
         setIsDefault={setIsDefault}
       ></Header>
-      {competitors.length !== 0 ? (
+      {competitors.length !== 0 && katas.length !== 0 ? (
         <CompCard
           match={match}
           competitors={competitors}
@@ -54,7 +57,8 @@ export default function KataElim({
       ) : (
         <FileMissing
           match={match}
-          blinking={blinking}
+          competitors={competitors}
+          katas={katas}
           setBlinking={setBlinking}
           isMenuOpen={isMenuOpen}
           setIsMenuOpen={setIsMenuOpen}

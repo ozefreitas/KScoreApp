@@ -35,6 +35,10 @@ export default function TeamKata({
   });
 
   useEffect(() => {
+    setBlinking((prevState) => ({
+      ...prevState,
+      kata: false,
+    }));
     if (minIndex !== "" && maxIndex !== "") {
       setState((prevState) => ({
         ...prevState,
@@ -45,7 +49,7 @@ export default function TeamKata({
         [`overline${maxIndex}`]: true,
       }));
     }
-  }, [minIndex, maxIndex]);
+  }, [katas, setBlinking, setIsMenuOpen, minIndex, maxIndex]);
 
   return (
     <div>
@@ -115,6 +119,7 @@ export default function TeamKata({
       ) : (
         <FileMissing
           match={match}
+          katas={katas}
           blinking={blinking}
           setBlinking={setBlinking}
           isMenuOpen={isMenuOpen}

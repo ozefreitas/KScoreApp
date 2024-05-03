@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import CompetitorItem from "../CompetitorItem/CompetitorItem";
-import CompFileMissing from "../../../components/FileMissing/FileMissing";
+import FileMissing from "../../../components/FileMissing/FileMissing";
 import styles from "./competitorlist.module.css";
 
 export default function CompetitorList({
@@ -137,12 +137,13 @@ export default function CompetitorList({
         className={styles.notHidden}
       >
         {competitors.length === 0 ? (
-          <CompFileMissing
+          <FileMissing
+          competitors={competitors}
             blinking={blinking}
             setBlinking={setBlinking}
             isMenuOpen={isMenuOpen}
             setIsMenuOpen={setIsMenuOpen}
-          ></CompFileMissing>
+          ></FileMissing>
         ) : (
           ""
         )}
