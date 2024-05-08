@@ -76,7 +76,7 @@ export default function Header({
   renderMatchType();
 
   const handleChanche = (event) => {
-    if (draw === "group" || draw === "matches") {
+    if (draw === "group" || draw === "matches" || draw === "elimination") {
       setCategory(event.target.value);
       if (event.target.value !== "default") {
         setIsDefault(false);

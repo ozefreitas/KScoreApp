@@ -25,11 +25,15 @@ export default function CompetitorList({
   const ScrollDraw = () => {
     const executeScroll = () =>
       drawRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-    if (category !== "default") {
+    if (category !== "default" && competitors.length === 0) {
+      setShowNotification(true);
+      setNotificationTitle("Ficheiro não detetado");
+      setNotificationBody("Inserir ficheiro com lista de competidores");
+    } else if (category !== "default") {
       executeScroll();
     } else {
       setShowNotification(true);
-      setNotificationTitle("Erro de Input");
+      setNotificationTitle("Escalão não detetado");
       setNotificationBody("Selecionar Escalão para proceder a sorteio");
     }
   };
@@ -40,6 +44,7 @@ export default function CompetitorList({
     executeScroll();
   };
 
+  // change the competitors displayed in form when category change
   useEffect(() => {
     const updatedCompList = {};
     competitors.forEach((competitor) => {
@@ -138,7 +143,7 @@ export default function CompetitorList({
       >
         {competitors.length === 0 ? (
           <FileMissing
-          competitors={competitors}
+            competitors={competitors}
             blinking={blinking}
             setBlinking={setBlinking}
             isMenuOpen={isMenuOpen}

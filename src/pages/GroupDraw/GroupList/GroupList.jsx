@@ -8,6 +8,7 @@ export default function GroupList({ compList, groups, category }) {
   var filtered = keys.filter((key) => {
     return compList[key];
   });
+  console.log(filtered)
 
   function createGroup(groupsArray, compsArray) {
     for (let i = 0; i < groupsArray.length; i++) {
@@ -37,7 +38,7 @@ export default function GroupList({ compList, groups, category }) {
     console.log(drawFile);
     triggerExcelGenerationWithData(data, drawFile);
   };
-  console.log(groupByComp)
+  
   return (
     <div className={styles.drawnGroupsDiv}>
       {groupByComp.map((group, index) => (

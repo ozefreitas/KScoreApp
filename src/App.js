@@ -13,6 +13,7 @@ import Login from "./pages/Login/Login";
 import GroupDraw from "./pages/GroupDraw/GroupDraw";
 import MatchesDraw from "./pages/MatchesDraw/MatchesDraw";
 import Credits from "./pages/Credits/Credits";
+import EliminationDraw from "./pages/EliminationDraw/EliminationDraw";
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -78,6 +79,22 @@ function App() {
           }
         ></Route>
         <Route path="/home" element={<Home></Home>}></Route>
+        <Route path="/eliminationdraw" element={<GroupDraw
+              competitors={newCompetitors}
+              draw="elimination"
+              isMenuOpen={isMenuOpen}
+              setIsMenuOpen={setIsMenuOpen}
+              blinking={blinking}
+              setBlinking={setBlinking}
+              isDefault={isDefault}
+              setIsDefault={setIsDefault}
+              showNotification={showNotification}
+              setShowNotification={setShowNotification}
+              notificationTitle={notificationTitle}
+              setNotificationTitle={setNotificationTitle}
+              notificationBody={notificationBody}
+              setNotificationBody={setNotificationBody}
+            ></GroupDraw>}></Route>
         <Route
           path="/groupdraw"
           element={

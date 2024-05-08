@@ -18,6 +18,16 @@
   z-index: 1;
 }
 
+.elimination {
+  justify-content: center;
+  padding: 20px;
+  margin: 0;
+  border-bottom: 10px solid black;
+  position: fixed;
+  background-color: black;
+  z-index: 1;
+}
+
 input {
   color: white;
 }

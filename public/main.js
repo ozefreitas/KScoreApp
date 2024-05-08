@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, Notification } = require("electron");
+const { app, BrowserWindow, ipcMain, shell } = require("electron");
 const url = require("url");
 const path = require("path");
 const XLSX = require("xlsx");
@@ -14,9 +14,10 @@ function generateExcel(data, file) {
     const outputPath = path.join(app.getPath("downloads"), file);
     XLSX.writeFile(wb, outputPath);
     console.log("Excel file generated successfully at:", outputPath);
-    new Notification({title: "Download", body: "Ficheiro descarregado para a pasta Transferências"}).show()
+    shell.openPath(outputPath);
   } catch (error) {
     console.error("Error generating Excel file:", error);
+    mainWindow.webContents.send('excel-generation-error', error.message);
   }
 }
 

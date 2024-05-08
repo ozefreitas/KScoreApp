@@ -4,6 +4,7 @@ import CompetitorList from "./CompetitorList/CompetitorList";
 import { useRef, useState } from "react";
 import GroupList from "./GroupList/GroupList";
 import CustomNotification from "../../components/CustomNotification/CustomNotification";
+import EliminationDraw from "../EliminationDraw/EliminationDraw";
 
 export default function GroupDraw({
   draw,
@@ -26,6 +27,12 @@ export default function GroupDraw({
   const [groups, setGroups] = useState([]);
   const drawRef = useRef(null);
   const topRef = useRef(null);
+  // const ipcRenderer = window.ipcRenderer;
+  // ipcRenderer.on('excel-generation-error', (event, errorMessage) => {
+  //   setShowNotification(true)
+  //   setNotificationTitle("Erro na transferência")
+  //   setNotificationBody(errorMessage);
+  // });
 
   const ScrollTop = () => {
     const executeScroll = () =>
@@ -69,11 +76,18 @@ export default function GroupDraw({
         setNotificationBody={setNotificationBody}
       ></CompetitorList>
       <div ref={drawRef} className={styles.drawContainer}>
-        <GroupList
-          compList={compList}
-          groups={groups}
-          category={category}
-        ></GroupList>
+        {draw === "group" ? (
+          <GroupList
+            compList={compList}
+            groups={groups}
+            category={category}
+          ></GroupList>
+        ) : (
+          <EliminationDraw
+            compList={compList}
+            category={category}
+          ></EliminationDraw>
+        )}
       </div>
       <div className={styles.backToTop}>
         <span onClick={ScrollTop}>Voltar ao topo</span>

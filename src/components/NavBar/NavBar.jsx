@@ -94,6 +94,15 @@ export default function NavBar({
             </li>
             <li>
               <Link
+                to="/eliminationdraw"
+                onClick={handleBarClose}
+                style={{ textDecoration: "none", color: "white" }}
+              >
+                Fazer Novo Sorteio (Eliminatórias)
+              </Link>
+            </li>
+            <li>
+              <Link
                 to="/groupdraw"
                 onClick={handleBarClose}
                 style={{ textDecoration: "none", color: "white" }}
