@@ -28,6 +28,16 @@
   z-index: 1;
 }
 
+.matches {
+  justify-content: center;
+  padding: 20px;
+  margin: 0;
+  border-bottom: 10px solid black;
+  position: fixed;
+  background-color: black;
+  z-index: 1;
+}
+
 input {
   color: white;
 }
@@ -100,5 +110,3 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
-
-

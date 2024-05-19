@@ -5,11 +5,14 @@ export default function CustomNotification({
   setShowNotification,
   title,
   body,
+  actions,
+  setActions,
+  setProceed,
 }) {
   const handleKeyPress = useCallback(
     (event) => {
       if (event.key === "Escape" || event.key === "Enter") {
-        setShowNotification(false)
+        setShowNotification(false);
       }
     },
     [setShowNotification]
@@ -38,12 +41,32 @@ export default function CustomNotification({
         </div>
         <div className={styles.notificationBody}>
           {body}
-          <button
-            className={styles.closeButton}
-            onClick={() => setShowNotification(false)}
-          >
-            Fechar
-          </button>
+          {actions ? (
+            <>
+              <button
+                className={styles.okButton}
+                onClick={() => {
+                  setShowNotification(false);
+                  setProceed(true);
+                }}
+              >
+                OK
+              </button>
+              <button
+                className={styles.backButton}
+                onClick={() => setShowNotification(false)}
+              >
+                Voltar
+              </button>
+            </>
+          ) : (
+            <button
+              className={styles.closeButton}
+              onClick={() => setShowNotification(false)}
+            >
+              Fechar
+            </button>
+          )}
         </div>
       </div>
     </div>

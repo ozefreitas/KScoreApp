@@ -1,25 +1,21 @@
 import styles from "./matchesdraw.module.css";
+import FileMissing from "../../components/FileMissing/FileMissing";
+import Header from "../../components/Header/Header";
+import { useState } from "react";
 
 export default function MatchesDraw({
   draw,
-  competitors,
-  isMenuOpen,
-  setIsMenuOpen,
+  groupByComp,
+  setCurrentPage,
+  category,
+  setCategory,
+  setIsDefault,
+  isDefault,
 }) {
+  const [runMatches, setRunMatches] = useState(false);
   const ipcRenderer = window.ipcRenderer;
   const data = [];
-  const matches = {};
-  // var keys = Object.keys(compList);
-  // var filtered = keys.filter((key) => {
-  //   return compList[key];
-  // });
-
-  var filtered = ["ze", "alvaro", "bruno", "leandro", "andreia", "gaby"];
-  for (let i = 0; i < filtered.length; i++) {
-    if (!Object.keys(matches).includes(filtered[i])) {
-      matches[filtered[i]] = [];
-    }
-  }
+  const matchesByGroup = {};
 
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -29,55 +25,135 @@ export default function MatchesDraw({
     return array;
   };
 
-  // const possibleMatches = [];
-  // for (let i = 0; i < filtered.length; i++) {
-  //   for (let j = i + 1; j < filtered.length; j++) {
-  //     possibleMatches.push([filtered[i], filtered[j]]);
-  //   }
-  // }
-  // console.log(possibleMatches);
-  // const shuffledMatches = shuffleArray(possibleMatches);
+  const makeMatchesByGroup = () => {
+    for (let i = 0; i < groupByComp.length; i++) {
+      const matches = {};
+      for (const element of groupByComp[i]) {
+        if (!Object.keys(matches).includes(element)) {
+          matches[element] = [];
+        }
+      }
 
-  const shuffledCompList = shuffleArray(filtered);
+      matchesByGroup[i] = matches;
+      const shuffledCompList = shuffleArray(groupByComp[i]);
+      for (let x = 0; x < shuffledCompList.length; x++) {
+        const name1 = shuffledCompList[x];
+        for (let y = x + 1; y < shuffledCompList.length; y++) {
+          const name2 = shuffledCompList[y];
+          // if both already with 3 matches
+          if (
+            matchesByGroup[i][name1].length >= 3 ||
+            matchesByGroup[i][name2].length >= 3
+          ) {
+            continue;
+            // only of both are not full
+          } else if (
+            matchesByGroup[i][name1].length < 3 &&
+            matchesByGroup[i][name2].length < 3
+          ) {
+            matchesByGroup[i][name1].push([name1, name2]);
+            matchesByGroup[i][name2].push([name1, name2]);
+          }
+        }
+      }
 
-  for (let i = 0; i < shuffledCompList.length; i++) {
-    const name1 = shuffledCompList[i];
-    for (let j = i + 1; j < shuffledCompList.length; j++) {
-      const name2 = shuffledCompList[j];
-      // if both already with 3 matches
-      if (matches[name1].length >= 3 || matches[name2].length >= 3) {
-        continue;
-        // only of both are not full
-      } else if (matches[name1].length < 3 && matches[name2].length < 3) {
-        matches[name1].push([name1, name2]);
-        matches[name2].push([name1, name2]);
+      const names = Object.keys(matchesByGroup[i]);
+      const notMatched = [];
+      names.map((nam) => {
+        if (matchesByGroup[i][nam].length === 1) {
+          notMatched.push(nam);
+        }
+        return notMatched;
+      });
+
+      const clone = structuredClone(matchesByGroup[i]);
+
+      for (let nomatch of notMatched) {
+        let j = 0;
+        for (let names of groupByComp[j].slice(i)) {
+          if (!notMatched.includes(names)) {
+            if (clone[nomatch].length < 3) {
+              clone[nomatch].push([nomatch, names]);
+              j++;
+            }
+          }
+        }
       }
     }
-  }
+  };
 
-  console.log(matches);
+  makeMatchesByGroup();
 
-  const names = Object.keys(matches);
-  const notMatched = [];
-  names.map((nam) => {
-    if (matches[nam].length === 1) {
-      notMatched.push(nam);
-    }
-  });
+  const getUniquePairs = (nestedData) => {
+    const uniquePairsSet = new Set();
+    const uniquePairsObject = {};
 
-  console.log(notMatched);
+    Object.keys(nestedData).forEach((key) => {
+      uniquePairsObject[key] = [];
+      Object.keys(nestedData[key]).forEach((secondKey) => {
+        nestedData[key][secondKey].forEach((pair) => {
+          const pairString = JSON.stringify(pair); // Convert pair to string for Set comparison
+          if (!uniquePairsSet.has(pairString)) {
+            uniquePairsSet.add(pairString);
+            if (Math.random() > 0.5) {
+              [pair[0], pair[1]] = [pair[1], pair[0]];
+            }
+            uniquePairsObject[key].push(pair);
+          }
+        });
+      });
+    });
 
-  const clone = structuredClone(matches);
+    return uniquePairsObject;
+  };
 
-  for (let nomatch of notMatched) {
-    for (let names of filtered) {
-      if (!notMatched.includes(names)) {
-        clone[nomatch].push([nomatch, names]);
-      }
-    }
-  }
-  
-  console.log(clone);
+  const uniquePairs = getUniquePairs(matchesByGroup);
 
-  return <div></div>;
+  return (
+    <div className={styles.scrollable}>
+      <Header
+        draw={draw}
+        category={category}
+        setCategory={setCategory}
+        setIsDefault={setIsDefault}
+        isDefault={isDefault}
+      ></Header>
+      <div className={styles.centerForm}>
+        {groupByComp.length === 0 ? (
+          <FileMissing
+            match="matchesDraw"
+            draw={true}
+            groupByComp={groupByComp}
+            setCurrentPage={setCurrentPage}
+          ></FileMissing>
+        ) : (
+          ""
+        )}
+        {Object.keys(uniquePairs).map((groupNumber) => (
+          <div key={groupNumber} className={styles.groupDiv}>
+            <span className={styles.groupNumber}>
+              Grupo {parseInt(groupNumber) + 1}
+            </span>
+            <div className={styles.matchesDiv}>
+              <div className={styles.beltColor}>
+                <span style={{ color: "#bf0303" }}>Aka</span>
+                <span>Shiro</span>
+              </div>
+              {uniquePairs[groupNumber].map((matches, index) => (
+                <div key={index} className={styles.eachMatch}>
+                  <span>
+                    {matches[0].split("|")[0]} {matches[0].split("|")[1]}
+                  </span>
+                  <span className={styles.vsCenter}>vs</span>
+                  <span>
+                    {matches[1].split("|")[0]} {matches[1].split("|")[1]}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }

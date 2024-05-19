@@ -1,10 +1,19 @@
+import { useEffect, useState } from "react";
 import styles from "./eliminationdraw.module.css";
 
-export default function EliminationDraw({ compList, category }) {
+export default function EliminationDraw({
+  compList,
+  category,
+  runDraw,
+  setRunDraw,
+  deleteDraw,
+  setDeleteDraw
+}) {
+  const [allMatches, setAllMatches] = useState([]);
   const ipcRenderer = window.ipcRenderer;
   const data = [];
-  var keys = Object.keys(compList);
-  var filtered = keys.filter((key) => {
+  let keys = Object.keys(compList);
+  let filtered = keys.filter((key) => {
     return compList[key];
   });
 
@@ -44,9 +53,8 @@ export default function EliminationDraw({ compList, category }) {
     return singleMatch;
   };
 
-  const shuffledPlayers = shuffleArray(filtered.slice());
-
   const createMatches = () => {
+    const shuffledPlayers = shuffleArray(filtered.slice());
     const matches = [];
     if (shuffledPlayers.length === 2) {
       const matches = createSingleMatch(shuffledPlayers, 0);
@@ -74,7 +82,17 @@ export default function EliminationDraw({ compList, category }) {
     }
     return matches;
   };
-  const allMacthes = shuffleArray(createMatches());
+
+  useEffect(() => {
+    if (runDraw) {
+      setAllMatches(shuffleArray(createMatches()));
+      setRunDraw(false)
+    }
+    if (deleteDraw) {
+      setAllMatches([])
+      setDeleteDraw(false)
+    }
+  }, [setAllMatches, runDraw, setRunDraw, deleteDraw, setDeleteDraw]);
 
   function triggerExcelGenerationWithData(data, file) {
     ipcRenderer.send("generate-excel", data, file);
@@ -90,13 +108,13 @@ export default function EliminationDraw({ compList, category }) {
 
   return (
     <div className={styles.matchesDiv}>
-      {allMacthes.map((match, index) => (
+      {allMatches.map((match, index) => (
         <div key={index} className={styles.eachMatch}>
           {match[0].split("|")[0]} {match[0].split("|")[1]} vs{" "}
           {match[1].split("|")[0]} {match[1].split("|")[1]}
         </div>
       ))}
-      {allMacthes.length !== 0 ? (
+      {allMatches.length !== 0 ? (
         <button className={styles.downloadButton} onClick={handleClick}>
           Descarregar
         </button>

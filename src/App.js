@@ -13,19 +13,34 @@ import Login from "./pages/Login/Login";
 import GroupDraw from "./pages/GroupDraw/GroupDraw";
 import MatchesDraw from "./pages/MatchesDraw/MatchesDraw";
 import Credits from "./pages/Credits/Credits";
-import EliminationDraw from "./pages/EliminationDraw/EliminationDraw";
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [competitors, setCompetitors] = useState([]);
   const [newCompetitors, setNewCompetitors] = useState([]);
+  const [groupByComp, setGroupByComp] = useState([]);
   const [katas, setKatas] = useState([]);
+  const [category, setCategory] = useState("default");
   const [blinking, setBlinking] = useState({ comp: false, kata: false });
   const [isPinRight, setIsPinRight] = useState(false);
   const [isDefault, setIsDefault] = useState(true);
   const [showNotification, setShowNotification] = useState(false);
   const [notificationTitle, setNotificationTitle] = useState("");
   const [notificationBody, setNotificationBody] = useState("");
+  const [actions, setActions] = useState(false);
+  const [proceed, setProceed] = useState(true);
+  const [currentPage, setCurrentPage] = useState({
+    home: true,
+    elimDraw: false,
+    groupDraw: false,
+    matchesDraw: false,
+    kataElim: false,
+    kataFinal: false,
+    teamKata: false,
+    kumite: false,
+    teamKummite: false,
+    credits: false,
+  });
 
   const mergeCompetitors = (jsonResources) => {
     const groupedCompetitors = {};
@@ -63,6 +78,8 @@ function App() {
             setCompetitors={setCompetitors}
             setKatas={setKatas}
             blinking={blinking}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
           ></NavBar>
         </div>
       ) : (
@@ -79,7 +96,10 @@ function App() {
           }
         ></Route>
         <Route path="/home" element={<Home></Home>}></Route>
-        <Route path="/eliminationdraw" element={<GroupDraw
+        <Route
+          path="/eliminationdraw"
+          element={
+            <GroupDraw
               competitors={newCompetitors}
               draw="elimination"
               isMenuOpen={isMenuOpen}
@@ -88,18 +108,28 @@ function App() {
               setBlinking={setBlinking}
               isDefault={isDefault}
               setIsDefault={setIsDefault}
+              category={category}
+              setCategory={setCategory}
               showNotification={showNotification}
               setShowNotification={setShowNotification}
               notificationTitle={notificationTitle}
               setNotificationTitle={setNotificationTitle}
               notificationBody={notificationBody}
               setNotificationBody={setNotificationBody}
-            ></GroupDraw>}></Route>
+              actions={actions}
+              setActions={setActions}
+              proceed={proceed}
+              setProceed={setProceed}
+            ></GroupDraw>
+          }
+        ></Route>
         <Route
           path="/groupdraw"
           element={
             <GroupDraw
               competitors={newCompetitors}
+              groupByComp={groupByComp}
+              setGroupByComp={setGroupByComp}
               draw="group"
               isMenuOpen={isMenuOpen}
               setIsMenuOpen={setIsMenuOpen}
@@ -107,12 +137,19 @@ function App() {
               setBlinking={setBlinking}
               isDefault={isDefault}
               setIsDefault={setIsDefault}
+              category={category}
+              setCategory={setCategory}
+              setCurrentPage={setCurrentPage}
               showNotification={showNotification}
               setShowNotification={setShowNotification}
               notificationTitle={notificationTitle}
               setNotificationTitle={setNotificationTitle}
               notificationBody={notificationBody}
               setNotificationBody={setNotificationBody}
+              actions={actions}
+              setActions={setActions}
+              proceed={proceed}
+              setProceed={setProceed}
             ></GroupDraw>
           }
         ></Route>
@@ -121,9 +158,12 @@ function App() {
           element={
             <MatchesDraw
               draw="matches"
-              competitors={newCompetitors}
-              isMenuOpen={isMenuOpen}
-              setIsMenuOpen={setIsMenuOpen}
+              groupByComp={groupByComp}
+              setCurrentPage={setCurrentPage}
+              category={category}
+              setCategory={setCategory}
+              setIsDefault={setIsDefault}
+              isDefault={isDefault}
             ></MatchesDraw>
           }
         ></Route>

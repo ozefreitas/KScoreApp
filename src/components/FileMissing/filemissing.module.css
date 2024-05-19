@@ -1,19 +1,19 @@
 .compFileMIssing {
-    width: 100%;
-    text-align: center;
-    margin-top: 12vh;
-    font-size: 1.7vw;
-  }
-  
-.kataFileMIssing {
   width: 100%;
-    text-align: center;
-    margin-top: 15vh;
-    font-size: 1.7vw;
+  text-align: center;
+  margin-top: 12vh;
+  font-size: 1.7vw;
 }
 
-  .openMenu {
-    cursor: pointer;
-    text-decoration: underline;
-    color: rgb(0, 104, 145);
-  }
+.kataFileMIssing {
+  width: 100%;
+  text-align: center;
+  margin-top: 15vh;
+  font-size: 1.7vw;
+}
+
+.openMenu {
+  cursor: pointer;
+  text-decoration: underline;
+  color: rgb(0, 104, 145);
+}

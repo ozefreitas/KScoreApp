@@ -46,6 +46,10 @@
   }
 }
 
+.currentPage {
+  background-color: #bf0303;
+}
+
 .open {
   left: 0;
 }

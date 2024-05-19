@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import CompetitorItem from "../CompetitorItem/CompetitorItem";
 import FileMissing from "../../../components/FileMissing/FileMissing";
 import styles from "./competitorlist.module.css";
@@ -19,10 +19,13 @@ export default function CompetitorList({
   setShowNotification,
   setNotificationTitle,
   setNotificationBody,
+  setRunDraw,
+  setDeleteDraw,
 }) {
   const [compToChange, setCompToChange] = useState({});
+  const [drawIsSet, setDrawIsSet] = useState(false);
 
-  const ScrollDraw = () => {
+  const ScrollDraw = useCallback(() => {
     const executeScroll = () =>
       drawRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
     if (category !== "default" && competitors.length === 0) {
@@ -36,7 +39,14 @@ export default function CompetitorList({
       setNotificationTitle("Escalão não detetado");
       setNotificationBody("Selecionar Escalão para proceder a sorteio");
     }
-  };
+  }, [
+    category,
+    competitors,
+    drawRef,
+    setNotificationBody,
+    setNotificationTitle,
+    setShowNotification,
+  ]);
 
   const ScrollTop = () => {
     const executeScroll = () =>
@@ -57,6 +67,14 @@ export default function CompetitorList({
     setCompToChange(updatedCompList);
     setBlinking(false);
     setIsMenuOpen(false);
+    if (drawIsSet) {
+      setShowNotification(true);
+      setNotificationTitle("Escalão alterado");
+      setNotificationBody("Sorteio eliminado por mudança de escalão.");
+      ScrollTop();
+      setDrawIsSet(false);
+      setDeleteDraw(true);
+    }
   }, [
     competitors,
     category,
@@ -73,14 +91,14 @@ export default function CompetitorList({
     }
   }
 
-  function generateUniqueRandomNumbers(min, max) {
+  const generateUniqueRandomNumbers = useCallback((min, max) => {
     const numbers = [];
     for (let i = min; i <= max; i++) {
       numbers.push(i);
     }
     shuffleArray(numbers);
     return numbers;
-  }
+  }, []);
 
   function generateGroups(array, groupSize) {
     let newGroup = [];
@@ -91,26 +109,42 @@ export default function CompetitorList({
     return newGroup;
   }
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = useCallback(
+    (event) => {
+      event.preventDefault();
 
-    var keys = Object.keys(compToChange);
-    var filtered = keys.filter((key) => {
-      return compToChange[key];
-    });
+      let keys = Object.keys(compToChange);
+      let filtered = keys.filter((key) => {
+        return compToChange[key];
+      });
 
-    const randomNumber = generateUniqueRandomNumbers(1, filtered.length);
-    const generatedGroups = generateGroups(randomNumber, 4);
-    setGroups(generatedGroups);
-    setCompList(compToChange);
-    ScrollDraw();
-  };
+      const randomNumber = generateUniqueRandomNumbers(1, filtered.length);
+      const generatedGroups = generateGroups(randomNumber, 4);
+      setGroups(generatedGroups);
+      setCompList(compToChange);
+      ScrollDraw();
+      setRunDraw(true);
+      setDrawIsSet(true);
+    },
+    [
+      ScrollDraw,
+      compToChange,
+      setGroups,
+      setCompList,
+      setRunDraw,
+      setDrawIsSet,
+      generateUniqueRandomNumbers,
+    ]
+  );
 
-  const handleKeyPress = (event) => {
-    if (event.key === "Enter") {
-      handleSubmit(event);
-    }
-  };
+  const handleKeyPress = useCallback(
+    (event) => {
+      if (event.key === "Enter") {
+        handleSubmit(event);
+      }
+    },
+    [handleSubmit]
+  );
 
   const handleClick = () => {
     function selectElement(id, valueToSelect) {
@@ -122,6 +156,8 @@ export default function CompetitorList({
     setCategory("default");
     setIsDefault(true);
     ScrollTop();
+    setDeleteDraw(true);
+    setDrawIsSet(false);
   };
 
   useEffect(() => {

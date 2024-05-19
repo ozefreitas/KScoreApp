@@ -1,44 +1,72 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./grouplist.module.css";
+import React from "react";
 
-export default function GroupList({ compList, groups, category }) {
+export default function GroupList({
+  compList,
+  groups,
+  category,
+  groupByComp,
+  setGroupByComp,
+  setCurrentPage,
+}) {
   const ipcRenderer = window.ipcRenderer;
-  const groupByComp = [];
   const data = [];
-  var keys = Object.keys(compList);
-  var filtered = keys.filter((key) => {
+  const navigate = useNavigate();
+  let keys = Object.keys(compList);
+  let filtered = keys.filter((key) => {
     return compList[key];
   });
-  console.log(filtered)
 
-  function createGroup(groupsArray, compsArray) {
-    for (let i = 0; i < groupsArray.length; i++) {
-      const oneGroup = [];
-      for (let j = 0; j < groupsArray[i].length; j++) {
-        const row = [];
-        oneGroup.push(compsArray[groupsArray[i][j] - 1]);
-        row.push(
-          i,
-          compsArray[groupsArray[i][j] - 1].split("|")[0],
-          compsArray[groupsArray[i][j] - 1].split("|")[1]
-        );
-        data.push(row);
+  useEffect(() => {
+    setGroupByComp([]);
+    function createGroup(groupsArray, compsArray) {
+      for (let i = 0; i < groupsArray.length; i++) {
+        const oneGroup = [];
+        for (const element of groupsArray[i]) {
+          const row = [];
+          oneGroup.push(compsArray[element - 1]);
+          row.push(
+            i,
+            compsArray[element - 1].split("|")[0],
+            compsArray[element - 1].split("|")[1]
+          );
+          data.push(row);
+        }
+        setGroupByComp((prevGroupByGroup) => [...prevGroupByGroup, oneGroup]);
       }
-      groupByComp.push(oneGroup);
     }
-  }
-  createGroup(groups, filtered);
+    createGroup(groups, filtered);
+  }, [groups]);
 
   function triggerExcelGenerationWithData(data, file) {
     ipcRenderer.send("generate-excel", data, file);
   }
 
-  const handleClick = () => {
+  const downloadByClick = () => {
     data.splice(0, 0, ["Grupo", "Nome", "Dorsal"]);
     const drawFile = `${category.split(" ").join("_")}_Draw.xlsx`;
     console.log(drawFile);
     triggerExcelGenerationWithData(data, drawFile);
   };
-  
+
+  const changePageByClick = () => {
+    navigate("/matchesdraw");
+    setCurrentPage({
+      home: false,
+      elimDraw: false,
+      groupDraw: false,
+      matchesDraw: true,
+      kataElim: false,
+      kataFinal: false,
+      teamKata: false,
+      kumite: false,
+      teamKummite: false,
+      credits: false,
+    });
+  };
+
   return (
     <div className={styles.drawnGroupsDiv}>
       {groupByComp.map((group, index) => (
@@ -51,9 +79,14 @@ export default function GroupList({ compList, groups, category }) {
         </div>
       ))}
       {groups.length !== 0 ? (
-        <button className={styles.downloadButton} onClick={handleClick}>
-          Descarregar
-        </button>
+        <React.Fragment>
+          <button className={styles.downloadButton} onClick={downloadByClick}>
+            Descarregar
+          </button>
+          <button className={styles.downloadButton} onClick={changePageByClick}>
+            Iniciar sorteio de partidas
+          </button>
+        </React.Fragment>
       ) : (
         ""
       )}

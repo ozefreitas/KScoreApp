@@ -1,12 +1,22 @@
+import { useEffect } from "react";
 import styles from "./header.module.css";
 
 export default function Header({
   match,
   draw,
+  category,
   setCategory,
   isDefault,
   setIsDefault,
 }) {
+  useEffect(() => {
+    function selectElement(id, valueToSelect) {
+      let element = document.getElementById(id);
+      element.value = valueToSelect;
+    }
+    selectElement("categoryList", category);
+  }, [category]);
+
   let matchType;
   const matchTypes = ["kata", "teamkata", "kumite", "teamkumite"];
   const renderMatchType = () => {

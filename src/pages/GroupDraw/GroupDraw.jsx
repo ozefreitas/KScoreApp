@@ -7,32 +7,42 @@ import CustomNotification from "../../components/CustomNotification/CustomNotifi
 import EliminationDraw from "../EliminationDraw/EliminationDraw";
 
 export default function GroupDraw({
-  draw,
   competitors,
+  groupByComp,
+  setGroupByComp,
+  draw,
   isMenuOpen,
   setIsMenuOpen,
   blinking,
   setBlinking,
   isDefault,
   setIsDefault,
+  category,
+  setCategory,
+  setCurrentPage,
   showNotification,
   setShowNotification,
   notificationTitle,
   setNotificationTitle,
   notificationBody,
   setNotificationBody,
+  actions,
+  setActions,
+  proceed,
+  setProceed,
 }) {
-  const [category, setCategory] = useState("default");
   const [compList, setCompList] = useState({});
   const [groups, setGroups] = useState([]);
+  const [runDraw, setRunDraw] = useState(false);
+  const [deleteDraw, setDeleteDraw] = useState(false);
   const drawRef = useRef(null);
   const topRef = useRef(null);
-  // const ipcRenderer = window.ipcRenderer;
-  // ipcRenderer.on('excel-generation-error', (event, errorMessage) => {
-  //   setShowNotification(true)
-  //   setNotificationTitle("Erro na transferência")
-  //   setNotificationBody(errorMessage);
-  // });
+  const ipcRenderer = window.ipcRenderer;
+  ipcRenderer.on('excel-generation-error', (event, errorMessage) => {
+    setShowNotification(true)
+    setNotificationTitle("Erro na transferência")
+    setNotificationBody(errorMessage);
+  });
 
   const ScrollTop = () => {
     const executeScroll = () =>
@@ -42,21 +52,25 @@ export default function GroupDraw({
 
   return (
     <div className={styles.scrollable}>
+      <Header
+        draw={draw}
+        category={category}
+        setCategory={setCategory}
+        setIsDefault={setIsDefault}
+        isDefault={isDefault}
+      ></Header>
       {showNotification ? (
         <CustomNotification
           setShowNotification={setShowNotification}
           title={notificationTitle}
           body={notificationBody}
+          actions={actions}
+          setActions={setActions}
+          setProceed={setProceed}
         ></CustomNotification>
       ) : (
         ""
       )}
-      <Header
-        draw={draw}
-        setCategory={setCategory}
-        setIsDefault={setIsDefault}
-        isDefault={isDefault}
-      ></Header>
       <div ref={topRef} id="topRef"></div>
       <CompetitorList
         competitors={competitors}
@@ -74,6 +88,11 @@ export default function GroupDraw({
         setShowNotification={setShowNotification}
         setNotificationTitle={setNotificationTitle}
         setNotificationBody={setNotificationBody}
+        setActions={setActions}
+        proceed={proceed}
+        setProceed={setProceed}
+        setRunDraw={setRunDraw}
+        setDeleteDraw={setDeleteDraw}
       ></CompetitorList>
       <div ref={drawRef} className={styles.drawContainer}>
         {draw === "group" ? (
@@ -81,11 +100,18 @@ export default function GroupDraw({
             compList={compList}
             groups={groups}
             category={category}
+            groupByComp={groupByComp}
+            setGroupByComp={setGroupByComp}
+            setCurrentPage={setCurrentPage}
           ></GroupList>
         ) : (
           <EliminationDraw
             compList={compList}
             category={category}
+            runDraw={runDraw}
+            setRunDraw={setRunDraw}
+            deleteDraw={deleteDraw}
+            setDeleteDraw={setDeleteDraw}
           ></EliminationDraw>
         )}
       </div>

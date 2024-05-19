@@ -17,11 +17,11 @@ function generateExcel(data, file) {
     shell.openPath(outputPath);
   } catch (error) {
     console.error("Error generating Excel file:", error);
-    mainWindow.webContents.send('excel-generation-error', error.message);
+    mainWindow.webContents.send("excel-generation-error", error.message);
   }
 }
 
-ipcMain.on("generate-excel", (event, {data, file}) => {
+ipcMain.on("generate-excel", (event, { data, file }) => {
   generateExcel(data, file);
 });
 

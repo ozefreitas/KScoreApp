@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styles from "./navBar.module.css";
 import { Link } from "react-router-dom";
 
@@ -7,6 +8,8 @@ export default function NavBar({
   setCompetitors,
   setKatas,
   blinking,
+  currentPage,
+  setCurrentPage,
 }) {
   const handleClickCompetitor = () => {
     document.getElementById("Competitor_Picker").click();
@@ -63,6 +66,33 @@ export default function NavBar({
     setIsMenuOpen(false);
   };
 
+  const handleCurrentPage = (pageName) => {
+    const resetPages = () => {
+      setCurrentPage({
+        home: false,
+        elimDraw: false,
+        groupDraw: false,
+        matchesDraw: false,
+        kataElim: false,
+        kataFinal: false,
+        teamKata: false,
+        kumite: false,
+        teamKummite: false,
+        credits: false,
+      });
+    };
+    resetPages();
+    setCurrentPage((prevState) => ({
+      ...prevState,
+      [pageName]: true,
+    }));
+  };
+
+  const handleClick = (pageName) => {
+    handleBarClose();
+    handleCurrentPage(pageName);
+  };
+
   return (
     <div className={styles.navContainer}>
       <nav
@@ -72,10 +102,10 @@ export default function NavBar({
       >
         <div className={styles.listContainer}>
           <ul>
-            <li>
+            <li className={currentPage.home ? styles.currentPage : ""}>
               <Link
                 to="/home"
-                onClick={handleBarClose}
+                onClick={() => handleClick("home")}
                 style={{ textDecoration: "none", color: "white" }}
               >
                 Início
@@ -92,28 +122,28 @@ export default function NavBar({
                 className={styles.inputFile}
               ></input>
             </li>
-            <li>
+            <li className={currentPage.elimDraw ? styles.currentPage : ""}>
               <Link
                 to="/eliminationdraw"
-                onClick={handleBarClose}
+                onClick={() => handleClick("elimDraw")}
                 style={{ textDecoration: "none", color: "white" }}
               >
                 Fazer Novo Sorteio (Eliminatórias)
               </Link>
             </li>
-            <li>
+            <li className={currentPage.groupDraw ? styles.currentPage : ""}>
               <Link
                 to="/groupdraw"
-                onClick={handleBarClose}
+                onClick={() => handleClick("groupDraw")}
                 style={{ textDecoration: "none", color: "white" }}
               >
                 Fazer Novo Sorteio (por Escalão)
               </Link>
             </li>
-            <li>
+            <li className={currentPage.matchesDraw ? styles.currentPage : ""}>
               <Link
                 to="/matchesdraw"
-                onClick={handleBarClose}
+                onClick={() => handleClick("matchesDraw")}
                 style={{ textDecoration: "none", color: "white" }}
               >
                 Fazer Novo Sorteio (dentro de Grupo)
@@ -128,55 +158,55 @@ export default function NavBar({
                 className={styles.inputFile}
               ></input>
             </li>
-            <li>
+            <li className={currentPage.kataElim ? styles.currentPage : ""}>
               <Link
                 to="/kataelim"
-                onClick={handleBarClose}
+                onClick={() => handleClick("kataElim")}
                 style={{ textDecoration: "none", color: "white" }}
               >
                 Kata Eliminação
               </Link>
             </li>
-            <li>
+            <li className={currentPage.kataFinal ? styles.currentPage : ""}>
               <Link
                 to="/katafinal"
-                onClick={handleBarClose}
+                onClick={() => handleClick("kataFinal")}
                 style={{ textDecoration: "none", color: "white" }}
               >
                 Kata Finais
               </Link>
             </li>
-            <li>
+            <li className={currentPage.teamKata ? styles.currentPage : ""}>
               <Link
                 to="/teamkata"
-                onClick={handleBarClose}
+                onClick={() => handleClick("teamKata")}
                 style={{ textDecoration: "none", color: "white" }}
               >
                 Kata Equipa
               </Link>
             </li>
-            <li>
+            <li className={currentPage.kumite ? styles.currentPage : ""}>
               <Link
                 to="/kumite"
-                onClick={handleBarClose}
+                onClick={() => handleClick("kumite")}
                 style={{ textDecoration: "none", color: "white" }}
               >
                 Kumite
               </Link>
             </li>
-            <li>
+            <li className={currentPage.teamKummite ? styles.currentPage : ""}>
               <Link
                 to="/teamkumite"
-                onClick={handleBarClose}
+                onClick={() => handleClick("teamKumite")}
                 style={{ textDecoration: "none", color: "white" }}
               >
                 Kumite Equipa
               </Link>
             </li>
-            <li>
+            <li className={currentPage.credits ? styles.currentPage : ""}>
               <Link
                 to="/credits"
-                onClick={handleBarClose}
+                onClick={() => handleClick("credits")}
                 style={{ textDecoration: "none", color: "white" }}
               >
                 Créditos
