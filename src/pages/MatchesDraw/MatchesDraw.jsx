@@ -1,7 +1,7 @@
 import styles from "./matchesdraw.module.css";
 import FileMissing from "../../components/FileMissing/FileMissing";
 import Header from "../../components/Header/Header";
-import { useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 export default function MatchesDraw({
   draw,
@@ -12,10 +12,10 @@ export default function MatchesDraw({
   setIsDefault,
   isDefault,
 }) {
-  const [runMatches, setRunMatches] = useState(false);
+  const [uniquePairs, setUniquePairs] = useState({});
   const ipcRenderer = window.ipcRenderer;
-  const data = [];
   const matchesByGroup = {};
+  console.log(uniquePairs);
 
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -23,6 +23,53 @@ export default function MatchesDraw({
       [array[i], array[j]] = [array[j], array[i]];
     }
     return array;
+  };
+
+  // const shuffleInnerArrays = (obj) => {
+  //   const shuffledObj = {};
+  //   for (const key in obj) {
+  //     if (obj.hasOwnProperty(key)) {
+  //       shuffledObj[key] = shuffleArray([...obj[key]]); // Shuffle the inner arrays
+  //     }
+  //   }
+  //   return shuffledObj;
+  // };
+
+  const minimizeRepetitions = (array) => {
+    for (let i = 0; i < array.length - 1; i++) {
+      if (
+        array[i][0] === array[i + 1][0] ||
+        array[i][0] === array[i + 1][1] ||
+        array[i][1] === array[i + 1][0] ||
+        array[i][1] === array[i + 1][1]
+      ) {
+        for (let j = i + 2; j < array.length; j++) {
+          if (
+            array[i][0] !== array[j][0] &&
+            array[i][0] !== array[j][1] &&
+            array[i][1] !== array[j][0] &&
+            array[i][1] !== array[j][1]
+          ) {
+            [array[i + 1], array[j]] = [array[j], array[i + 1]]; // Swap elements
+            break;
+          }
+        }
+      }
+    }
+    return array;
+  };
+
+  const shuffleAndMinimize = (obj) => {
+    const shuffledObj = {};
+
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        const shuffledArray = shuffleArray([...obj[key]]); // Shuffle the inner arrays
+        shuffledObj[key] = minimizeRepetitions(shuffledArray); // Minimize repetitions
+      }
+    }
+
+    return shuffledObj;
   };
 
   const makeMatchesByGroup = () => {
@@ -67,6 +114,7 @@ export default function MatchesDraw({
       });
 
       const clone = structuredClone(matchesByGroup[i]);
+      // console.log(clone)
 
       for (let nomatch of notMatched) {
         let j = 0;
@@ -81,8 +129,6 @@ export default function MatchesDraw({
       }
     }
   };
-
-  makeMatchesByGroup();
 
   const getUniquePairs = (nestedData) => {
     const uniquePairsSet = new Set();
@@ -107,7 +153,55 @@ export default function MatchesDraw({
     return uniquePairsObject;
   };
 
-  const uniquePairs = getUniquePairs(matchesByGroup);
+  useEffect(() => {
+    makeMatchesByGroup();
+    const unShuffledObject = getUniquePairs(matchesByGroup);
+    const shuffledObject = shuffleAndMinimize(unShuffledObject);
+    // const shuffledObject = shuffleInnerArrays(unShuffledObject);
+    setUniquePairs(shuffledObject);
+  }, [groupByComp]);
+
+  const handleClick = useCallback(() => {
+    makeMatchesByGroup();
+    const unShuffledObject = getUniquePairs(matchesByGroup);
+    const shuffledObject = shuffleAndMinimize(unShuffledObject);
+    // const shuffledObject = shuffleInnerArrays(unShuffledObject);
+    setUniquePairs(shuffledObject);
+  });
+
+  function triggerExcelGenerationWithData(data, file) {
+    ipcRenderer.send("generate-excel", data, file);
+  }
+
+  const downloadByClick = (groupNumber) => {
+    const data = [];
+    data.splice(0, 0, ["Dorsal", "Nome", "vs", "Nome", "Dorsal"]);
+    data.splice(0, 0, ["", "Aka", "", "Shiro", ""]);
+    for (let i of uniquePairs[groupNumber]) {
+      data.push([
+        i[0].split("|")[1],
+        i[0].split("|")[0],
+        "vs",
+        i[1].split("|")[0],
+        i[1].split("|")[1],
+      ]);
+    }
+    console.log(data);
+    const drawFile = `${category
+      .split(" ")
+      .join("_")}_Group${groupNumber}Matches.xlsx`;
+    // console.log(drawFile);
+    triggerExcelGenerationWithData(data, drawFile);
+  };
+
+  const handleKeyPress = useCallback(
+    (event) => {
+      if (event.key === "Enter") {
+        handleClick();
+      }
+    },
+    [handleClick]
+  );
 
   return (
     <div className={styles.scrollable}>
@@ -151,8 +245,27 @@ export default function MatchesDraw({
                 </div>
               ))}
             </div>
+            <div className={styles.downloadDiv}>
+              <button
+                className={styles.downloadButton}
+                onClick={() => downloadByClick(groupNumber)}
+              >
+                Descarregar
+              </button>
+            </div>
           </div>
         ))}
+        {Object.keys(groupByComp).length !== 0 ? (
+          <button
+            className={styles.drawButton}
+            onClick={handleClick}
+            onKeyDown={handleKeyPress}
+          >
+            Novo Sorteio
+          </button>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );

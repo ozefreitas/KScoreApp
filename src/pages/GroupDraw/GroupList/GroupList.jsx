@@ -47,7 +47,6 @@ export default function GroupList({
   const downloadByClick = () => {
     data.splice(0, 0, ["Grupo", "Nome", "Dorsal"]);
     const drawFile = `${category.split(" ").join("_")}_Draw.xlsx`;
-    console.log(drawFile);
     triggerExcelGenerationWithData(data, drawFile);
   };
 
