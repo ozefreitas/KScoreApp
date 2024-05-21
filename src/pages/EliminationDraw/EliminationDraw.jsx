@@ -7,11 +7,10 @@ export default function EliminationDraw({
   runDraw,
   setRunDraw,
   deleteDraw,
-  setDeleteDraw
+  setDeleteDraw,
 }) {
   const [allMatches, setAllMatches] = useState([]);
   const ipcRenderer = window.ipcRenderer;
-  const data = [];
   let keys = Object.keys(compList);
   let filtered = keys.filter((key) => {
     return compList[key];
@@ -29,26 +28,20 @@ export default function EliminationDraw({
     const singleMatch = [];
     for (let i = 0; i < byes; i++) {
       const player1 = array.shift();
-      singleMatch.push([player1, "bye"]);
-      data.push([
-        player1.split("|")[1],
-        player1.split("|")[0],
-        "vs",
-        "bye",
-        "",
-      ]);
+      const pair = [player1, "bye"];
+      if (Math.random() > 0.5) {
+        [pair[0], pair[1]] = [pair[1], pair[0]];
+      }
+      singleMatch.push(pair);
     }
     while (array.length >= 2) {
       const player1 = array.shift();
       const player2 = array.shift();
-      singleMatch.push([player1, player2]);
-      data.push([
-        player1.split("|")[1],
-        player1.split("|")[0],
-        "vs",
-        player2.split("|")[0],
-        player2.split("|")[1],
-      ]);
+      const pair = [player1, player2];
+      if (Math.random() > 0.5) {
+        [pair[0], pair[1]] = [pair[1], pair[0]];
+      }
+      singleMatch.push(pair);
     }
     return singleMatch;
   };
@@ -86,11 +79,11 @@ export default function EliminationDraw({
   useEffect(() => {
     if (runDraw) {
       setAllMatches(shuffleArray(createMatches()));
-      setRunDraw(false)
+      setRunDraw(false);
     }
     if (deleteDraw) {
-      setAllMatches([])
-      setDeleteDraw(false)
+      setAllMatches([]);
+      setDeleteDraw(false);
     }
   }, [setAllMatches, runDraw, setRunDraw, deleteDraw, setDeleteDraw]);
 
@@ -99,11 +92,34 @@ export default function EliminationDraw({
   }
 
   const handleClick = () => {
-    const excelData = structuredClone(data);
-    excelData.splice(0, 0, ["Dorsal", "Nome", "vs", "Nome", "Dorsal"]);
-    excelData.splice(0, 0, ["", "Aka", "", "Shiro", ""]);
-    const drawFile = `${category.split(" ").join("_")}_Matches.xlsx`;
-    triggerExcelGenerationWithData(excelData, drawFile);
+    const data = [];
+    data.splice(0, 0, ["", "", ""]);
+    data.splice(0, 0, ["Cinto", "Nome", "Dorsal"]);
+    for (let indivMatch of allMatches) {
+      const byeIndex = indivMatch.indexOf("bye");
+      if (byeIndex === 0) {
+        data.push(
+          ["Aka", "bye", ""],
+          ["", "vs", ""],
+          ["Shiro", indivMatch[1].split("|")[0], indivMatch[1].split("|")[1]]
+        );
+      } else if (byeIndex === 1) {
+        data.push(
+          ["Aka", indivMatch[0].split("|")[0], indivMatch[0].split("|")[1]],
+          ["", "vs", ""],
+          ["Shiro", "bye", ""]
+        );
+      } else {
+        data.push(
+          ["Aka", indivMatch[0].split("|")[0], indivMatch[0].split("|")[1]],
+          ["", "vs", ""],
+          ["Shiro", indivMatch[1].split("|")[0], indivMatch[1].split("|")[1]]
+        );
+      }
+      data.push(["", "", ""]);
+    }
+    const drawFile = `${category.split(" ").join("_")}_Partidas.xlsx`;
+    triggerExcelGenerationWithData(data, drawFile);
   };
 
   return (

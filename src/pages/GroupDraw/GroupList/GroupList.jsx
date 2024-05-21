@@ -39,15 +39,15 @@ export default function GroupList({
     }
     createGroup(groups, filtered);
   }, [groups]);
-
-  function triggerExcelGenerationWithData(data, file) {
-    ipcRenderer.send("generate-excel", data, file);
-  }
+  console.log(groupByComp)
+  // function triggerExcelGenerationWithData(data, file) {
+  //   ipcRenderer.send("generate-excel", data, file);
+  // }
 
   const downloadByClick = () => {
     data.splice(0, 0, ["Grupo", "Nome", "Dorsal"]);
-    const drawFile = `${category.split(" ").join("_")}_Draw.xlsx`;
-    triggerExcelGenerationWithData(data, drawFile);
+    const drawFile = `${category.split(" ").join("_")}_Sorteio.xlsx`;
+    // triggerExcelGenerationWithData(data, drawFile);
   };
 
   const changePageByClick = () => {

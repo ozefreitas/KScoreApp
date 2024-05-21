@@ -13,9 +13,10 @@ export default function MatchesDraw({
   isDefault,
 }) {
   const [uniquePairs, setUniquePairs] = useState({});
+  console.log(groupByComp)
+  console.log(uniquePairs)
   const ipcRenderer = window.ipcRenderer;
   const matchesByGroup = {};
-  console.log(uniquePairs);
 
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -187,10 +188,9 @@ export default function MatchesDraw({
       ]);
     }
     console.log(data);
-    const drawFile = `${category
-      .split(" ")
-      .join("_")}_Group${groupNumber}Matches.xlsx`;
-    // console.log(drawFile);
+    const drawFile = `${category.split(" ").join("_")}_Partidas_Grupo_${
+      parseInt(groupNumber) + 1
+    }.xlsx`;
     triggerExcelGenerationWithData(data, drawFile);
   };
 

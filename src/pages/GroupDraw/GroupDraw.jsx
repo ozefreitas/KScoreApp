@@ -37,12 +37,12 @@ export default function GroupDraw({
   const [deleteDraw, setDeleteDraw] = useState(false);
   const drawRef = useRef(null);
   const topRef = useRef(null);
-  const ipcRenderer = window.ipcRenderer;
-  ipcRenderer.on('excel-generation-error', (event, errorMessage) => {
-    setShowNotification(true)
-    setNotificationTitle("Erro na transferência")
-    setNotificationBody(errorMessage);
-  });
+  // const ipcRenderer = window.ipcRenderer;
+  // ipcRenderer.on('excel-generation-error', (event, errorMessage) => {
+  //   setShowNotification(true)
+  //   setNotificationTitle("Erro na transferência")
+  //   setNotificationBody(errorMessage);
+  // });
 
   const ScrollTop = () => {
     const executeScroll = () =>
