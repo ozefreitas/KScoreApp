@@ -5,20 +5,101 @@ export default function FileMissing({
   match,
   draw,
   competitors,
+  teams,
   katas,
   groupByComp,
   setBlinking,
   isMenuOpen,
   setIsMenuOpen,
   setCurrentPage,
+  modality,
 }) {
+  // console.log("modality:", modality);
+  // console.log("draw:", draw);
+  // console.log("teams:", teams.length);
+  // console.log("competitors:", competitors.length);
+  // console.log("katas:", katas)
   const navigate = useNavigate();
   return (
     <div style={{ width: "100%" }}>
-      {match !== "teamkata" && draw === undefined
+      {modality === "default" &&
+      draw === "elimination" &&
+      (competitors.length === 0 ||
+        competitors.length !== 0 ||
+        teams.length === 0 ||
+        teams.length !== 0) ? (
+        <div className={styles.kataFileMIssing}>
+          <p>Selecionar Modalidade.</p>
+        </div>
+      ) : (
+        ""
+      )}
+      {draw === "elimination" &&
+      modality === "Individual" &&
+      competitors.length === 0 ? (
+        <div className={styles.compFileMIssing}>
+          <p>Ficheiro com lista de <strong>competidores</strong> não detetado.</p>
+          <p>
+            Selecione o ficheiro no{" "}
+            <span
+              className={styles.openMenu}
+              onClick={() => {
+                if (isMenuOpen) {
+                  setBlinking((prevState) => ({
+                    ...prevState,
+                    comp: true,
+                  }));
+                } else {
+                  setIsMenuOpen(!isMenuOpen);
+                  setBlinking((prevState) => ({
+                    ...prevState,
+                    comp: !prevState.comp,
+                  }));
+                }
+              }}
+            >
+              menu de navegação
+            </span>
+            .
+          </p>
+        </div>
+      ) : (
+        ""
+      )}
+      {draw === "elimination" && modality === "Equipa" && teams.length === 0 ? (
+        <div className={styles.compFileMIssing}>
+          <p>Ficheiro com lista de <strong>equipas</strong> não detetado.</p>
+          <p>
+            Selecione o ficheiro no{" "}
+            <span
+              className={styles.openMenu}
+              onClick={() => {
+                if (isMenuOpen) {
+                  setBlinking((prevState) => ({
+                    ...prevState,
+                    team: true,
+                  }));
+                } else {
+                  setIsMenuOpen(!isMenuOpen);
+                  setBlinking((prevState) => ({
+                    ...prevState,
+                    team: !prevState.team,
+                  }));
+                }
+              }}
+            >
+              menu de navegação
+            </span>
+            .
+          </p>
+        </div>
+      ) : (
+        ""
+      )}
+      {match !== "teamkata" && (draw === undefined || draw === "group")
         ? competitors.length === 0 && (
             <div className={styles.compFileMIssing}>
-              <p>Ficheiro com lista de competidores não detetado.</p>
+              <p>Ficheiro com lista de <strong>competidores</strong> não detetado.</p>
               <p>
                 Selecione o ficheiro no{" "}
                 <span
@@ -49,7 +130,7 @@ export default function FileMissing({
       draw === undefined
         ? katas.length === 0 && (
             <div className={styles.kataFileMIssing}>
-              <p>Ficheiro com lista de Katas não detetado.</p>
+              <p>Ficheiro com lista de <strong>Katas</strong> não detetado.</p>
               <p>
                 Selecione o ficheiro no{" "}
                 <span
@@ -97,7 +178,7 @@ export default function FileMissing({
                       kumite: false,
                       teamKummite: false,
                       credits: false,
-                    });;
+                    });
                   }}
                 >
                   Fazer novo Sorteio (por Escalão)

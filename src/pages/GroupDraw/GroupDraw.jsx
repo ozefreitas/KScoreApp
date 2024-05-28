@@ -8,6 +8,7 @@ import EliminationDraw from "../EliminationDraw/EliminationDraw";
 
 export default function GroupDraw({
   competitors,
+  teams,
   groupByComp,
   setGroupByComp,
   draw,
@@ -19,6 +20,8 @@ export default function GroupDraw({
   setIsDefault,
   category,
   setCategory,
+  modality,
+  setModality,
   setCurrentPage,
   showNotification,
   setShowNotification,
@@ -56,6 +59,8 @@ export default function GroupDraw({
         draw={draw}
         category={category}
         setCategory={setCategory}
+        modality={modality}
+        setModality={setModality}
         setIsDefault={setIsDefault}
         isDefault={isDefault}
       ></Header>
@@ -73,9 +78,13 @@ export default function GroupDraw({
       )}
       <div ref={topRef} id="topRef"></div>
       <CompetitorList
+        draw={draw}
         competitors={competitors}
+        teams={teams}
         category={category}
         setCategory={setCategory}
+        modality={modality}
+        setModality={setModality}
         setCompList={setCompList}
         setGroups={setGroups}
         drawRef={drawRef}

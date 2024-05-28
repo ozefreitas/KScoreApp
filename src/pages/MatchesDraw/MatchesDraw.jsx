@@ -13,8 +13,6 @@ export default function MatchesDraw({
   isDefault,
 }) {
   const [uniquePairs, setUniquePairs] = useState({});
-  console.log(groupByComp)
-  console.log(uniquePairs)
   const ipcRenderer = window.ipcRenderer;
   const matchesByGroup = {};
 

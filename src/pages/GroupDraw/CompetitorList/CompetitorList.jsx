@@ -4,9 +4,13 @@ import FileMissing from "../../../components/FileMissing/FileMissing";
 import styles from "./competitorlist.module.css";
 
 export default function CompetitorList({
+  draw,
   competitors,
+  teams,
   category,
   setCategory,
+  modality,
+  setModality,
   setCompList,
   setGroups,
   drawRef,
@@ -23,6 +27,7 @@ export default function CompetitorList({
   setDeleteDraw,
 }) {
   const [compToChange, setCompToChange] = useState({});
+  const [teamToChange, setTeamToChange] = useState({});
   const [drawIsSet, setDrawIsSet] = useState(false);
 
   const ScrollDraw = useCallback(() => {
@@ -48,13 +53,13 @@ export default function CompetitorList({
     setShowNotification,
   ]);
 
-  const ScrollTop = () => {
+  const ScrollTop = useCallback(() => {
     const executeScroll = () =>
       topRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
     executeScroll();
-  };
+  }, [topRef]);
 
-  // change the competitors displayed in form when category change
+  // update the competitors when category change
   useEffect(() => {
     const updatedCompList = {};
     competitors.forEach((competitor) => {
@@ -82,6 +87,9 @@ export default function CompetitorList({
     setGroups,
     setBlinking,
     setIsMenuOpen,
+    setShowNotification,
+    setNotificationTitle,
+    setNotificationBody,
   ]);
 
   function shuffleArray(array) {
@@ -110,7 +118,7 @@ export default function CompetitorList({
   }
 
   const handleSubmit = useCallback(
-    (event) => {
+    (event, indivOrTeam) => {
       event.preventDefault();
 
       let keys = Object.keys(compToChange);
@@ -152,9 +160,13 @@ export default function CompetitorList({
       element.value = valueToSelect;
     }
     selectElement("categoryList", "default");
+    if (draw === "elimination") {
+      selectElement("modList", "default");
+    }
     setGroups([]);
     setCategory("default");
-    setIsDefault(true);
+    setIsDefault({ modality: true, category: true });
+    setModality("default");
     ScrollTop();
     setDeleteDraw(true);
     setDrawIsSet(false);
@@ -177,36 +189,61 @@ export default function CompetitorList({
         onSubmit={handleSubmit}
         className={styles.notHidden}
       >
-        {competitors.length === 0 ? (
-          <FileMissing
-            competitors={competitors}
-            blinking={blinking}
-            setBlinking={setBlinking}
-            isMenuOpen={isMenuOpen}
-            setIsMenuOpen={setIsMenuOpen}
-          ></FileMissing>
-        ) : (
-          ""
-        )}
-        {category !== "default"
-          ? competitors
-              .filter((competitor) => competitor.category.includes(category))
-              .map((competitor, index) => (
+        <FileMissing
+          draw={draw}
+          competitors={competitors}
+          teams={teams}
+          modality={modality}
+          blinking={blinking}
+          setBlinking={setBlinking}
+          isMenuOpen={isMenuOpen}
+          setIsMenuOpen={setIsMenuOpen}
+        ></FileMissing>
+        {modality === "Individual" || draw === "group"
+          ? category !== "default"
+            ? competitors
+                .filter((competitor) => competitor.category.includes(category))
+                .map((competitor, index) => (
+                  <CompetitorItem
+                    key={index}
+                    modality="Individual"
+                    competitor={competitor}
+                    compToChange={compToChange}
+                    setCompToChange={setCompToChange}
+                  ></CompetitorItem>
+                ))
+            : competitors.map((competitor, index) => (
                 <CompetitorItem
                   key={index}
+                  modality="Individual"
                   competitor={competitor}
                   compToChange={compToChange}
                   setCompToChange={setCompToChange}
                 ></CompetitorItem>
               ))
-          : competitors.map((competitor, index) => (
-              <CompetitorItem
-                key={index}
-                competitor={competitor}
-                compToChange={compToChange}
-                setCompToChange={setCompToChange}
-              ></CompetitorItem>
-            ))}
+          : modality === "Equipa"
+          ? category !== "default"
+            ? teams
+                .filter((team) => team.category.includes(category))
+                .map((team, index) => (
+                  <CompetitorItem
+                    key={index}
+                    modality={modality}
+                    team={team}
+                    teamToChange={teamToChange}
+                    setTeamToChange={setTeamToChange}
+                  ></CompetitorItem>
+                ))
+            : teams.map((team, index) => (
+                <CompetitorItem
+                  key={index}
+                  modality={modality}
+                  team={team}
+                  teamToChange={teamToChange}
+                  setTeamToChange={setTeamToChange}
+                ></CompetitorItem>
+              ))
+          : ""}
       </form>
       <div id="buttonsDiv">
         <button

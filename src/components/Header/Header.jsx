@@ -6,6 +6,8 @@ export default function Header({
   draw,
   category,
   setCategory,
+  modality,
+  setModality,
   isDefault,
   setIsDefault,
 }) {
@@ -34,7 +36,7 @@ export default function Header({
     return matchType;
   };
 
-  const options = [
+  const optionsIndiv = [
     "Infantil Masculino",
     "Infantil Feminino",
     "Iniciado Masculino",
@@ -83,20 +85,50 @@ export default function Header({
     "Veterano +50A Feminino +75Kg",
   ];
 
+  const optionsTeam = [
+    "Infantil Masculino",
+    "Infantil Feminino",
+    "Iniciado Masculino",
+    "Iniciado Feminino",
+    "Juvenil Masculino",
+    "Juvenil Feminino",
+    "Cadete Masculino",
+    "Cadete Feminino",
+    "Júnior Masculino",
+    "Júnior Feminino",
+    "Sénior Masculino",
+    "Sénior Feminino",
+    "Veterano +35A Masculino",
+    "Veterano +35A Feminino",
+    "Veterano +35B Masculino",
+    "Veterano +35B Feminino",
+    "Veterano +50A Masculino",
+    "Veterano +50A Feminino",
+  ];
+
   renderMatchType();
 
-  const handleChanche = (event) => {
+  const handleCategoryChanche = (event) => {
     if (draw === "group" || draw === "matches" || draw === "elimination") {
       setCategory(event.target.value);
       if (event.target.value !== "default") {
-        setIsDefault(false);
+        setIsDefault((prevState) => ({ ...prevState, category: false }));
       } else {
-        setIsDefault(true);
+        setIsDefault((prevState) => ({ ...prevState, category: true }));
       }
     } else if (event.target.value !== "default") {
-      setIsDefault(false);
+      setIsDefault((prevState) => ({ ...prevState, category: false }));
     } else if (event.target.value === "default") {
-      setIsDefault(true);
+      setIsDefault((prevState) => ({ ...prevState, category: true }));
+    }
+  };
+
+  const handleModChanche = (event) => {
+    setModality(event.target.value);
+    if (event.target.value !== "default") {
+      setIsDefault((prevState) => ({ ...prevState, modality: false }));
+    } else {
+      setIsDefault((prevState) => ({ ...prevState, modality: true }));
     }
   };
 
@@ -116,6 +148,26 @@ export default function Header({
       ) : (
         ""
       )}
+      {matchType === "Escalão " && draw === "elimination" ? (
+        <span className={styles.tatamiText}>
+          Modalidade{" "}
+          <select
+            id="modList"
+            name="modList"
+            defaultValue="default"
+            className={`${styles.modInput} ${
+              isDefault.modality ? styles.valueDefault : ""
+            }`}
+            onChange={handleModChanche}
+          >
+            <option value="default">Selecionar</option>
+            <option value="Individual">Individual</option>
+            <option value="Equipa">Equipa</option>
+          </select>
+        </span>
+      ) : (
+        ""
+      )}
       <span className={`${styles.kataText} ${styles[match]}`}>
         {matchType}
         <select
@@ -123,16 +175,22 @@ export default function Header({
           name="categoryList"
           defaultValue="default"
           className={`${styles.categoryInput} ${
-            isDefault ? styles.valueDefault : ""
+            isDefault.category ? styles.valueDefault : ""
           }`}
-          onChange={handleChanche}
+          onChange={handleCategoryChanche}
         >
           <option value="default">Selecionar Categoria</option>
-          {options.map((option, index) => (
-            <option key={index} value={option}>
-              {option}
-            </option>
-          ))}
+          {modality === "Individual"
+            ? optionsIndiv.map((option, index) => (
+                <option key={index} value={option}>
+                  {option}
+                </option>
+              ))
+            : optionsTeam.map((option, index) => (
+                <option key={index} value={option}>
+                  {option}
+                </option>
+              ))}
         </select>
       </span>
     </div>

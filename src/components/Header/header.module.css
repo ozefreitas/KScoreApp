@@ -79,6 +79,23 @@ input {
   width: 75%;
 }
 
+.modInput {
+  outline: none;
+  background-color: transparent;
+  font-size: 2.7vw;
+  width: 45%;
+  border: none;
+  color: white;
+}
+
+.modInput option {
+  color: white;
+  max-height: 30px !important;
+  font-size: 1.5vw;
+  height: 40px;
+  background-color: black;
+}
+
 .categoryInput {
   outline: none;
   background-color: transparent;

@@ -39,7 +39,6 @@ export default function GroupList({
     }
     createGroup(groups, filtered);
   }, [groups]);
-  console.log(groupByComp)
   // function triggerExcelGenerationWithData(data, file) {
   //   ipcRenderer.send("generate-excel", data, file);
   // }

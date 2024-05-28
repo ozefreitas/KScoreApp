@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styles from "./navBar.module.css";
 import { Link } from "react-router-dom";
 
@@ -6,6 +5,7 @@ export default function NavBar({
   isMenuOpen,
   setIsMenuOpen,
   setCompetitors,
+  setTeams,
   setKatas,
   blinking,
   currentPage,
@@ -14,6 +14,9 @@ export default function NavBar({
   const handleClickCompetitor = () => {
     document.getElementById("Competitor_Picker").click();
   };
+  const handleClickTeam = () => {
+    document.getElementById("Team_Picker").click();
+  };
   const handleClickKata = () => {
     document.getElementById("Kata_Picker").click();
   };
@@ -21,6 +24,17 @@ export default function NavBar({
   let where;
 
   const handleCompFile = (e) => {
+    const inputFile = e.target.files[0];
+    where = e.target.id;
+    if (inputFile instanceof Blob) {
+      handleFileChosen(inputFile, where);
+    } else {
+      console.error("Invalid file selected/No file selected");
+      alert("No file select/Invalid file selected");
+    }
+  };
+
+  const handleTeamFile = (e) => {
     const inputFile = e.target.files[0];
     where = e.target.id;
     if (inputFile instanceof Blob) {
@@ -46,6 +60,9 @@ export default function NavBar({
     if (where === "Competitor_Picker") {
       fileReader.onloadend = handleCompRead;
       fileReader.readAsText(file);
+    } else if (where === "Team_Picker") {
+      fileReader.onloadend = handleTeamRead;
+      fileReader.readAsText(file);
     } else {
       fileReader.onloadend = handleKataRead;
       fileReader.readAsText(file);
@@ -54,7 +71,39 @@ export default function NavBar({
 
   const handleCompRead = () => {
     const content = fileReader.result;
-    setCompetitors(JSON.parse(content));
+    const jsonResources = JSON.parse(content);
+    const groupedCompetitors = {};
+    jsonResources.forEach((resource) => {
+      const key = `${resource.number}-${resource.name}-${resource.team}`;
+      if (groupedCompetitors[key]) {
+        groupedCompetitors[key].category.push(resource.category);
+      } else {
+        groupedCompetitors[key] = {
+          ...resource,
+          category: [resource.category],
+        };
+      }
+    });
+    const mergedCompetitors = Object.values(groupedCompetitors);
+    setCompetitors(mergedCompetitors);
+  };
+
+  const handleTeamRead = () => {
+    const content = fileReader.result;
+    const jsonResources = JSON.parse(content);
+    const groupedTeams = {};
+    jsonResources.forEach((resource) => {
+      const key = `${resource.name}-${resource.number}`;
+      groupedTeams[key] = {
+        name: `${resource.name} ${resource.number}`,
+        number: resource.number,
+        category: resource.category,
+        type: resource.type,
+        elements: resource.elements,
+      };
+    });
+    const mergedTeams = Object.values(groupedTeams);
+    setTeams(mergedTeams);
   };
 
   const handleKataRead = () => {
@@ -119,6 +168,15 @@ export default function NavBar({
                 id="Competitor_Picker"
                 type="file"
                 onChange={handleCompFile}
+                className={styles.inputFile}
+              ></input>
+            </li>
+            <li className={`${blinking.team ? styles.blinker : ""}`}>
+              <span onClick={handleClickTeam}>Inserir Lista de Equipas</span>
+              <input
+                id="Team_Picker"
+                type="file"
+                onChange={handleTeamFile}
                 className={styles.inputFile}
               ></input>
             </li>

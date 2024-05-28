@@ -17,13 +17,20 @@ import Credits from "./pages/Credits/Credits";
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [competitors, setCompetitors] = useState([]);
-  const [newCompetitors, setNewCompetitors] = useState([]);
   const [groupByComp, setGroupByComp] = useState([]);
+  const [teams, setTeams] = useState([]);
   const [katas, setKatas] = useState([]);
   const [category, setCategory] = useState("default");
-  const [blinking, setBlinking] = useState({ comp: false, kata: false });
+  const [blinking, setBlinking] = useState({
+    comp: false,
+    team: false,
+    kata: false,
+  });
   const [isPinRight, setIsPinRight] = useState(false);
-  const [isDefault, setIsDefault] = useState(true);
+  const [isDefault, setIsDefault] = useState({
+    modality: true,
+    category: true,
+  });
   const [showNotification, setShowNotification] = useState(false);
   const [notificationTitle, setNotificationTitle] = useState("");
   const [notificationBody, setNotificationBody] = useState("");
@@ -41,28 +48,12 @@ function App() {
     teamKummite: false,
     credits: false,
   });
-
-  const mergeCompetitors = (jsonResources) => {
-    const groupedCompetitors = {};
-    jsonResources.forEach((resource) => {
-      const key = `${resource.number}-${resource.name}-${resource.team}`;
-      if (groupedCompetitors[key]) {
-        groupedCompetitors[key].category.push(resource.category);
-      } else {
-        groupedCompetitors[key] = {
-          ...resource,
-          category: [resource.category],
-        };
-      }
-    });
-    const mergedCompetitors = Object.values(groupedCompetitors);
-    return mergedCompetitors;
-  };
+  const [modality, setModality] = useState("default");
 
   useEffect(() => {
-    setNewCompetitors(mergeCompetitors(competitors));
-  }, [competitors]);
-
+    setIsDefault((prevState) => ({ ...prevState, modality: true }));
+    setModality("default");
+  }, [currentPage]);
   return (
     <div className="App">
       {isPinRight ? (
@@ -76,6 +67,7 @@ function App() {
             isMenuOpen={isMenuOpen}
             setIsMenuOpen={setIsMenuOpen}
             setCompetitors={setCompetitors}
+            setTeams={setTeams}
             setKatas={setKatas}
             blinking={blinking}
             currentPage={currentPage}
@@ -100,7 +92,8 @@ function App() {
           path="/eliminationdraw"
           element={
             <GroupDraw
-              competitors={newCompetitors}
+              competitors={competitors}
+              teams={teams}
               draw="elimination"
               isMenuOpen={isMenuOpen}
               setIsMenuOpen={setIsMenuOpen}
@@ -110,6 +103,8 @@ function App() {
               setIsDefault={setIsDefault}
               category={category}
               setCategory={setCategory}
+              modality={modality}
+              setModality={setModality}
               showNotification={showNotification}
               setShowNotification={setShowNotification}
               notificationTitle={notificationTitle}
@@ -127,7 +122,8 @@ function App() {
           path="/groupdraw"
           element={
             <GroupDraw
-              competitors={newCompetitors}
+              competitors={competitors}
+              teams={teams}
               groupByComp={groupByComp}
               setGroupByComp={setGroupByComp}
               draw="group"
@@ -172,7 +168,7 @@ function App() {
           element={
             <KataElim
               match="kata"
-              competitors={newCompetitors}
+              competitors={competitors}
               katas={katas}
               isMenuOpen={isMenuOpen}
               setIsMenuOpen={setIsMenuOpen}
@@ -194,7 +190,7 @@ function App() {
           element={
             <KataFinal
               match="katafinal"
-              competitors={newCompetitors}
+              competitors={competitors}
               katas={katas}
               isMenuOpen={isMenuOpen}
               setIsMenuOpen={setIsMenuOpen}
@@ -237,7 +233,7 @@ function App() {
           element={
             <Kumite
               match="kumite"
-              competitors={newCompetitors}
+              competitors={competitors}
               isMenuOpen={isMenuOpen}
               setIsMenuOpen={setIsMenuOpen}
               blinking={blinking}
@@ -258,7 +254,7 @@ function App() {
           element={
             <TeamKumite
               match="teamkumite"
-              competitors={newCompetitors}
+              competitors={competitors}
               isMenuOpen={isMenuOpen}
               setIsMenuOpen={setIsMenuOpen}
               blinking={blinking}
