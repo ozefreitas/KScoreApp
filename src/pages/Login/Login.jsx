@@ -6,6 +6,7 @@ export default function Login({ isPinRight, setIsPinRight }) {
   const [pin, setPin] = useState("");
   const [error, setError] = useState("");
   const [numberAttempts, setNumberAttempts] = useState(0);
+  const [blocked, setBlocked] = useState(false)
 
   const navigate = useNavigate();
   const login_pin = "1234";
@@ -23,9 +24,11 @@ export default function Login({ isPinRight, setIsPinRight }) {
       setNumberAttempts(numberAttempts + 1);
       if (numberAttempts < 3) {
         setError(`PIN Incorreto. ${3 - numberAttempts} tentativas restantes.`);
-        document.getElementById("login_form").reset();
+        setPin("")
       } else {
 				setError('Número máximo de tentativas alcançado. \nAplicação está agora BLOQUEADA!\n Chamar administrador.');
+        setPin("")
+        setBlocked(true)
       }
 
     }
@@ -45,8 +48,9 @@ export default function Login({ isPinRight, setIsPinRight }) {
               value={pin}
               onChange={handleChange}
               maxLength={4} // Limit the input to 4 characters
+              disabled={blocked}
             />
-            <button className={styles.loginButton} type="submit">Login</button>
+            <button className={styles.loginButton} type="submit" disabled={blocked}>Login</button>
             {error && <p style={{ color: "red", fontSize: "1.5vw", whiteSpace: 'pre-line' }}>{error}</p>}
           </form>
         </div>

@@ -1,8 +1,34 @@
 .matchesDiv {
+  width: 80%;
   margin-top: 120px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 2vw;
+}
+
+.finalButton {
+  width: 20%;
+  display: inline-block;
+  background-color: #bf0303;
+  color: white;
+  border: none;
+  padding: 15px;
+  font-size: 2vw;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.matchTypeButton {
+  width: 30%;
+  display: inline-block;
+  background-color: #bf0303;
+  color: white;
+  border: none;
+  padding: 15px;
+  font-size: 2vw;
+  border-radius: 20px;
+  cursor: pointer;
 }
 
 .downloadButton {
@@ -18,6 +44,7 @@
 }
 
 .eachMatch {
+  width: 75%;
   padding: 20px;
   font-size: 2vw;
   text-align: center;

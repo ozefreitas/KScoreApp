@@ -10,7 +10,7 @@ export default function Header({
   setModality,
   isDefault,
   setIsDefault,
-}) {
+}) { 
   useEffect(() => {
     function selectElement(id, valueToSelect) {
       let element = document.getElementById(id);

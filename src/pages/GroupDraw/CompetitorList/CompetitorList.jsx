@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import CompetitorItem from "../CompetitorItem/CompetitorItem";
 import FileMissing from "../../../components/FileMissing/FileMissing";
 import styles from "./competitorlist.module.css";
+import { executeScroll, shuffleArray } from "../../../utils";
 
 export default function CompetitorList({
   draw,
@@ -29,35 +30,73 @@ export default function CompetitorList({
   const [compToChange, setCompToChange] = useState({});
   const [teamToChange, setTeamToChange] = useState({});
   const [drawIsSet, setDrawIsSet] = useState(false);
+  const [currentNumber, setCurrentNumber] = useState(0);
 
-  const ScrollDraw = useCallback(() => {
-    const executeScroll = () =>
-      drawRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-    if (category !== "default" && competitors.length === 0) {
-      setShowNotification(true);
-      setNotificationTitle("Ficheiro não detetado");
-      setNotificationBody("Inserir ficheiro com lista de competidores");
-    } else if (category !== "default") {
-      executeScroll();
-    } else {
-      setShowNotification(true);
-      setNotificationTitle("Escalão não detetado");
-      setNotificationBody("Selecionar Escalão para proceder a sorteio");
-    }
-  }, [
-    category,
-    competitors,
-    drawRef,
-    setNotificationBody,
-    setNotificationTitle,
-    setShowNotification,
-  ]);
+  const ScrollDraw = useCallback(
+    (ref) => {
+      if (modality === "default" && category === "default") {
+        setShowNotification(true);
+        setNotificationTitle("Modalidade e categoria não encontradas");
+        setNotificationBody(
+          "Selecionar primeiro uma modalidade e a seguir uma categoria."
+        );
+        return false;
+      } else if (modality === "default" && category !== "default") {
+        setShowNotification(true);
+        setNotificationTitle("Modalidade não selecionada");
+        setNotificationBody("Selecionar Modalidade para proceder a sorteio.");
+        return false;
+      } else if (modality !== "default" && category === "default") {
+        if (modality === "Individual") {
+          if (competitors.length === 0) {
+            setShowNotification(true);
+            setNotificationTitle("Ficheiro não detetado");
+            setNotificationBody("Inserir ficheiro com lista de competidores.");
+          } else {
+            setShowNotification(true);
+            setNotificationTitle("Escalão não selecionado");
+            setNotificationBody("Selecionar Escalão para proceder a sorteio.");
+          }
+        } else if (teams.length === 0) {
+          setShowNotification(true);
+          setNotificationTitle("Ficheiro não detetado");
+          setNotificationBody("Inserir ficheiro com lista das equipas.");
+        } else {
+          setShowNotification(true);
+          setNotificationTitle("Escalão não selecionado");
+          setNotificationBody("Selecionar Escalão para proceder a sorteio.");
+        }
+        return false;
+      } else if (modality !== "default" && category !== "default") {
+        if (modality === "Individual" && competitors.length === 0) {
+          setShowNotification(true);
+          setNotificationTitle("Ficheiro não detetado");
+          setNotificationBody("Inserir ficheiro com lista de competidores.");
+        } else if (modality === "Equipa" && teams.length === 0) {
+          setShowNotification(true);
+          setNotificationTitle("Ficheiro não detetado");
+          setNotificationBody("Inserir ficheiro com lista das equipas.");
+        } else {
+          executeScroll(ref);
+          return true;
+        }
+        return false;
+      }
+    },
+    [
+      category,
+      modality,
+      competitors,
+      teams,
+      setNotificationBody,
+      setNotificationTitle,
+      setShowNotification,
+    ]
+  );
 
-  const ScrollTop = useCallback(() => {
-    const executeScroll = () =>
-      topRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-    executeScroll();
-  }, [topRef]);
+  const ScrollTop = useCallback((ref) => {
+    executeScroll(ref);
+  }, []);
 
   // update the competitors when category change
   useEffect(() => {
@@ -68,6 +107,7 @@ export default function CompetitorList({
       }
     });
     setCompList(updatedCompList);
+    setCurrentNumber(Object.keys(updatedCompList).length);
     setGroups([]);
     setCompToChange(updatedCompList);
     setBlinking(false);
@@ -76,7 +116,7 @@ export default function CompetitorList({
       setShowNotification(true);
       setNotificationTitle("Escalão alterado");
       setNotificationBody("Sorteio eliminado por mudança de escalão.");
-      ScrollTop();
+      ScrollTop(topRef);
       setDrawIsSet(false);
       setDeleteDraw(true);
     }
@@ -91,13 +131,6 @@ export default function CompetitorList({
     setNotificationTitle,
     setNotificationBody,
   ]);
-
-  function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-  }
 
   const generateUniqueRandomNumbers = useCallback((min, max) => {
     const numbers = [];
@@ -120,24 +153,38 @@ export default function CompetitorList({
   const handleSubmit = useCallback(
     (event, indivOrTeam) => {
       event.preventDefault();
-
-      let keys = Object.keys(compToChange);
-      let filtered = keys.filter((key) => {
-        return compToChange[key];
-      });
+      let filtered;
+      if (indivOrTeam === "Individual") {
+        let keys = Object.keys(compToChange);
+        filtered = keys.filter((key) => {
+          return compToChange[key];
+        });
+      } else {
+        let keys = Object.keys(teamToChange);
+        filtered = keys.filter((key) => {
+          return teamToChange[key];
+        });
+      }
 
       const randomNumber = generateUniqueRandomNumbers(1, filtered.length);
       const generatedGroups = generateGroups(randomNumber, 4);
       setGroups(generatedGroups);
-      setCompList(compToChange);
-      ScrollDraw();
-      setRunDraw(true);
-      setDrawIsSet(true);
+      if (indivOrTeam === "Individual") {
+        setCompList(compToChange);
+      } else {
+        setCompList(teamToChange);
+      }
+      if (ScrollDraw(drawRef)) {
+        setRunDraw(true);
+        setDrawIsSet(true);
+      }
     },
     [
       ScrollDraw,
       compToChange,
+      teamToChange,
       setGroups,
+      drawRef,
       setCompList,
       setRunDraw,
       setDrawIsSet,
@@ -148,10 +195,10 @@ export default function CompetitorList({
   const handleKeyPress = useCallback(
     (event) => {
       if (event.key === "Enter") {
-        handleSubmit(event);
+        handleSubmit(event, modality);
       }
     },
-    [handleSubmit]
+    [handleSubmit, modality]
   );
 
   const handleClick = () => {
@@ -167,7 +214,7 @@ export default function CompetitorList({
     setCategory("default");
     setIsDefault({ modality: true, category: true });
     setModality("default");
-    ScrollTop();
+    ScrollTop(topRef);
     setDeleteDraw(true);
     setDrawIsSet(false);
   };
@@ -186,7 +233,7 @@ export default function CompetitorList({
     <div className={styles.centerForm}>
       <form
         id="group_form"
-        onSubmit={handleSubmit}
+        onSubmit={(event) => handleSubmit(event, modality)}
         className={styles.notHidden}
       >
         <FileMissing
@@ -210,6 +257,7 @@ export default function CompetitorList({
                     competitor={competitor}
                     compToChange={compToChange}
                     setCompToChange={setCompToChange}
+                    setCurrentNumber={setCurrentNumber}
                   ></CompetitorItem>
                 ))
             : competitors.map((competitor, index) => (
@@ -219,6 +267,7 @@ export default function CompetitorList({
                   competitor={competitor}
                   compToChange={compToChange}
                   setCompToChange={setCompToChange}
+                  setCurrentNumber={setCurrentNumber}
                 ></CompetitorItem>
               ))
           : modality === "Equipa"
@@ -232,6 +281,7 @@ export default function CompetitorList({
                     team={team}
                     teamToChange={teamToChange}
                     setTeamToChange={setTeamToChange}
+                    setCurrentNumber={setCurrentNumber}
                   ></CompetitorItem>
                 ))
             : teams.map((team, index) => (
@@ -241,6 +291,7 @@ export default function CompetitorList({
                   team={team}
                   teamToChange={teamToChange}
                   setTeamToChange={setTeamToChange}
+                  setCurrentNumber={setCurrentNumber}
                 ></CompetitorItem>
               ))
           : ""}
@@ -252,7 +303,7 @@ export default function CompetitorList({
           onKeyDown={handleKeyPress}
           className={styles.drawButton}
         >
-          Iniciar Sorteio
+          Iniciar Sorteio com {currentNumber} participantes
         </button>
         <button onClick={handleClick} className={styles.clearButton}>
           Limpar

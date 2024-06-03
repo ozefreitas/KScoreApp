@@ -1,6 +1,7 @@
 import styles from "./matchesdraw.module.css";
 import FileMissing from "../../components/FileMissing/FileMissing";
 import Header from "../../components/Header/Header";
+import { shuffleArray } from "../../utils";
 import { useEffect, useState, useCallback } from "react";
 
 export default function MatchesDraw({
@@ -15,24 +16,6 @@ export default function MatchesDraw({
   const [uniquePairs, setUniquePairs] = useState({});
   const ipcRenderer = window.ipcRenderer;
   const matchesByGroup = {};
-
-  const shuffleArray = (array) => {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-  };
-
-  // const shuffleInnerArrays = (obj) => {
-  //   const shuffledObj = {};
-  //   for (const key in obj) {
-  //     if (obj.hasOwnProperty(key)) {
-  //       shuffledObj[key] = shuffleArray([...obj[key]]); // Shuffle the inner arrays
-  //     }
-  //   }
-  //   return shuffledObj;
-  // };
 
   const minimizeRepetitions = (array) => {
     for (let i = 0; i < array.length - 1; i++) {
@@ -185,7 +168,6 @@ export default function MatchesDraw({
         i[1].split("|")[1],
       ]);
     }
-    console.log(data);
     const drawFile = `${category.split(" ").join("_")}_Partidas_Grupo_${
       parseInt(groupNumber) + 1
     }.xlsx`;

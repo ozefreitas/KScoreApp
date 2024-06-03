@@ -54,6 +54,7 @@ function App() {
     setIsDefault((prevState) => ({ ...prevState, modality: true }));
     setModality("default");
   }, [currentPage]);
+  
   return (
     <div className="App">
       {isPinRight ? (
