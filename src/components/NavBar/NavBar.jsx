@@ -10,6 +10,9 @@ export default function NavBar({
   blinking,
   currentPage,
   setCurrentPage,
+  setShowNotification,
+  setNotificationTitle,
+  setNotificationBody,
 }) {
   const handleClickCompetitor = () => {
     document.getElementById("Competitor_Picker").click();
@@ -73,15 +76,26 @@ export default function NavBar({
     const content = fileReader.result;
     const jsonResources = JSON.parse(content);
     const groupedCompetitors = {};
-    jsonResources.forEach((resource) => {
-      const key = `${resource.number}-${resource.name}-${resource.team}`;
-      if (groupedCompetitors[key]) {
-        groupedCompetitors[key].category.push(resource.category);
+    const neededKeys = ["number", "name", "team", "category", "favorite"];
+    jsonResources.forEach((resource, index) => {
+      if (neededKeys.every((key) => Object.keys(resource).includes(key))) {
+        const key = `${resource.number}-${resource.name}-${resource.team}`;
+        console.log(key);
+        if (groupedCompetitors[key]) {
+          groupedCompetitors[key].category.push(resource.category);
+        } else {
+          groupedCompetitors[key] = {
+            ...resource,
+            category: [resource.category],
+          };
+        }
       } else {
-        groupedCompetitors[key] = {
-          ...resource,
-          category: [resource.category],
-        };
+        setShowNotification(true);
+        setNotificationTitle("ERRO - ficheiro não suportado");
+        setNotificationBody(
+          "Certifique-se que o ficheiro fornecido é da lista dos competidores."
+        );
+        jsonResources.length = index + 1; // break
       }
     });
     const mergedCompetitors = Object.values(groupedCompetitors);
@@ -92,15 +106,25 @@ export default function NavBar({
     const content = fileReader.result;
     const jsonResources = JSON.parse(content);
     const groupedTeams = {};
-    jsonResources.forEach((resource) => {
-      const key = `${resource.name}-${resource.number}`;
-      groupedTeams[key] = {
-        name: `${resource.name} ${resource.number}`,
-        number: resource.number,
-        category: resource.category,
-        type: resource.type,
-        elements: resource.elements,
-      };
+    const neededKeys = ["name", "number", "category", "elements", "type"];
+    jsonResources.forEach((resource, index) => {
+      if (neededKeys.every((key) => Object.keys(resource).includes(key))) {
+        const key = `${resource.name}-${resource.number}`;
+        groupedTeams[key] = {
+          name: `${resource.name} ${resource.number}`,
+          number: resource.number,
+          category: resource.category,
+          type: resource.type,
+          elements: resource.elements,
+        };
+      } else {
+        setShowNotification(true);
+        setNotificationTitle("ERRO - ficheiro não suportado");
+        setNotificationBody(
+          "Certifique-se que o ficheiro fornecido é da lista de equipas."
+        );
+        jsonResources.length = index + 1;
+      }
     });
     const mergedTeams = Object.values(groupedTeams);
     setTeams(mergedTeams);
@@ -108,6 +132,20 @@ export default function NavBar({
 
   const handleKataRead = () => {
     const content = fileReader.result;
+    const jsonResources = JSON.parse(content);
+    const neededKeys = ["kata_number", "kata_name"];
+    jsonResources.forEach((resource, index) => {
+      if (neededKeys.every((key) => Object.keys(resource).includes(key))) {
+        return;
+      } else {
+        setShowNotification(true);
+        setNotificationTitle("ERRO - ficheiro não suportado");
+        setNotificationBody(
+          "Certifique-se que o ficheiro fornecido é da lista de Katas."
+        );
+        jsonResources.length = index + 1;
+      }
+    });
     setKatas(JSON.parse(content));
   };
 

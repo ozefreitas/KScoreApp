@@ -10,13 +10,15 @@ export default function Header({
   setModality,
   isDefault,
   setIsDefault,
-}) { 
+}) {
   useEffect(() => {
     function selectElement(id, valueToSelect) {
       let element = document.getElementById(id);
       element.value = valueToSelect;
     }
-    selectElement("categoryList", category);
+    if (draw === "group" || draw === "elimination" || draw === "matches") {
+      selectElement("categoryList", category);
+    }
   }, [category]);
 
   let matchType;
@@ -108,7 +110,7 @@ export default function Header({
 
   renderMatchType();
 
-  const handleCategoryChanche = (event) => {
+  const handleCategoryChange = (event) => {
     if (draw === "group" || draw === "matches" || draw === "elimination") {
       setCategory(event.target.value);
       if (event.target.value !== "default") {
@@ -123,7 +125,7 @@ export default function Header({
     }
   };
 
-  const handleModChanche = (event) => {
+  const handleModChange = (event) => {
     setModality(event.target.value);
     if (event.target.value !== "default") {
       setIsDefault((prevState) => ({ ...prevState, modality: false }));
@@ -158,7 +160,7 @@ export default function Header({
             className={`${styles.modInput} ${
               isDefault.modality ? styles.valueDefault : ""
             }`}
-            onChange={handleModChanche}
+            onChange={handleModChange}
           >
             <option value="default">Selecionar</option>
             <option value="Individual">Individual</option>
@@ -177,10 +179,10 @@ export default function Header({
           className={`${styles.categoryInput} ${
             isDefault.category ? styles.valueDefault : ""
           }`}
-          onChange={handleCategoryChanche}
+          onChange={handleCategoryChange}
         >
           <option value="default">Selecionar Categoria</option>
-          {modality === "Individual"
+          {modality === "Individual" || modality === undefined
             ? optionsIndiv.map((option, index) => (
                 <option key={index} value={option}>
                   {option}

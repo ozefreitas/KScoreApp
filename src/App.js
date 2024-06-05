@@ -13,6 +13,7 @@ import Login from "./pages/Login/Login";
 import GroupDraw from "./pages/GroupDraw/GroupDraw";
 import MatchesDraw from "./pages/MatchesDraw/MatchesDraw";
 import Credits from "./pages/Credits/Credits";
+import CustomNotification from "./components/CustomNotification/CustomNotification";
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -54,7 +55,7 @@ function App() {
     setIsDefault((prevState) => ({ ...prevState, modality: true }));
     setModality("default");
   }, [currentPage]);
-  
+
   return (
     <div className="App">
       {isPinRight ? (
@@ -73,8 +74,23 @@ function App() {
             blinking={blinking}
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
+            setShowNotification={setShowNotification}
+            setNotificationTitle={setNotificationTitle}
+            setNotificationBody={setNotificationBody}
           ></NavBar>
         </div>
+      ) : (
+        ""
+      )}
+      {showNotification ? (
+        <CustomNotification
+          setShowNotification={setShowNotification}
+          title={notificationTitle}
+          body={notificationBody}
+          actions={actions}
+          setActions={setActions}
+          setProceed={setProceed}
+        ></CustomNotification>
       ) : (
         ""
       )}
@@ -173,7 +189,6 @@ function App() {
               katas={katas}
               isMenuOpen={isMenuOpen}
               setIsMenuOpen={setIsMenuOpen}
-              blinking={blinking}
               setBlinking={setBlinking}
               isDefault={isDefault}
               setIsDefault={setIsDefault}
@@ -195,7 +210,6 @@ function App() {
               katas={katas}
               isMenuOpen={isMenuOpen}
               setIsMenuOpen={setIsMenuOpen}
-              blinking={blinking}
               setBlinking={setBlinking}
               isDefault={isDefault}
               setIsDefault={setIsDefault}
@@ -216,7 +230,6 @@ function App() {
               katas={katas}
               isMenuOpen={isMenuOpen}
               setIsMenuOpen={setIsMenuOpen}
-              blinking={blinking}
               setBlinking={setBlinking}
               isDefault={isDefault}
               setIsDefault={setIsDefault}
@@ -237,7 +250,6 @@ function App() {
               competitors={competitors}
               isMenuOpen={isMenuOpen}
               setIsMenuOpen={setIsMenuOpen}
-              blinking={blinking}
               setBlinking={setBlinking}
               isDefault={isDefault}
               setIsDefault={setIsDefault}
@@ -258,7 +270,6 @@ function App() {
               competitors={competitors}
               isMenuOpen={isMenuOpen}
               setIsMenuOpen={setIsMenuOpen}
-              blinking={blinking}
               setBlinking={setBlinking}
               isDefault={isDefault}
               setIsDefault={setIsDefault}

@@ -103,7 +103,7 @@ export default function CompetitorList({
     const updatedCompList = {};
     competitors.forEach((competitor) => {
       if (competitor.category.includes(category)) {
-        updatedCompList[`${competitor.name}|${competitor.number}`] = true;
+        updatedCompList[`${competitor.name}|${competitor.number}|${competitor.team}`] = true;
       }
     });
     setCompList(updatedCompList);

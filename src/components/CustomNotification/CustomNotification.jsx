@@ -27,6 +27,7 @@ export default function CustomNotification({
       document.removeEventListener("keydown", handleKeyPress);
     };
   }, [handleKeyPress]);
+
   return (
     <div className={styles.wideBody}>
       <div className={styles.notificationMainBody}>

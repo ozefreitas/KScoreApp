@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./eliminationdraw.module.css";
-import { shuffleArray } from "../../utils";
+import { shuffleArray, zerosArray } from "../../utils";
 
 export default function EliminationDraw({
   compList,
@@ -19,26 +19,116 @@ export default function EliminationDraw({
     return compList[key];
   });
 
-  const createSingleMatch = (array, byes) => {
-    const singleMatch = [];
-    for (let i = 0; i < byes; i++) {
-      const player1 = array.shift();
-      const pair = [player1, "bye"];
-      if (Math.random() > 0.5) {
-        [pair[0], pair[1]] = [pair[1], pair[0]];
+  const playerDistribution = (array) => {
+    const finalArray = [];
+    const playersPerPool = array.length / 2;
+    // resultado da primeira divisão por dois for inteiro
+    if (playersPerPool % 1 === 0) {
+      // resultado da proxima divisão por dois for decimal
+      if ((playersPerPool / 2) % 1 !== 0) {
+        finalArray.push(
+          Math.round(playersPerPool / 2),
+          Math.round(playersPerPool / 2)
+        );
+        finalArray.push(
+          Math.floor(playersPerPool / 2),
+          Math.floor(playersPerPool / 2)
+        );
+        // resultado da proxima divisão por dois for inteira
+      } else {
+        finalArray.push(
+          playersPerPool / 2,
+          playersPerPool / 2,
+          playersPerPool / 2,
+          playersPerPool / 2
+        );
       }
-      singleMatch.push(pair);
-    }
-    while (array.length >= 2) {
-      const player1 = array.shift();
-      const player2 = array.shift();
-      const pair = [player1, player2];
-      if (Math.random() > 0.5) {
-        [pair[0], pair[1]] = [pair[1], pair[0]];
+      // resultado da primeira divisão por dois for decimal
+    } else {
+      const max = Math.round(playersPerPool);
+      // se o valor por excesso dividido por dois for inteiro
+      if ((max / 2) % 1 === 0) {
+        finalArray.push(max / 2, max / 2);
+        // se o valor por excesso dividido por dois for decimal
+      } else {
+        finalArray.push(Math.round(max / 2), Math.floor(max / 2));
       }
-      singleMatch.push(pair);
+      const min = Math.floor(playersPerPool);
+      // se o valor por defeito dividido por dois for inteiro
+      if ((min / 2) % 1 === 0) {
+        finalArray.push(min / 2, min / 2);
+        // se o valor por defeito dividido por dois for decimal
+      } else {
+        finalArray.push(Math.round(min / 2), Math.floor(min / 2));
+      }
     }
-    return singleMatch;
+    return shuffleArray(finalArray);
+  };
+
+  const insertPlayersToPool = (array, pool) => {
+    const cloneArray = [...array];
+    const allowedPlayers = playerDistribution(array);
+    const drawStructure = zerosArray(pool);
+    let i = 0;
+    while (i < allowedPlayers.length) {
+      let j = 0;
+      while (j < allowedPlayers[i]) {
+        for (let comp of cloneArray) {
+          if (!drawStructure[i].includes(comp)) {
+            drawStructure[i][j] = comp;
+            const index = cloneArray.indexOf(comp);
+            cloneArray.splice(index, 1);
+            break;
+          } else {
+            continue;
+          }
+        }
+        if (
+          drawStructure[i].filter((x) => x === 0).length ===
+          4 - allowedPlayers[i]
+        ) {
+          for (let x = 0; x < drawStructure[i].length; x++) {
+            if (drawStructure[i][x] === 0) {
+              drawStructure[i][x] = "bye";
+            }
+          }
+          break;
+        }
+        j++;
+      }
+      i++;
+    }
+    return drawStructure;
+  };
+
+  const createSingleMatch = (array, poolSize) => {
+    const pooling = insertPlayersToPool(array, poolSize);
+    const poolMatches = [];
+    for (let finalPool of pooling) {
+      const byes = poolSize - finalPool.filter((comp) => comp !== "bye").length;
+      const matchNumber =
+        (finalPool.filter((comp) => comp !== "bye").length - byes) / 2;
+      const singleMatch = [];
+      if (matchNumber !== 0) {
+        let partidas = 0;
+        while (partidas <= matchNumber) {
+          const player1 = finalPool.shift();
+          const player2 = finalPool.shift();
+          const pair = [player1, player2];
+          singleMatch.push(pair);
+          partidas++;
+        }
+      } else {
+        while (finalPool.length >= 2) {
+          const player1 = finalPool.shift();
+          const player2 = finalPool.pop();
+          const pair = [player1, player2];
+          singleMatch.push(pair);
+        }
+      }
+      poolMatches.push(singleMatch);
+    }
+    return poolMatches;
   };
 
   const createMatches = () => {
@@ -48,24 +138,24 @@ export default function EliminationDraw({
       const matches = createSingleMatch(shuffledPlayers, 0);
       return matches;
     } else if (shuffledPlayers.length > 2 && shuffledPlayers.length <= 4) {
-      const byeNumber = 4 - shuffledPlayers.length;
-      const matches = createSingleMatch(shuffledPlayers, byeNumber);
+      const poolSize = 4 / 4;
+      const matches = createSingleMatch(shuffledPlayers, poolSize);
       return matches;
     } else if (shuffledPlayers.length > 4 && shuffledPlayers.length <= 8) {
-      const byeNumber = 8 - shuffledPlayers.length;
-      const matches = createSingleMatch(shuffledPlayers, byeNumber);
+      const poolSize = 8 / 4;
+      const matches = createSingleMatch(shuffledPlayers, poolSize);
       return matches;
     } else if (shuffledPlayers.length > 8 && shuffledPlayers.length <= 16) {
-      const byeNumber = 16 - shuffledPlayers.length;
-      const matches = createSingleMatch(shuffledPlayers, byeNumber);
+      const poolSize = 16 / 4;
+      const matches = createSingleMatch(shuffledPlayers, poolSize);
       return matches;
     } else if (shuffledPlayers.length > 16 && shuffledPlayers.length <= 32) {
-      const byeNumber = 32 - shuffledPlayers.length;
-      const matches = createSingleMatch(shuffledPlayers, byeNumber);
+      const poolSize = 32 / 4;
+      const matches = createSingleMatch(shuffledPlayers, poolSize);
       return matches;
     } else if (shuffledPlayers.length > 32 && shuffledPlayers.length <= 64) {
-      const byeNumber = 64 - shuffledPlayers.length;
-      const matches = createSingleMatch(shuffledPlayers, byeNumber);
+      const poolSize = 64 / 4;
+      const matches = createSingleMatch(shuffledPlayers, poolSize);
       return matches;
     }
     return matches;
@@ -76,6 +166,7 @@ export default function EliminationDraw({
       if (filtered.length >= playersInFinals) {
         setAllMatches(shuffleArray(createMatches()));
         setRunDraw(false);
+        console.log(allMatches);
       }
     }
     if (deleteDraw) {
@@ -174,11 +265,15 @@ export default function EliminationDraw({
         ""
       )}
       {filtered.length > playersInFinals || matchType === "Kumite"
-        ? allMatches.map((match, index) => (
-            <div key={index} className={styles.eachMatch}>
-              {match[0].split("|")[0]} {match[0].split("|")[1]} vs{" "}
-              {match[1].split("|")[0]} {match[1].split("|")[1]}
-            </div>
+        ? allMatches.map((pool, index) => (
+            <>
+              {pool.map((match, index) => (
+                <div key={index} className={styles.eachMatch}>
+                  {match[0].split("|")[0]} {match[0].split("|")[1]} vs{" "}
+                  {match[1].split("|")[0]} {match[1].split("|")[1]}
+                </div>
+              ))}
+            </>
           ))
         : shuffleArray(filtered).map((comp, index) => (
             <div key={index} className={styles.eachMatch}>

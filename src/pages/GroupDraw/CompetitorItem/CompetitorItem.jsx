@@ -13,7 +13,7 @@ export default function CompetitorItem({
   const handleCompChange = (event) => {
     const compChange = { ...compToChange };
     const { name, value, checked } = event.target;
-    compChange[`${name}|${value}`] = checked;
+    compChange[`${name}|${value.split(" ")[0]}|${value.split(" ")[1]}`] = checked;
     setCompToChange(compChange);
     let keys = Object.keys(compChange);
     let filtered = keys.filter((key) => {
@@ -46,7 +46,7 @@ export default function CompetitorItem({
                 type="checkbox"
                 id={competitor.number}
                 name={competitor.name}
-                value={competitor.number}
+                value={`${competitor.number} ${competitor.team}`}
                 className={styles.checkBoxPosition}
                 onChange={handleCompChange}
                 defaultChecked
