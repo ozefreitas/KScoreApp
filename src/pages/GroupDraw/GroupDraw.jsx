@@ -35,15 +35,16 @@ export default function GroupDraw({
   setProceed,
 }) {
   const [compList, setCompList] = useState({});
+  const [teamList, setTeamList] = useState({});
   const [groups, setGroups] = useState([]);
   const [runDraw, setRunDraw] = useState(false);
   const [deleteDraw, setDeleteDraw] = useState(false);
   const drawRef = useRef(null);
   const topRef = useRef(null);
   // const ipcRenderer = window.ipcRenderer;
-  // ipcRenderer.on('excel-generation-error', (event, errorMessage) => {
-  //   setShowNotification(true)
-  //   setNotificationTitle("Erro na transferência")
+  // ipcRenderer.on("excel-generation-error", (event, errorMessage) => {
+  //   setShowNotification(true);
+  //   setNotificationTitle("Erro na transferência");
   //   setNotificationBody(errorMessage);
   // });
 
@@ -86,6 +87,7 @@ export default function GroupDraw({
         modality={modality}
         setModality={setModality}
         setCompList={setCompList}
+        setTeamList={setTeamList}
         setGroups={setGroups}
         drawRef={drawRef}
         topRef={topRef}
@@ -115,7 +117,9 @@ export default function GroupDraw({
           ></GroupList>
         ) : (
           <EliminationDraw
+            modality={modality}
             compList={compList}
+            teamList={teamList}
             category={category}
             runDraw={runDraw}
             setRunDraw={setRunDraw}

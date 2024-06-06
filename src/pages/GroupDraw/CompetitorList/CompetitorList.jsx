@@ -13,6 +13,7 @@ export default function CompetitorList({
   modality,
   setModality,
   setCompList,
+  setTeamList,
   setGroups,
   drawRef,
   topRef,
@@ -100,30 +101,57 @@ export default function CompetitorList({
 
   // update the competitors when category change
   useEffect(() => {
-    const updatedCompList = {};
-    competitors.forEach((competitor) => {
-      if (competitor.category.includes(category)) {
-        updatedCompList[`${competitor.name}|${competitor.number}|${competitor.team}`] = true;
+    if (modality === "Individual") {
+      const updatedCompList = {};
+      competitors.forEach((competitor) => {
+        if (competitor.category.includes(category)) {
+          updatedCompList[
+            `${competitor.name}|${competitor.number}|${competitor.team}`
+          ] = true;
+        }
+      });
+      setCompList(updatedCompList);
+      setCurrentNumber(Object.keys(updatedCompList).length);
+      setGroups([]);
+      setCompToChange(updatedCompList);
+      setBlinking(false);
+      setIsMenuOpen(false);
+      if (drawIsSet) {
+        setShowNotification(true);
+        setNotificationTitle("Escalão alterado");
+        setNotificationBody("Sorteio eliminado por mudança de escalão.");
+        ScrollTop(topRef);
+        setDrawIsSet(false);
+        setDeleteDraw(true);
       }
-    });
-    setCompList(updatedCompList);
-    setCurrentNumber(Object.keys(updatedCompList).length);
-    setGroups([]);
-    setCompToChange(updatedCompList);
-    setBlinking(false);
-    setIsMenuOpen(false);
-    if (drawIsSet) {
-      setShowNotification(true);
-      setNotificationTitle("Escalão alterado");
-      setNotificationBody("Sorteio eliminado por mudança de escalão.");
-      ScrollTop(topRef);
-      setDrawIsSet(false);
-      setDeleteDraw(true);
+    } else if (modality === "Equipa") {
+      const updatedTeamList = {};
+      teams.forEach((team) => {
+        if (team.category.includes(category)) {
+          updatedTeamList[`${team.name}`] = true;
+        }
+      });
+      setTeamList(updatedTeamList);
+      setCurrentNumber(Object.keys(updatedTeamList).length);
+      setGroups([]);
+      setTeamToChange(updatedTeamList);
+      setBlinking(false);
+      setIsMenuOpen(false);
+      if (drawIsSet) {
+        setShowNotification(true);
+        setNotificationTitle("Escalão alterado");
+        setNotificationBody("Sorteio eliminado por mudança de escalão.");
+        ScrollTop(topRef);
+        setDrawIsSet(false);
+        setDeleteDraw(true);
+      }
     }
   }, [
     competitors,
+    teams,
     category,
     setCompList,
+    setTeamList,
     setGroups,
     setBlinking,
     setIsMenuOpen,

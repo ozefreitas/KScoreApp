@@ -13,7 +13,8 @@ export default function CompetitorItem({
   const handleCompChange = (event) => {
     const compChange = { ...compToChange };
     const { name, value, checked } = event.target;
-    compChange[`${name}|${value.split(" ")[0]}|${value.split(" ")[1]}`] = checked;
+    compChange[`${name}|${value.split(" ")[0]}|${value.split(" ")[1]}`] =
+      checked;
     setCompToChange(compChange);
     let keys = Object.keys(compChange);
     let filtered = keys.filter((key) => {
@@ -24,8 +25,8 @@ export default function CompetitorItem({
 
   const handleTeamChange = (event) => {
     const teamChange = { ...teamToChange };
-    const { name, value, checked } = event.target;
-    teamChange[`${name}|${value}`] = checked;
+    const { name, checked } = event.target;
+    teamChange[`${name}`] = checked;
     setTeamToChange(teamChange);
     let keys = Object.keys(teamChange);
     let filtered = keys.filter((key) => {

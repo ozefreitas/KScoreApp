@@ -80,7 +80,6 @@ export default function NavBar({
     jsonResources.forEach((resource, index) => {
       if (neededKeys.every((key) => Object.keys(resource).includes(key))) {
         const key = `${resource.number}-${resource.name}-${resource.team}`;
-        console.log(key);
         if (groupedCompetitors[key]) {
           groupedCompetitors[key].category.push(resource.category);
         } else {
@@ -106,14 +105,14 @@ export default function NavBar({
     const content = fileReader.result;
     const jsonResources = JSON.parse(content);
     const groupedTeams = {};
-    const neededKeys = ["name", "number", "category", "elements", "type"];
+    const neededKeys = ["name", "number", "category", "type"];
     jsonResources.forEach((resource, index) => {
       if (neededKeys.every((key) => Object.keys(resource).includes(key))) {
         const key = `${resource.name}-${resource.number}`;
         groupedTeams[key] = {
           name: `${resource.name} ${resource.number}`,
           number: resource.number,
-          category: resource.category,
+          category: `${resource.category} - ${resource.type}`,
           type: resource.type,
           elements: resource.elements,
         };

@@ -6,10 +6,7 @@ export function shuffleArray(array) {
   return array;
 }
 
-export function spaceTeams(array) {}
-
-export function zerosArray(zerosPerArray) {
-  let numberArrays = 4;
+export function zerosArray(numberArrays, zerosPerArray) {
   const array = [];
   while (numberArrays > 0) {
     const subArray = [];

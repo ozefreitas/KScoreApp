@@ -3,7 +3,9 @@ import styles from "./eliminationdraw.module.css";
 import { shuffleArray, zerosArray } from "../../utils";
 
 export default function EliminationDraw({
+  modality,
   compList,
+  teamList,
   category,
   runDraw,
   setRunDraw,
@@ -13,53 +15,59 @@ export default function EliminationDraw({
   const [allMatches, setAllMatches] = useState([]);
   const [playersInFinals, setPlayersInFinals] = useState(8);
   const [matchType, setMatchType] = useState("Kata");
+  const [filtered, setFiltered] = useState([]);
   const ipcRenderer = window.ipcRenderer;
-  let keys = Object.keys(compList);
-  let filtered = keys.filter((key) => {
-    return compList[key];
-  });
 
-  const playerDistribution = (array) => {
+  const playerDistribution = (players, poolSize) => {
     const finalArray = [];
-    const playersPerPool = array.length / 2;
-    // resultado da primeira divisão por dois for inteiro
-    if (playersPerPool % 1 === 0) {
-      // resultado da proxima divisão por dois for decimal
-      if ((playersPerPool / 2) % 1 !== 0) {
-        finalArray.push(
-          Math.round(playersPerPool / 2),
-          Math.round(playersPerPool / 2)
-        );
-        finalArray.push(
-          Math.floor(playersPerPool / 2),
-          Math.floor(playersPerPool / 2)
-        );
-        // resultado da proxima divisão por dois for inteira
+    if (poolSize === 1) {
+      const playersPerPool = players.length / 2;
+      if (playersPerPool % 1 === 0) {
+        finalArray.push(2, 2);
       } else {
-        finalArray.push(
-          playersPerPool / 2,
-          playersPerPool / 2,
-          playersPerPool / 2,
-          playersPerPool / 2
-        );
+        finalArray.push(Math.round(playersPerPool), Math.floor(playersPerPool));
       }
-      // resultado da primeira divisão por dois for decimal
     } else {
-      const max = Math.round(playersPerPool);
-      // se o valor por excesso dividido por dois for inteiro
-      if ((max / 2) % 1 === 0) {
-        finalArray.push(max / 2, max / 2);
-        // se o valor por excesso dividido por dois for decimal
+      const playersPerPool = players.length / 2;
+      // resultado da primeira divisão por dois for inteiro
+      if (playersPerPool % 1 === 0) {
+        // resultado da proxima divisão por dois for decimal
+        if ((playersPerPool / 2) % 1 !== 0) {
+          finalArray.push(
+            Math.round(playersPerPool / 2),
+            Math.round(playersPerPool / 2)
+          );
+          finalArray.push(
+            Math.floor(playersPerPool / 2),
+            Math.floor(playersPerPool / 2)
+          );
+          // resultado da proxima divisão por dois for inteira
+        } else {
+          finalArray.push(
+            playersPerPool / 2,
+            playersPerPool / 2,
+            playersPerPool / 2,
+            playersPerPool / 2
+          );
+        }
+        // resultado da primeira divisão por dois for decimal
       } else {
-        finalArray.push(Math.round(max / 2), Math.floor(max / 2));
-      }
-      const min = Math.floor(playersPerPool);
-      // se o valor por defeito dividido por dois for inteiro
-      if ((min / 2) % 1 === 0) {
-        finalArray.push(min / 2, min / 2);
-        // se o valor por defeito dividido por dois for decimal
-      } else {
-        finalArray.push(Math.round(min / 2), Math.floor(min / 2));
+        const max = Math.round(playersPerPool);
+        // se o valor por excesso dividido por dois for inteiro
+        if ((max / 2) % 1 === 0) {
+          finalArray.push(max / 2, max / 2);
+          // se o valor por excesso dividido por dois for decimal
+        } else {
+          finalArray.push(Math.round(max / 2), Math.floor(max / 2));
+        }
+        const min = Math.floor(playersPerPool);
+        // se o valor por defeito dividido por dois for inteiro
+        if ((min / 2) % 1 === 0) {
+          finalArray.push(min / 2, min / 2);
+          // se o valor por defeito dividido por dois for decimal
+        } else {
+          finalArray.push(Math.round(min / 2), Math.floor(min / 2));
+        }
       }
     }
     return shuffleArray(finalArray);
@@ -67,13 +75,21 @@ export default function EliminationDraw({
 
   const insertPlayersToPool = (array, pool) => {
     const cloneArray = [...array];
-    const allowedPlayers = playerDistribution(array);
-    const drawStructure = zerosArray(pool);
+    const allowedPlayers = playerDistribution(array, pool);
+    // console.log(allowedPlayers);
+    let drawStructure;
+    if (pool === 1) {
+      drawStructure = zerosArray(2, 2);
+    } else {
+      drawStructure = zerosArray(4, pool);
+      // console.log(zerosArray(4, pool))
+    }
     let i = 0;
     while (i < allowedPlayers.length) {
       let j = 0;
       while (j < allowedPlayers[i]) {
         for (let comp of cloneArray) {
+          // insert here condition to skip same team
           if (!drawStructure[i].includes(comp)) {
             drawStructure[i][j] = comp;
             const index = cloneArray.indexOf(comp);
@@ -85,7 +101,7 @@ export default function EliminationDraw({
         }
         if (
           drawStructure[i].filter((x) => x === 0).length ===
-          4 - allowedPlayers[i]
+          pool - allowedPlayers[i]
         ) {
           for (let x = 0; x < drawStructure[i].length; x++) {
             if (drawStructure[i][x] === 0) {
@@ -102,24 +118,36 @@ export default function EliminationDraw({
   };
 
   const createSingleMatch = (array, poolSize) => {
+    // console.log(array);
     const pooling = insertPlayersToPool(array, poolSize);
+    // console.log(insertPlayersToPool(array, poolSize));
     const poolMatches = [];
     for (let finalPool of pooling) {
-      const byes = poolSize - finalPool.filter((comp) => comp !== "bye").length;
+      // console.log(finalPool);
+      const byes =
+        (poolSize === 1 ? 2 : poolSize) -
+        finalPool.filter((comp) => comp !== "bye").length;
+      // console.log(byes);
       const matchNumber =
         (finalPool.filter((comp) => comp !== "bye").length - byes) / 2;
+      // console.log(matchNumber);
       const singleMatch = [];
-      if (matchNumber !== 0) {
+      if (matchNumber !== 0 && poolSize !== 8) {
         let partidas = 0;
-        while (partidas <= matchNumber) {
+        while (partidas < poolSize && partidas <= matchNumber) {
           const player1 = finalPool.shift();
           const player2 = finalPool.shift();
           const pair = [player1, player2];
+          // console.log(partidas);
           singleMatch.push(pair);
+          if (finalPool.length === 0) {
+            break;
+          }
           partidas++;
         }
-      } else {
+      } else if (matchNumber === 0 || poolSize === 8) {
         while (finalPool.length >= 2) {
+          // console.log(finalPool.length);
           const player1 = finalPool.shift();
           const player2 = finalPool.pop();
           const pair = [player1, player2];
@@ -131,11 +159,11 @@ export default function EliminationDraw({
     return poolMatches;
   };
 
-  const createMatches = () => {
-    const shuffledPlayers = shuffleArray(filtered.slice());
+  const createMatches = (mainArray) => {
+    const shuffledPlayers = shuffleArray(mainArray.slice());
     const matches = [];
     if (shuffledPlayers.length === 2) {
-      const matches = createSingleMatch(shuffledPlayers, 0);
+      const matches = [[[shuffledPlayers[0], shuffledPlayers[1]]]];
       return matches;
     } else if (shuffledPlayers.length > 2 && shuffledPlayers.length <= 4) {
       const poolSize = 4 / 4;
@@ -162,12 +190,36 @@ export default function EliminationDraw({
   };
 
   useEffect(() => {
+    if (modality === "Individual") {
+      let keys = Object.keys(compList);
+      let interArray = keys.filter((key) => {
+        return compList[key];
+      });
+      setFiltered(interArray);
+    } else if (modality === "Equipa") {
+      let keys = Object.keys(teamList);
+      let interArray = keys.filter((key) => {
+        return teamList[key];
+      });
+      setFiltered(interArray);
+    }
     if (runDraw) {
-      if (filtered.length >= playersInFinals) {
-        setAllMatches(shuffleArray(createMatches()));
-        setRunDraw(false);
-        console.log(allMatches);
+      if (modality === "Individual") {
+        let keys = Object.keys(compList);
+        let interArray = keys.filter((key) => {
+          return compList[key];
+        });
+        setFiltered(interArray);
+      } else if (modality === "Equipa") {
+        let keys = Object.keys(teamList);
+        let interArray = keys.filter((key) => {
+          return teamList[key];
+        });
+        setFiltered(interArray);
       }
+      // console.log(filtered);
+      setAllMatches(shuffleArray(createMatches(filtered)));
+      setRunDraw(false);
     }
     if (deleteDraw) {
       setAllMatches([]);
@@ -180,7 +232,10 @@ export default function EliminationDraw({
     deleteDraw,
     setDeleteDraw,
     playersInFinals,
-    filtered,
+    modality,
+    setFiltered,
+    compList,
+    teamList,
   ]);
 
   function triggerExcelGenerationWithData(data, file) {
@@ -189,8 +244,8 @@ export default function EliminationDraw({
 
   const handleClick = () => {
     const data = [];
-    data.splice(0, 0, ["", "", ""]);
-    data.splice(0, 0, ["Cinto", "Nome", "Dorsal"]);
+    data.splice(0, 0, ["", "", "", ""]);
+    data.splice(0, 0, ["Cinto", "Nome", "Dorsal", "Dojo"]);
     if (filtered.length <= playersInFinals && matchType === "Kata") {
       for (let i = 0; i < filtered.length; i++) {
         let cinto;
@@ -203,54 +258,80 @@ export default function EliminationDraw({
           cinto,
           filtered[i].split("|")[0],
           filtered[i].split("|")[1],
+          filtered[i].split("|")[2],
         ]);
       }
     } else {
-      for (let indivMatch of allMatches) {
-        const byeIndex = indivMatch.indexOf("bye");
-        if (byeIndex === 0) {
-          data.push(
-            ["Aka", "bye", ""],
-            ["", "vs", ""],
-            ["Shiro", indivMatch[1].split("|")[0], indivMatch[1].split("|")[1]]
-          );
-        } else if (byeIndex === 1) {
-          data.push(
-            ["Aka", indivMatch[0].split("|")[0], indivMatch[0].split("|")[1]],
-            ["", "vs", ""],
-            ["Shiro", "bye", ""]
-          );
-        } else {
-          data.push(
-            ["Aka", indivMatch[0].split("|")[0], indivMatch[0].split("|")[1]],
-            ["", "vs", ""],
-            ["Shiro", indivMatch[1].split("|")[0], indivMatch[1].split("|")[1]]
-          );
+      // console.log(allMatches);
+      for (let pool of allMatches) {
+        for (let indivMatch of pool) {
+          // console.log(indivMatch);
+          const byeIndex = shuffleArray(indivMatch).indexOf("bye");
+          if (byeIndex === 0) {
+            data.push(
+              ["Aka", "bye", "", ""],
+              ["", "vs", "", ""],
+              [
+                "Shiro",
+                indivMatch[1].split("|")[0],
+                indivMatch[1].split("|")[1],
+                indivMatch[1].split("|")[2],
+              ]
+            );
+          } else if (byeIndex === 1) {
+            data.push(
+              [
+                "Aka",
+                indivMatch[0].split("|")[0],
+                indivMatch[0].split("|")[1],
+                indivMatch[0].split("|")[2],
+              ],
+              ["", "vs", "", ""],
+              ["Shiro", "bye", "", ""]
+            );
+          } else {
+            data.push(
+              [
+                "Aka",
+                indivMatch[0].split("|")[0],
+                indivMatch[0].split("|")[1],
+                indivMatch[0].split("|")[2],
+              ],
+              ["", "vs", ""],
+              [
+                "Shiro",
+                indivMatch[1].split("|")[0],
+                indivMatch[1].split("|")[1],
+                indivMatch[1].split("|")[2],
+              ]
+            );
+          }
+          data.push(["", "", "", ""]);
         }
-        data.push(["", "", ""]);
       }
     }
-    const drawFile = `${category.split(" ").join("_")}_Partidas.xlsx`;
+    const drawFile = `${category.split(" ").join("_")}_Sorteio.xlsx`;
     triggerExcelGenerationWithData(data, drawFile);
   };
+  // console.log(allMatches);
 
   return (
     <div className={styles.matchesDiv}>
-      {allMatches.length !== 0 ? (
-        <button
-          title="Mudar entre Kata e Kumite"
-          className={styles.matchTypeButton}
-          onClick={() =>
-            setMatchType((prevType) =>
-              prevType === "Kata" ? "Kumite" : "Kata"
-            )
-          }
-        >
-          Categoria: <strong>{matchType}</strong>
-        </button>
-      ) : (
-        ""
-      )}
+      {allMatches.length !== 0
+        ? modality === "Individual" && (
+            <button
+              title="Mudar entre Kata e Kumite"
+              className={styles.matchTypeButton}
+              onClick={() =>
+                setMatchType((prevType) =>
+                  prevType === "Kata" ? "Kumite" : "Kata"
+                )
+              }
+            >
+              Categoria: <strong>{matchType}</strong>
+            </button>
+          )
+        : ""}
       {allMatches.length !== 0 && matchType === "Kata" ? (
         <button
           title="Se o número de atletas for inferior ao número admitido para final, irá apenas sortear a ordem dos mesmos"
