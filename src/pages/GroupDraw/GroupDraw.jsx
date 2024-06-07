@@ -47,6 +47,7 @@ export default function GroupDraw({
   //   setNotificationTitle("Erro na transferência");
   //   setNotificationBody(errorMessage);
   // });
+  console.log(teams)
 
   const ScrollTop = () => {
     const executeScroll = () =>

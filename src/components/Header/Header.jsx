@@ -74,14 +74,10 @@ export default function Header({
   ];
 
   const optionsTeam = [
-    "Infantil Masculino - Kata",
-    "Infantil Masculino - Kumite",
-    "Infantil Feminino - Kata",
-    "Infantil Feminino - Kumite",
-    "Iniciado Masculino - Kata",
-    "Iniciado Masculino - Kumite",
-    "Iniciado Feminino - Kata",
-    "Iniciado Feminino - Kumite",
+    "Infantil Misto - Kata",
+    "Infantil Misto - Kumite",
+    "Iniciado Misto - Kata",
+    "Iniciado Misto - Kumite",
     "Juvenil Masculino - Kata",
     "Juvenil Masculino - Kumite",
     "Juvenil Feminino - Kata",

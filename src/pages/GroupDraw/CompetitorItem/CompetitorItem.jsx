@@ -57,13 +57,13 @@ export default function CompetitorItem({
         : team && (
             <>
               <label htmlFor={team.number} className={styles.compLabels}>
-                {team.name}
+                {team.team} {team.team_number}
               </label>
               <input
                 type="checkbox"
-                id={team.number}
-                name={team.name}
-                value={team.number}
+                id={team.team}
+                name={team.team}
+                value={team.team_number}
                 className={styles.checkBoxPosition}
                 onChange={handleTeamChange}
                 defaultChecked

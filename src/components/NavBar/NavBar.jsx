@@ -105,17 +105,28 @@ export default function NavBar({
     const content = fileReader.result;
     const jsonResources = JSON.parse(content);
     const groupedTeams = {};
-    const neededKeys = ["name", "number", "category", "type"];
+    const neededKeys = [
+      "name",
+      "number",
+      "category",
+      "type",
+      "team_number",
+      "team",
+    ];
     jsonResources.forEach((resource, index) => {
       if (neededKeys.every((key) => Object.keys(resource).includes(key))) {
-        const key = `${resource.name}-${resource.number}`;
-        groupedTeams[key] = {
-          name: `${resource.name} ${resource.number}`,
-          number: resource.number,
-          category: `${resource.category} - ${resource.type}`,
-          type: resource.type,
-          elements: resource.elements,
-        };
+        const key = `${resource.team}-${resource.team_number}-${resource.type}-${resource.category}`;
+        if (groupedTeams[key]) {
+          groupedTeams[key].name.push(resource.name);
+          groupedTeams[key].number.push(resource.number);
+        } else {
+          groupedTeams[key] = {
+            ...resource,
+            name: [resource.name],
+            number: [resource.number],
+            category: `${resource.category} - ${resource.type}`,
+          };
+        }
       } else {
         setShowNotification(true);
         setNotificationTitle("ERRO - ficheiro não suportado");
