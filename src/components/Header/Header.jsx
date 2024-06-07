@@ -63,14 +63,14 @@ export default function Header({
     "Sénior Masculino -70Kg",
     "Sénior Masculino +70Kg",
     "Sénior Feminino -Kumite",
-    "Veterano +40A Masculino",
-    "Veterano +40A Feminino",
-    "Veterano +40A Masculino -Kumite",
-    "Veterano +40A Feminino -Kumite",
-    "Veterano +50A Masculino",
-    "Veterano +50A Feminino",
-    "Veterano +50A Masculino -Kumite",
-    "Veterano +50A Feminino -Kumite",
+    "Veterano +40 Masculino",
+    "Veterano +40 Feminino",
+    "Veterano +40 Masculino -Kumite",
+    "Veterano +40 Feminino -Kumite",
+    "Veterano +50 Masculino",
+    "Veterano +50 Feminino",
+    "Veterano +50 Masculino -Kumite",
+    "Veterano +50 Feminino -Kumite",
   ];
 
   const optionsTeam = [

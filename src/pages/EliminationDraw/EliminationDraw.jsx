@@ -73,9 +73,26 @@ export default function EliminationDraw({
     return shuffleArray(finalArray);
   };
 
+  const countCompsPerTeam = (array) => {
+    const teamCounts = {};
+
+    array.forEach((str) => {
+      const parts = str.split("|");
+      const team = parts[2];
+
+      if (teamCounts[team]) {
+        teamCounts[team]++;
+      } else {
+        teamCounts[team] = 1;
+      }
+    });
+    return teamCounts;
+  };
+
   const insertPlayersToPool = (array, pool) => {
     const cloneArray = [...array];
     const allowedPlayers = playerDistribution(array, pool);
+    const compsPerTeam = countCompsPerTeam(array);
     // console.log(allowedPlayers);
     let drawStructure;
     if (pool === 1) {
@@ -89,12 +106,39 @@ export default function EliminationDraw({
       let j = 0;
       while (j < allowedPlayers[i]) {
         for (let comp of cloneArray) {
-          // insert here condition to skip same team
+          const team = comp.split("|")[2];
           if (!drawStructure[i].includes(comp)) {
-            drawStructure[i][j] = comp;
-            const index = cloneArray.indexOf(comp);
-            cloneArray.splice(index, 1);
-            break;
+            if (pool === 1) {
+              drawStructure[i][j] = comp;
+              const index = cloneArray.indexOf(comp);
+              cloneArray.splice(index, 1);
+              break;
+            } else {
+              if (compsPerTeam[team] > 4) {
+                drawStructure[i][j] = comp;
+                const index = cloneArray.indexOf(comp);
+                cloneArray.splice(index, 1);
+                break;
+              } else {
+                const existingTeams = new Set();
+                for (let str of drawStructure[i]) {
+                  try {
+                    const tempTeam = str.split("|")[2];
+                    existingTeams.add(tempTeam);
+                  } catch {
+                    continue;
+                  }
+                }
+                if (existingTeams.has(team)) {
+                  continue;
+                } else {
+                  drawStructure[i][j] = comp;
+                  const index = cloneArray.indexOf(comp);
+                  cloneArray.splice(index, 1);
+                  break;
+                }
+              }
+            }
           } else {
             continue;
           }
@@ -310,10 +354,12 @@ export default function EliminationDraw({
         }
       }
     }
-    const drawFile = `${category.split(" ").join("_")}_Sorteio.xlsx`;
+    const drawFile = `${category
+      .split(" ")
+      .join("_")}_Sorteio_${matchType}.xlsx`;
     triggerExcelGenerationWithData(data, drawFile);
   };
-  // console.log(allMatches);
+  console.log(allMatches);
 
   return (
     <div className={styles.matchesDiv}>
@@ -328,7 +374,7 @@ export default function EliminationDraw({
                 )
               }
             >
-              Categoria: <strong>{matchType}</strong>
+              Tipo: <strong>{matchType}</strong>
             </button>
           )
         : ""}
