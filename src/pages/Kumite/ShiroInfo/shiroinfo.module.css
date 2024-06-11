@@ -32,12 +32,15 @@
 .foulSquare {
   cursor: pointer;
   display: inline-block;
-  height: 2.7vw;
+  height: 3vw;
   width: 5vw;
   background-color: white;
-  display: inline-block;
   border-radius: 20px;
   margin-left: 1.5vw;
+}
+
+.lostByFoul {
+  background-color: yellow;
 }
 
 .pointCounterContainer {

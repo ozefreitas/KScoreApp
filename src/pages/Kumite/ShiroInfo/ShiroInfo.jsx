@@ -1,57 +1,111 @@
 import styles from "./shiroinfo.module.css";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import ShiroScore from "../ShiroScore/ShiroScore";
 
-export default function ShiroInfo() {
-  const [shiroWazaari, setShiroWazaari] = useState(0);
-  const [shiroIppon, setShiroIppon] = useState(0);
-  const [state, setState] = useState({
-    squaresK: [],
-    squaresJ: [],
-    squaresM: [],
+export default function ShiroInfo({
+  setAkaWazaari,
+  shiroWazaari,
+  setShiroWazaari,
+  shiroIppon,
+  setShiroIppon,
+  shiroSquares,
+  setShiroSquares,
+  shiroScore,
+  setShiroScore,
+  winner,
+  setWinner,
+}) {
+  const [lostByFouls, setLostByFouls] = useState({
+    lostforK: false,
+    lostforJ: false,
+    lostforM: false,
   });
-
   const isInputFocused = () => {
     return document.activeElement.tagName.toLowerCase() === "input";
   };
+
+  const changeClass = (divID, newClass) => {
+    var element = document.getElementById(divID);
+    element.className = newClass;
+  };
+
+  useEffect(() => {
+    if (shiroSquares.squaresK.length === 3) {
+      changeClass("shirok0", `${styles.foulSquare} ${styles.lostByFoul}`);
+      changeClass("shirok1", `${styles.foulSquare} ${styles.lostByFoul}`);
+      changeClass("shirok2", `${styles.foulSquare} ${styles.lostByFoul}`);
+    } else if (shiroSquares.squaresJ.length === 3) {
+      changeClass("shiroj0", `${styles.foulSquare} ${styles.lostByFoul}`);
+      changeClass("shiroj1", `${styles.foulSquare} ${styles.lostByFoul}`);
+      changeClass("shiroj2", `${styles.foulSquare} ${styles.lostByFoul}`);
+    } else if (shiroSquares.squaresM.length === 3) {
+      changeClass("shirom0", `${styles.foulSquare} ${styles.lostByFoul}`);
+      changeClass("shirom1", `${styles.foulSquare} ${styles.lostByFoul}`);
+      changeClass("shirom2", `${styles.foulSquare} ${styles.lostByFoul}`);
+    }
+  }, [shiroSquares]);
 
   const handleKeyPress = (event) => {
     if (event.ctrlKey && event.key === "k" && !isInputFocused()) {
       event.preventDefault();
       const newArray = [
-        ...state.squaresK,
-        <div className={styles.foulSquare}></div>,
+        ...shiroSquares.squaresK,
+        <div
+          id={`shiro${event.key}${shiroSquares.squaresK.length}`}
+          key={`${event.key}${shiroSquares.squaresK.length}`}
+          className={styles.foulSquare}
+        ></div>,
       ];
-      if (newArray.length === 4) {
+      if (newArray.length === 2) {
+        setAkaWazaari((prevAkaWazaari) => prevAkaWazaari + 1);
+      } else if (newArray.length === 3) {
+        setWinner({ ...winner, aka: true });
+      } else if (newArray.length === 4) {
         return;
       }
-      setState((prevState) => ({
+      setShiroSquares((prevState) => ({
         ...prevState,
         squaresK: newArray,
       }));
     } else if (event.ctrlKey && event.key === "j" && !isInputFocused()) {
       event.preventDefault();
       const newArray = [
-        ...state.squaresJ,
-        <div className={styles.foulSquare}></div>,
+        ...shiroSquares.squaresJ,
+        <div
+          id={`shiro${event.key}${shiroSquares.squaresJ.length}`}
+          key={`${event.key}${shiroSquares.squaresJ.length}`}
+          className={styles.foulSquare}
+        ></div>,
       ];
-      if (newArray.length === 4) {
+      if (newArray.length === 2) {
+        setAkaWazaari((prevAkaWazaari) => prevAkaWazaari + 1);
+      } else if (newArray.length === 3) {
+        setWinner({ ...winner, aka: true });
+      } else if (newArray.length === 4) {
         return;
       }
-      setState((prevState) => ({
+      setShiroSquares((prevState) => ({
         ...prevState,
         squaresJ: newArray,
       }));
     } else if (event.ctrlKey && event.key === "m" && !isInputFocused()) {
       event.preventDefault();
       const newArray = [
-        ...state.squaresM,
-        <div className={styles.foulSquare}></div>,
+        ...shiroSquares.squaresM,
+        <div
+          id={`shiro${event.key}${shiroSquares.squaresM.length}`}
+          key={`${event.key}${shiroSquares.squaresM.length}`}
+          className={styles.foulSquare}
+        ></div>,
       ];
-      if (newArray.length === 4) {
+      if (newArray.length === 2) {
+        setAkaWazaari((prevAkaWazaari) => prevAkaWazaari + 1);
+      } else if (newArray.length === 3) {
+        setWinner({ ...winner, aka: true });
+      } else if (newArray.length === 4) {
         return;
       }
-      setState((prevState) => ({
+      setShiroSquares((prevState) => ({
         ...prevState,
         squaresM: newArray,
       }));
@@ -60,18 +114,6 @@ export default function ShiroInfo() {
     } else if (event.key === "w" && event.ctrlKey && !isInputFocused()) {
       event.preventDefault();
       setShiroWazaari(shiroWazaari + 1);
-    } else if (
-      event.key === "Backspace" &&
-      event.ctrlKey &&
-      !isInputFocused()
-    ) {
-      setShiroIppon(0);
-      setShiroWazaari(0);
-      setState({
-        squaresK: [],
-        squaresJ: [],
-        squaresM: [],
-      });
     }
   };
 
@@ -87,8 +129,15 @@ export default function ShiroInfo() {
 
   const handleDivClick = (foul) => {
     const squareFoul = `squares${foul}`;
-    const newArray = [...state[squareFoul].slice(0, -1)];
-    setState((prevState) => ({
+    const newArray = [...shiroSquares[squareFoul].slice(0, -1)];
+    if (newArray.length === 1) {
+      setAkaWazaari((prevAkaWazaari) => prevAkaWazaari - 1);
+    } else if (newArray.length <= 2) {
+      setWinner({ ...winner, aka: false });
+      changeClass(`shiro${foul.toLowerCase()}0`, styles.foulSquare);
+      changeClass(`shiro${foul.toLowerCase()}1`, styles.foulSquare);
+    }
+    setShiroSquares((prevState) => ({
       ...prevState,
       [squareFoul]: newArray,
     }));
@@ -97,13 +146,20 @@ export default function ShiroInfo() {
   const handleClick = (foul) => {
     const squareFoul = `squares${foul}`;
     const newArray = [
-      ...state[squareFoul],
-      <div className={styles.foulSquare}></div>,
+      ...shiroSquares[squareFoul],
+      <div
+        key={`${foul}${shiroSquares[squareFoul].length}`}
+        className={styles.foulSquare}
+      ></div>,
     ];
-    if (newArray.length === 4) {
+    if (newArray.length === 2) {
+      setAkaWazaari((prevAkaWazaari) => prevAkaWazaari + 1);
+    } else if (newArray.length === 3) {
+      setWinner({ ...winner, aka: true });
+    } else if (newArray.length === 4) {
       return;
     }
-    setState((prevState) => ({
+    setShiroSquares((prevState) => ({
       ...prevState,
       [squareFoul]: newArray,
     }));
@@ -120,7 +176,7 @@ export default function ShiroInfo() {
           >
             K
           </span>
-          {state.squaresK.map((square, index) => (
+          {shiroSquares.squaresK.map((square, index) => (
             <div key={index} onClick={() => handleDivClick("K")}>
               {square}
             </div>
@@ -134,7 +190,7 @@ export default function ShiroInfo() {
           >
             J
           </span>
-          {state.squaresJ.map((square, index) => (
+          {shiroSquares.squaresJ.map((square, index) => (
             <div key={index} onClick={() => handleDivClick("J")}>
               {square}
             </div>
@@ -148,7 +204,7 @@ export default function ShiroInfo() {
           >
             M
           </span>
-          {state.squaresM.map((square, index) => (
+          {shiroSquares.squaresM.map((square, index) => (
             <div key={index} onClick={() => handleDivClick("M")}>
               {square}
             </div>
@@ -159,6 +215,10 @@ export default function ShiroInfo() {
         <ShiroScore
           shiroWazaari={shiroWazaari}
           shiroIppon={shiroIppon}
+          shiroScore={shiroScore}
+          setShiroScore={setShiroScore}
+          winner={winner}
+          setWinner={setWinner}
         ></ShiroScore>
         <div className={styles.pointCounterContainer}>
           <div className={styles.ippon}>

@@ -3,7 +3,7 @@ import CompName from "../../../components/CompName/CompName";
 import styles from "./kumitecompcard.module.css";
 import { useState, useEffect } from "react";
 
-export default function KumiteCompCard({ match, competitors }) {
+export default function KumiteCompCard({ match, competitors, winner }) {
   const [state, setState] = useState({
     competitorNameShiro: "",
     competitorTeamShiro: "",
@@ -12,11 +12,14 @@ export default function KumiteCompCard({ match, competitors }) {
     competitorTeamAka: "",
     competitorNumberAka: 0,
   });
+  // console.log(winner.aka)
 
   const handleKeyPress = (event) => {
     if (event.code === "Backspace" && event.ctrlKey) {
-      document.getElementById("number_form_aka").reset();
-      document.getElementById("number_form_shiro").reset();
+      if (match === "kumite") {
+        document.getElementById("number_form_aka").reset();
+        document.getElementById("number_form_shiro").reset();
+      }
       setState((prevState) => ({
         ...prevState,
         competitorNameShiro: "",
@@ -24,7 +27,7 @@ export default function KumiteCompCard({ match, competitors }) {
         competitorNumberShiro: 0,
         competitorNameAka: "",
         competitorTeamAka: "",
-        competitorNumberAka: 0
+        competitorNumberAka: 0,
       }));
     }
   };
@@ -41,21 +44,34 @@ export default function KumiteCompCard({ match, competitors }) {
   return (
     <div>
       <div className={styles.colorName}>
-        <span className={styles.akaName}>
+        <span
+          className={`${styles.akaName} ${winner.aka ? styles.blinking : ""}`}
+        >
           <i>AKA</i>
         </span>
-        <span className={styles.shiroName}>
+        <span
+          className={`${styles.shiroName} ${
+            winner.shiro ? styles.blinking : ""
+          }`}
+        >
           <i>SHIRO</i>
         </span>
       </div>
       <div className={styles.cardsContainer}>
-        <div className={`${styles.outerCard} ${styles.akaCard}`}>
+        <div
+          className={`${styles.outerCard} ${styles.akaCard} ${
+            winner.aka ? styles.blinking : ""
+          }`}
+        >
           {match === "teamkumite" ? (
             ""
           ) : (
             <CompName match="kumite" id="aka" state={state}></CompName>
           )}
-          <form id="number_form_aka" className={`${styles.numberForm} ${styles[match]}`}>
+          <form
+            id="number_form_aka"
+            className={`${styles.numberForm} ${styles[match]}`}
+          >
             <CompInfo
               match={match}
               id="aka"
@@ -65,13 +81,20 @@ export default function KumiteCompCard({ match, competitors }) {
             ></CompInfo>
           </form>
         </div>
-        <div className={`${styles.outerCard} ${styles.shiroCard}`}>
+        <div
+          className={`${styles.outerCard} ${styles.shiroCard} ${
+            winner.shiro ? styles.blinking : ""
+          }`}
+        >
           {match === "teamkumite" ? (
             ""
           ) : (
             <CompName match="kumite" id="shiro" state={state}></CompName>
           )}
-          <form id="number_form_shiro" className={`${styles.numberForm} ${styles[match]}`}>
+          <form
+            id="number_form_shiro"
+            className={`${styles.numberForm} ${styles[match]}`}
+          >
             <CompInfo
               match={match}
               id="shiro"

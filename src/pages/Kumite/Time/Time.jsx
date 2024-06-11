@@ -1,7 +1,16 @@
 import { useState, useEffect } from "react";
 import styles from "./time.module.css";
 
-export default function Time({ match }) {
+export default function Time({
+  match,
+  setShowNotification,
+  setNotificationTitle,
+  setNotificationBody,
+  akaScore,
+  shiroScore,
+  winner,
+  setWinner,
+}) {
   const [milliseconds, setMilliseconds] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
@@ -16,6 +25,7 @@ export default function Time({ match }) {
     shiro2: { backgroundColor: "" },
     shiro3: { backgroundColor: "" },
   });
+  const sound = document.getElementById("gong");
 
   useEffect(() => {
     let interval;
@@ -45,6 +55,26 @@ export default function Time({ match }) {
     return () => clearInterval(interval);
   }, [milliseconds, seconds, minutes, isRunning]);
 
+  useEffect(() => {
+    if (timeLow) {
+      sound.play();
+    }
+    if (ended) {
+      sound.play();
+      setTimeout(() => {
+        sound.currentTime = 0;
+        sound.play();
+      }, 250);
+      if (akaScore > shiroScore) {
+        setWinner({ ...winner, aka: true });
+      } else if (akaScore < shiroScore) {
+        setWinner({ ...winner, shiro: true });
+      } else {
+        setWinner({ aka: true, shiro: true });
+      }
+    }
+  }, [timeLow, ended]);
+
   const formatTime = (time) => {
     return time < 10 ? `0${time}` : time;
   };
@@ -58,6 +88,24 @@ export default function Time({ match }) {
       if (!startTimer()) {
         return;
       } else setIsRunning(!isRunning);
+    } else if (event.code === "ArrowUp" && !isInputFocused()) {
+      setIsRunning(false);
+      setSeconds((prevSconds) => prevSconds + 1);
+      setMilliseconds(0);
+      if (seconds === 59) {
+        setMinutes((prevMinutes) => prevMinutes + 1);
+        setSeconds(0);
+      }
+    } else if (event.code === "ArrowDown" && !isInputFocused()) {
+      setIsRunning(false);
+      setSeconds((prevSconds) => prevSconds - 1);
+      setMilliseconds(0);
+      if (minutes === 0 && seconds <= 0) {
+        setSeconds(0);
+      } else if (seconds === 0) {
+        setMinutes((prevMinutes) => prevMinutes - 1);
+        setSeconds(59);
+      }
     } else if (event.key === "Backspace" && event.ctrlKey) {
       setMilliseconds(0);
       setSeconds(0);
@@ -69,6 +117,13 @@ export default function Time({ match }) {
       setMilliseconds(0);
       setSeconds(0);
       setMinutes(2);
+      setIsRunning(false);
+      setTimeLow(false);
+      setEnded(false);
+    } else if (event.key === "t" && !isInputFocused()) {
+      setMilliseconds(0);
+      setSeconds(30);
+      setMinutes(1);
       setIsRunning(false);
       setTimeLow(false);
       setEnded(false);
@@ -90,7 +145,9 @@ export default function Time({ match }) {
       setIsRunning(true);
       return true;
     } else {
-      new window.Notification("ERRO", { body: "Definir Temporizador" });
+      setShowNotification(true);
+      setNotificationTitle("Erro");
+      setNotificationBody("Defenir Temporizador");
       return false;
     }
   };
@@ -138,6 +195,12 @@ export default function Time({ match }) {
 
   return (
     <div className={styles.middleContainer}>
+      <audio
+        id="gong"
+        src={
+          process.env.PUBLIC_URL + "/131470-Gong-Small-Stereo-Fienup-004.wav"
+        }
+      ></audio>
       <div
         id="timer"
         className={`${styles.timeContainer} ${

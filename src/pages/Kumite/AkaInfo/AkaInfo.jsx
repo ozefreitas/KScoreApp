@@ -1,54 +1,103 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import styles from "./akainfo.module.css";
 import AkaScore from "../AkaScore/AkaScore";
 
-export default function AkaInfo() {
-  const [akaWazaari, setAkaWazaari] = useState(0);
-  const [akaIppon, setAkaIppon] = useState(0);
-  const [state, setState] = useState({
-    squaresK: [],
-    squaresJ: [],
-    squaresM: [],
-  });
-
+export default function AkaInfo({
+  akaWazaari,
+  setAkaWazaari,
+  akaIppon,
+  setAkaIppon,
+  setShiroWazaari,
+  akaSquares,
+  setAkaSquares,
+  akaScore,
+  setAkaScore,
+  winner,
+  setWinner,
+}) {
   const isInputFocused = () => {
     return document.activeElement.tagName.toLowerCase() === "input";
   };
 
+  const changeClass = (divID, newClass) => {
+    var element = document.getElementById(divID);
+    element.className = newClass;
+  };
+
+  useEffect(() => {
+    if (akaSquares.squaresK.length === 3) {
+      changeClass("akak0", `${styles.foulSquare} ${styles.lostByFoul}`);
+      changeClass("akak1", `${styles.foulSquare} ${styles.lostByFoul}`);
+      changeClass("akak2", `${styles.foulSquare} ${styles.lostByFoul}`);
+    } else if (akaSquares.squaresJ.length === 3) {
+      changeClass("akaj0", `${styles.foulSquare} ${styles.lostByFoul}`);
+      changeClass("akaj1", `${styles.foulSquare} ${styles.lostByFoul}`);
+      changeClass("akaj2", `${styles.foulSquare} ${styles.lostByFoul}`);
+    } else if (akaSquares.squaresM.length === 3) {
+      changeClass("akam0", `${styles.foulSquare} ${styles.lostByFoul}`);
+      changeClass("akam1", `${styles.foulSquare} ${styles.lostByFoul}`);
+      changeClass("akam2", `${styles.foulSquare} ${styles.lostByFoul}`);
+    }
+  }, [akaSquares]);
+
   const handleKeyPress = (event) => {
     if (event.key === "k" && !event.ctrlKey && !isInputFocused()) {
       const newArray = [
-        ...state.squaresK,
-        <div className={styles.foulSquare}></div>,
+        ...akaSquares.squaresK,
+        <div
+          id={`aka${event.key}${akaSquares.squaresK.length}`}
+          key={`${event.key}${akaSquares.squaresK.length}`}
+          className={styles.foulSquare}
+        ></div>,
       ];
-      if (newArray.length === 4) {
+      if (newArray.length === 2) {
+        setShiroWazaari((prevShiroWazaari) => prevShiroWazaari + 1);
+      } else if (newArray.length === 3) {
+        setWinner({ ...winner, shiro: true });
+      } else if (newArray.length === 4) {
         return;
       }
-      setState((prevState) => ({
+      setAkaSquares((prevState) => ({
         ...prevState,
         squaresK: newArray,
       }));
     } else if (event.key === "j" && !event.ctrlKey && !isInputFocused()) {
       const newArray = [
-        ...state.squaresJ,
-        <div className={styles.foulSquare}></div>,
+        ...akaSquares.squaresJ,
+        <div
+          id={`aka${event.key}${akaSquares.squaresJ.length}`}
+          key={`${event.key}${akaSquares.squaresJ.length}`}
+          className={styles.foulSquare}
+        ></div>,
       ];
-      if (newArray.length === 4) {
+      if (newArray.length === 2) {
+        setShiroWazaari((prevShiroWazaari) => prevShiroWazaari + 1);
+      } else if (newArray.length === 3) {
+        setWinner({ ...winner, shiro: true });
+      } else if (newArray.length === 4) {
         return;
       }
-      setState((prevState) => ({
+      setAkaSquares((prevState) => ({
         ...prevState,
         squaresJ: newArray,
       }));
     } else if (event.key === "m" && !event.ctrlKey && !isInputFocused()) {
       const newArray = [
-        ...state.squaresM,
-        <div className={styles.foulSquare}></div>,
+        ...akaSquares.squaresM,
+        <div
+          id={`aka${event.key}${akaSquares.squaresM.length}`}
+          key={`${event.key}${akaSquares.squaresM.length}`}
+          className={styles.foulSquare}
+        ></div>,
       ];
-      if (newArray.length === 4) {
+      if (newArray.length === 2) {
+        setShiroWazaari((prevShiroWazaari) => prevShiroWazaari + 1);
+      } else if (newArray.length === 3) {
+        setWinner({ ...winner, shiro: true });
+      } else if (newArray.length === 4) {
         return;
       }
-      setState((prevState) => ({
+      setAkaSquares((prevState) => ({
         ...prevState,
         squaresM: newArray,
       }));
@@ -56,18 +105,6 @@ export default function AkaInfo() {
       setAkaIppon(akaIppon + 1);
     } else if (event.key === "w" && !event.ctrlKey && !isInputFocused()) {
       setAkaWazaari(akaWazaari + 1);
-    } else if (
-      event.key === "Backspace" &&
-      event.ctrlKey &&
-      !isInputFocused()
-    ) {
-      setAkaIppon(0);
-      setAkaWazaari(0);
-      setState({
-        squaresK: [],
-        squaresJ: [],
-        squaresM: [],
-      });
     }
   };
 
@@ -83,8 +120,15 @@ export default function AkaInfo() {
 
   const handleDivClick = (foul) => {
     const squareFoul = `squares${foul}`;
-    const newArray = [...state[squareFoul].slice(0, -1)];
-    setState((prevState) => ({
+    const newArray = [...akaSquares[squareFoul].slice(0, -1)];
+    if (newArray.length === 1) {
+      setShiroWazaari((prevShiroWazaari) => prevShiroWazaari - 1);
+    } else if (newArray.length <= 2) {
+      setWinner({ ...winner, shiro: false });
+      changeClass(`aka${foul.toLowerCase()}0`, styles.foulSquare);
+      changeClass(`aka${foul.toLowerCase()}1`, styles.foulSquare);
+    }
+    setAkaSquares((prevState) => ({
       ...prevState,
       [squareFoul]: newArray,
     }));
@@ -93,13 +137,20 @@ export default function AkaInfo() {
   const handleClick = (foul) => {
     const squareFoul = `squares${foul}`;
     const newArray = [
-      ...state[squareFoul],
-      <div className={styles.foulSquare}></div>,
+      ...akaSquares[squareFoul],
+      <div
+        key={`${foul}${akaSquares[squareFoul].length}`}
+        className={styles.foulSquare}
+      ></div>,
     ];
-    if (newArray.length === 4) {
+    if (newArray.length === 2) {
+      setShiroWazaari((prevShiroWazaari) => prevShiroWazaari + 1);
+    } else if (newArray.length === 3) {
+      setWinner({ ...winner, shiro: true });
+    } else if (newArray.length === 4) {
       return;
     }
-    setState((prevState) => ({
+    setAkaSquares((prevState) => ({
       ...prevState,
       [squareFoul]: newArray,
     }));
@@ -116,7 +167,7 @@ export default function AkaInfo() {
           >
             K
           </span>
-          {state.squaresK.map((square, index) => (
+          {akaSquares.squaresK.map((square, index) => (
             <div key={index} onClick={() => handleDivClick("K")}>
               {square}
             </div>
@@ -130,7 +181,7 @@ export default function AkaInfo() {
           >
             J
           </span>
-          {state.squaresJ.map((square, index) => (
+          {akaSquares.squaresJ.map((square, index) => (
             <div key={index} onClick={() => handleDivClick("J")}>
               {square}
             </div>
@@ -144,7 +195,7 @@ export default function AkaInfo() {
           >
             M
           </span>
-          {state.squaresM.map((square, index) => (
+          {akaSquares.squaresM.map((square, index) => (
             <div key={index} onClick={() => handleDivClick("M")}>
               {square}
             </div>
@@ -172,7 +223,14 @@ export default function AkaInfo() {
             />
           </div>
         </div>
-        <AkaScore akaWazaari={akaWazaari} akaIppon={akaIppon}></AkaScore>
+        <AkaScore
+          akaWazaari={akaWazaari}
+          akaIppon={akaIppon}
+          akaScore={akaScore}
+          setAkaScore={setAkaScore}
+          winner={winner}
+          setWinner={setWinner}
+        ></AkaScore>
       </div>
     </div>
   );
