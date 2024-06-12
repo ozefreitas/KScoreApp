@@ -27,6 +27,8 @@ export default function CompetitorList({
   setNotificationBody,
   setRunDraw,
   setDeleteDraw,
+  compRef,
+  teamRef,
 }) {
   const [compToChange, setCompToChange] = useState({});
   const [teamToChange, setTeamToChange] = useState({});
@@ -273,6 +275,8 @@ export default function CompetitorList({
           setBlinking={setBlinking}
           isMenuOpen={isMenuOpen}
           setIsMenuOpen={setIsMenuOpen}
+          compRef={compRef}
+          teamRef={teamRef}
         ></FileMissing>
         {modality === "Individual" || draw === "group"
           ? category !== "default"

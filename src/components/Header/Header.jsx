@@ -3,6 +3,8 @@ import styles from "./header.module.css";
 
 export default function Header({
   match,
+  tatami,
+  setTatami,
   draw,
   category,
   setCategory,
@@ -137,6 +139,8 @@ export default function Header({
             placeholder="0"
             min="0"
             max="3"
+            value={tatami}
+            onChange={(event) => setTatami(event.target.value)}
           ></input>
         </span>
       ) : (

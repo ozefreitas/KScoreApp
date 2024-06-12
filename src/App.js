@@ -1,11 +1,11 @@
 import NavBar from "./components/NavBar/NavBar";
 import NavButton from "./components/NavButton/NavButton";
-import Home from "./pages/Home";
+import Home from "./pages/Home/Home";
 import KataElim from "./pages/KataElim/KataElim";
 import KataFinal from "./pages/KataFinal/KataFinal";
 import Kumite from "./pages/Kumite/Kumite";
 import TeamKumite from "./pages/TeamKumite/TeamKumite";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Route, Routes } from "react-router-dom";
 import "./app.css";
 import TeamKata from "./pages/TeamKata/TeamKata";
@@ -16,6 +16,7 @@ import Credits from "./pages/Credits/Credits";
 import CustomNotification from "./components/CustomNotification/CustomNotification";
 
 function App() {
+  const [tatami, setTatami] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [competitors, setCompetitors] = useState([]);
   const [groupByComp, setGroupByComp] = useState([]);
@@ -46,13 +47,16 @@ function App() {
     kataFinal: false,
     teamKata: false,
     kumite: false,
-    teamKummite: false,
+    teamKumite: false,
     credits: false,
   });
   const [modality, setModality] = useState("default");
-
+  const compRef = useRef(null);
+  const kataRef = useRef(null);
+  const teamRef = useRef(null);
+  
   useEffect(() => {
-    setIsDefault((prevState) => ({ ...prevState, modality: true }));
+    setIsDefault({ category: true, modality: true });
     setModality("default");
   }, [currentPage]);
 
@@ -77,6 +81,9 @@ function App() {
             setShowNotification={setShowNotification}
             setNotificationTitle={setNotificationTitle}
             setNotificationBody={setNotificationBody}
+            compRef={compRef}
+            teamRef={teamRef}
+            kataRef={kataRef}
           ></NavBar>
         </div>
       ) : (
@@ -132,6 +139,8 @@ function App() {
               setActions={setActions}
               proceed={proceed}
               setProceed={setProceed}
+              compRef={compRef}
+              teamRef={teamRef}
             ></GroupDraw>
           }
         ></Route>
@@ -163,6 +172,7 @@ function App() {
               setActions={setActions}
               proceed={proceed}
               setProceed={setProceed}
+              compRef={compRef}
             ></GroupDraw>
           }
         ></Route>
@@ -185,6 +195,8 @@ function App() {
           element={
             <KataElim
               match="kata"
+              tatami={tatami}
+              setTatami={setTatami}
               competitors={competitors}
               katas={katas}
               isMenuOpen={isMenuOpen}
@@ -198,6 +210,8 @@ function App() {
               setNotificationTitle={setNotificationTitle}
               notificationBody={notificationBody}
               setNotificationBody={setNotificationBody}
+              compRef={compRef}
+              kataRef={kataRef}
             ></KataElim>
           }
         ></Route>
@@ -206,6 +220,8 @@ function App() {
           element={
             <KataFinal
               match="katafinal"
+              tatami={tatami}
+              setTatami={setTatami}
               competitors={competitors}
               katas={katas}
               isMenuOpen={isMenuOpen}
@@ -219,6 +235,8 @@ function App() {
               setNotificationTitle={setNotificationTitle}
               notificationBody={notificationBody}
               setNotificationBody={setNotificationBody}
+              compRef={compRef}
+              kataRef={kataRef}
             ></KataFinal>
           }
         ></Route>
@@ -227,6 +245,8 @@ function App() {
           element={
             <TeamKata
               match="teamkata"
+              tatami={tatami}
+              setTatami={setTatami}
               katas={katas}
               isMenuOpen={isMenuOpen}
               setIsMenuOpen={setIsMenuOpen}
@@ -239,6 +259,7 @@ function App() {
               setNotificationTitle={setNotificationTitle}
               notificationBody={notificationBody}
               setNotificationBody={setNotificationBody}
+              kataRef={kataRef}
             ></TeamKata>
           }
         ></Route>
@@ -247,6 +268,8 @@ function App() {
           element={
             <Kumite
               match="kumite"
+              tatami={tatami}
+              setTatami={setTatami}
               competitors={competitors}
               isMenuOpen={isMenuOpen}
               setIsMenuOpen={setIsMenuOpen}
@@ -259,6 +282,7 @@ function App() {
               setNotificationTitle={setNotificationTitle}
               notificationBody={notificationBody}
               setNotificationBody={setNotificationBody}
+              compRef={compRef}
             ></Kumite>
           }
         ></Route>
@@ -267,6 +291,8 @@ function App() {
           element={
             <TeamKumite
               match="teamkumite"
+              tatami={tatami}
+              setTatami={setTatami}
               competitors={competitors}
               isMenuOpen={isMenuOpen}
               setIsMenuOpen={setIsMenuOpen}
@@ -279,6 +305,7 @@ function App() {
               setNotificationTitle={setNotificationTitle}
               notificationBody={notificationBody}
               setNotificationBody={setNotificationBody}
+              compRef={compRef}
             ></TeamKumite>
           }
         ></Route>

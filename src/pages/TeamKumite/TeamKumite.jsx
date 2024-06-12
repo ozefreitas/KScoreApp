@@ -3,6 +3,8 @@ import Kumite from "../Kumite/Kumite";
 export default function TeamKumite({
   competitors,
   match,
+  tatami,
+  setTatami,
   isMenuOpen,
   setIsMenuOpen,
   blinking,
@@ -15,11 +17,14 @@ export default function TeamKumite({
   setNotificationTitle,
   notificationBody,
   setNotificationBody,
+  compRef,
 }) {
   return (
     <div>
       <Kumite
         match={match}
+        tatami={tatami}
+        setTatami={setTatami}
         competitors={competitors}
         isMenuOpen={isMenuOpen}
         setIsMenuOpen={setIsMenuOpen}
@@ -33,6 +38,7 @@ export default function TeamKumite({
         setNotificationTitle={setNotificationTitle}
         notificationBody={notificationBody}
         setNotificationBody={setNotificationBody}
+        compRef={compRef}
       ></Kumite>
     </div>
   );

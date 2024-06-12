@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./shiroscore.module.css";
 
-export default function ShiroScore({ id, akaScore }) {
+export default function ShiroScore({ id, akaScore, winner }) {
   const [shiroScore, setShiroScore] = useState(0);
   useEffect(() => {
     if (akaScore === "0") {
@@ -19,7 +19,11 @@ export default function ShiroScore({ id, akaScore }) {
     }
   }, [akaScore]);
   return (
-    <div className={styles.bigNumberContainer}>
+    <div
+      className={`${styles.bigNumberContainer} ${
+        winner.shiro ? styles.blinking : ""
+      }`}
+    >
       <input
         min="0"
         max="5"

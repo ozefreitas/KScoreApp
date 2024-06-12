@@ -1,8 +1,12 @@
 import styles from "./compname.module.css";
 
-export default function CompName({ match, id, state }) {
+export default function CompName({ match, id, state, winner }) {
   return (
-    <div className={`${styles.nameContainer} ${styles[match]}`}>
+    <div
+      className={`${styles.nameContainer} ${styles[match]} ${
+        winner ? styles.blinking : ""
+      }`}
+    >
       <input
         type="text"
         placeholder="Nome Competidor"

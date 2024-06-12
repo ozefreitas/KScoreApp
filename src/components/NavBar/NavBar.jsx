@@ -13,7 +13,14 @@ export default function NavBar({
   setShowNotification,
   setNotificationTitle,
   setNotificationBody,
+  compRef,
+  teamRef,
+  kataRef,
 }) {
+  // const ScrollTop = () => {
+  //   executeScroll(topRef);
+  // };
+
   const handleClickCompetitor = () => {
     document.getElementById("Competitor_Picker").click();
   };
@@ -174,7 +181,7 @@ export default function NavBar({
         kataFinal: false,
         teamKata: false,
         kumite: false,
-        teamKummite: false,
+        teamKumite: false,
         credits: false,
       });
     };
@@ -208,7 +215,10 @@ export default function NavBar({
                 Início
               </Link>
             </li>
-            <li className={`${blinking.comp ? styles.blinker : ""}`}>
+            <li
+              ref={compRef}
+              className={`${blinking.comp ? styles.blinker : ""}`}
+            >
               <span onClick={handleClickCompetitor}>
                 Inserir Lista de Competidores
               </span>
@@ -219,7 +229,10 @@ export default function NavBar({
                 className={styles.inputFile}
               ></input>
             </li>
-            <li className={`${blinking.team ? styles.blinker : ""}`}>
+            <li
+              ref={teamRef}
+              className={`${blinking.team ? styles.blinker : ""}`}
+            >
               <span onClick={handleClickTeam}>Inserir Lista de Equipas</span>
               <input
                 id="Team_Picker"
@@ -255,7 +268,10 @@ export default function NavBar({
                 Fazer Novo Sorteio (dentro de Grupo)
               </Link>
             </li>
-            <li className={`${blinking.kata ? styles.blinker : ""}`}>
+            <li
+              ref={kataRef}
+              className={`${blinking.kata ? styles.blinker : ""}`}
+            >
               <span onClick={handleClickKata}>Inserir Lista de Katas</span>
               <input
                 id="Kata_Picker"
@@ -300,7 +316,7 @@ export default function NavBar({
                 Kumite
               </Link>
             </li>
-            <li className={currentPage.teamKummite ? styles.currentPage : ""}>
+            <li className={currentPage.teamKumite ? styles.currentPage : ""}>
               <Link
                 to="/teamkumite"
                 onClick={() => handleClick("teamKumite")}

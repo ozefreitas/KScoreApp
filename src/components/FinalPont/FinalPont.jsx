@@ -1,4 +1,3 @@
-import CustomNotification from "../CustomNotification/CustomNotification";
 import styles from "./finalpont.module.css";
 import { useCallback, useEffect, useState } from "react";
 
@@ -32,6 +31,10 @@ export default function FinalPont({
     setFinalScore(final);
     setMinIndex(scoresIndex.findIndex((score) => score === minvalue) + 1);
     setMaxIndex(scoresIndex.findIndex((score) => score === maxvalue) + 1);
+    if (scoresIndex.every((val, i, arr) => val === arr[0])) {
+      setMinIndex(1);
+      setMaxIndex(5);
+    }
   };
 
   const handleKeyPress = useCallback(
@@ -55,7 +58,11 @@ export default function FinalPont({
         if (activeElement.type === "number") {
           activeElement.blur();
         }
-      } else if (event.key === "Enter" && activeElement.type === "number" && Object.keys(sumScore).length !== 5) {
+      } else if (
+        event.key === "Enter" &&
+        activeElement.type === "number" &&
+        Object.keys(sumScore).length !== 5
+      ) {
         setShowNotification(true);
         setNotificationTitle("Erro de Input");
         setNotificationBody("Insira pontuação/Pontuação errada");
@@ -69,7 +76,17 @@ export default function FinalPont({
         });
       }
     },
-    [setSumScore, setState, sumScore, changeFinalInfo, setMaxIndex, setMinIndex]
+    [
+      setSumScore,
+      setState,
+      sumScore,
+      changeFinalInfo,
+      setMaxIndex,
+      setMinIndex,
+      setShowNotification,
+      setNotificationTitle,
+      setNotificationBody,
+    ]
   );
 
   useEffect(() => {

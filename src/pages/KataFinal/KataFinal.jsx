@@ -9,6 +9,8 @@ import FileMissing from "../../components/FileMissing/FileMissing";
 
 export default function KataFinal({
   match,
+  tatami,
+  setTatami,
   competitors,
   katas,
   isMenuOpen,
@@ -23,6 +25,8 @@ export default function KataFinal({
   setNotificationTitle,
   notificationBody,
   setNotificationBody,
+  compRef,
+  kataRef,
 }) {
   const [sumScore, setSumScore] = useState({});
   const [minIndex, setMinIndex] = useState("");
@@ -67,6 +71,8 @@ export default function KataFinal({
       )}
       <Header
         match="kata"
+        tatami={tatami}
+        setTatami={setTatami}
         isDefault={isDefault}
         setIsDefault={setIsDefault}
       ></Header>
@@ -129,6 +135,8 @@ export default function KataFinal({
           setBlinking={setBlinking}
           isMenuOpen={isMenuOpen}
           setIsMenuOpen={setIsMenuOpen}
+          compRef={compRef}
+          kataRef={kataRef}
         ></FileMissing>
       )}
     </div>

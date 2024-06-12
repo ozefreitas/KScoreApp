@@ -1,5 +1,6 @@
 import styles from "./filemissing.module.css";
 import { useNavigate } from "react-router-dom";
+import { executeScroll } from "../../utils";
 
 export default function FileMissing({
   match,
@@ -13,6 +14,9 @@ export default function FileMissing({
   setIsMenuOpen,
   setCurrentPage,
   modality,
+  compRef,
+  teamRef,
+  kataRef,
 }) {
   // console.log("modality:", modality);
   // console.log("draw:", draw);
@@ -38,7 +42,9 @@ export default function FileMissing({
       modality === "Individual" &&
       competitors.length === 0 ? (
         <div className={styles.compFileMIssing}>
-          <p>Ficheiro com lista de <strong>competidores</strong> não detetado.</p>
+          <p>
+            Ficheiro com lista de <strong>competidores</strong> não detetado.
+          </p>
           <p>
             Selecione o ficheiro no{" "}
             <span
@@ -56,6 +62,7 @@ export default function FileMissing({
                     comp: !prevState.comp,
                   }));
                 }
+                executeScroll(compRef);
               }}
             >
               menu de navegação
@@ -68,7 +75,9 @@ export default function FileMissing({
       )}
       {draw === "elimination" && modality === "Equipa" && teams.length === 0 ? (
         <div className={styles.compFileMIssing}>
-          <p>Ficheiro com lista de <strong>equipas</strong> não detetado.</p>
+          <p>
+            Ficheiro com lista de <strong>equipas</strong> não detetado.
+          </p>
           <p>
             Selecione o ficheiro no{" "}
             <span
@@ -86,6 +95,7 @@ export default function FileMissing({
                     team: !prevState.team,
                   }));
                 }
+                executeScroll(teamRef);
               }}
             >
               menu de navegação
@@ -99,7 +109,10 @@ export default function FileMissing({
       {match !== "teamkata" && (draw === undefined || draw === "group")
         ? competitors.length === 0 && (
             <div className={styles.compFileMIssing}>
-              <p>Ficheiro com lista de <strong>competidores</strong> não detetado.</p>
+              <p>
+                Ficheiro com lista de <strong>competidores</strong> não
+                detetado.
+              </p>
               <p>
                 Selecione o ficheiro no{" "}
                 <span
@@ -117,6 +130,7 @@ export default function FileMissing({
                         comp: !prevState.comp,
                       }));
                     }
+                    executeScroll(compRef);
                   }}
                 >
                   menu de navegação
@@ -130,7 +144,9 @@ export default function FileMissing({
       draw === undefined
         ? katas.length === 0 && (
             <div className={styles.kataFileMIssing}>
-              <p>Ficheiro com lista de <strong>Katas</strong> não detetado.</p>
+              <p>
+                Ficheiro com lista de <strong>Katas</strong> não detetado.
+              </p>
               <p>
                 Selecione o ficheiro no{" "}
                 <span
@@ -148,6 +164,7 @@ export default function FileMissing({
                         kata: !prevState.kata,
                       }));
                     }
+                    executeScroll(kataRef);
                   }}
                 >
                   menu de navegação

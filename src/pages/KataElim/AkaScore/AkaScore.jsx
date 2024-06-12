@@ -1,13 +1,12 @@
 import styles from "./akascore.module.css";
 import { useCallback, useEffect } from "react";
 
-export default function AkaScore({ id, akaScore, setAkaScore }) {
+export default function AkaScore({ id, akaScore, setAkaScore, winner }) {
   const handleKeyPress = useCallback(
     (event) => {
       const numberKeys = ["0", "1", "2", "3", "4", "5"];
       if (event.ctrlKey && numberKeys.some((anyKey) => event.key === anyKey)) {
         event.preventDefault();
-        console.log(`Key pressed: ${event.key}`);
         setAkaScore(event.key);
       }
 
@@ -29,7 +28,11 @@ export default function AkaScore({ id, akaScore, setAkaScore }) {
   }, [handleKeyPress]);
 
   return (
-    <div className={styles.bigNumberContainer}>
+    <div
+      className={`${styles.bigNumberContainer} ${
+        winner.aka ? styles.blinking : ""
+      }`}
+    >
       <input
         min="0"
         max="5"

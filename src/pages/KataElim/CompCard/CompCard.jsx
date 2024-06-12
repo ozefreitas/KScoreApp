@@ -23,12 +23,14 @@ export default function CompCard({
     competitorNumberAka: 0,
   });
   const [akaScore, setAkaScore] = useState("");
+  const [winner, setWinner] = useState({ aka: false, shiro: false });
 
   const handleKeyPress = useCallback(
     (event) => {
       if (event.code === "Backspace" && event.ctrlKey) {
         document.getElementById("number_form_aka").reset();
         document.getElementById("number_form_shiro").reset();
+        setWinner({ aka: false, shiro: false });
         setState((prevState) => ({
           ...prevState,
           competitorNameShiro: "",
@@ -42,6 +44,17 @@ export default function CompCard({
     },
     [setState]
   );
+
+  useEffect(() => {
+    if (akaScore !== "") {
+      if (akaScore < 3) {
+        setWinner((prevWinner) => ({ aka: false, shiro: true }));
+      } else {
+        setWinner((prevWinner) => ({ shiro: false, aka: true }));
+      }
+    }
+  }, [akaScore]);
+
   useEffect(() => {
     // attach the event listener
     document.addEventListener("keydown", handleKeyPress);
@@ -64,7 +77,7 @@ export default function CompCard({
       </div>
       <div className={styles.cardsContainer}>
         <div className={`${styles.outerCard} ${styles.akaCard}`}>
-          <CompName id="aka" state={state}></CompName>
+          <CompName id="aka" state={state} winner={winner.aka}></CompName>
           <form id="number_form_aka">
             <CompInfo
               id="aka"
@@ -72,6 +85,7 @@ export default function CompCard({
               state={state}
               setState={setState}
               competitors={competitors}
+              winner={winner.aka}
             ></CompInfo>
           </form>
           <KataName
@@ -86,10 +100,11 @@ export default function CompCard({
             akaScore={akaScore}
             setAkaScore={setAkaScore}
             setState={setState}
+            winner={winner}
           ></AkaScore>
         </div>
         <div className={`${styles.outerCard} ${styles.shiroCard}`}>
-          <CompName id="shiro" state={state}></CompName>
+          <CompName id="shiro" state={state} winner={winner.shiro}></CompName>
           <form id="number_form_shiro">
             <CompInfo
               id="shiro"
@@ -97,10 +112,15 @@ export default function CompCard({
               state={state}
               setState={setState}
               competitors={competitors}
+              winner={winner.shiro}
             ></CompInfo>
           </form>
           <KataName id="shiro" katas={katas}></KataName>
-          <ShiroScore id="shiro" akaScore={akaScore}></ShiroScore>
+          <ShiroScore
+            id="shiro"
+            akaScore={akaScore}
+            winner={winner}
+          ></ShiroScore>
         </div>
       </div>
     </div>

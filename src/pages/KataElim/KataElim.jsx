@@ -6,6 +6,8 @@ import { useEffect } from "react";
 
 export default function KataElim({
   match,
+  tatami,
+  setTatami,
   competitors,
   katas,
   isMenuOpen,
@@ -19,12 +21,14 @@ export default function KataElim({
   setNotificationTitle,
   notificationBody,
   setNotificationBody,
+  compRef,
+  kataRef,
 }) {
   useEffect(() => {
     setBlinking((prevState) => ({
       ...prevState,
       comp: false,
-      kata: false
+      kata: false,
     }));
     setIsMenuOpen(false);
   }, [competitors, katas, setBlinking, setIsMenuOpen]);
@@ -42,6 +46,8 @@ export default function KataElim({
       )}
       <Header
         match="kata"
+        tatami={tatami}
+        setTatami={setTatami}
         isDefault={isDefault}
         setIsDefault={setIsDefault}
       ></Header>
@@ -62,6 +68,8 @@ export default function KataElim({
           setBlinking={setBlinking}
           isMenuOpen={isMenuOpen}
           setIsMenuOpen={setIsMenuOpen}
+          compRef={compRef}
+          kataRef={kataRef}
         ></FileMissing>
       )}
     </div>

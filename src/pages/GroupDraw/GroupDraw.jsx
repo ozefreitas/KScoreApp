@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 import GroupList from "./GroupList/GroupList";
 import CustomNotification from "../../components/CustomNotification/CustomNotification";
 import EliminationDraw from "../EliminationDraw/EliminationDraw";
+import { executeScroll } from "../../utils";
 
 export default function GroupDraw({
   competitors,
@@ -33,6 +34,8 @@ export default function GroupDraw({
   setActions,
   proceed,
   setProceed,
+  compRef,
+  teamRef
 }) {
   const [compList, setCompList] = useState({});
   const [teamList, setTeamList] = useState({});
@@ -47,12 +50,9 @@ export default function GroupDraw({
   //   setNotificationTitle("Erro na transferência");
   //   setNotificationBody(errorMessage);
   // });
-  console.log(teams)
 
   const ScrollTop = () => {
-    const executeScroll = () =>
-      topRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-    executeScroll();
+    executeScroll(topRef);
   };
 
   return (
@@ -105,6 +105,8 @@ export default function GroupDraw({
         setProceed={setProceed}
         setRunDraw={setRunDraw}
         setDeleteDraw={setDeleteDraw}
+        compRef={compRef}
+        teamRef={teamRef}
       ></CompetitorList>
       <div ref={drawRef} className={styles.drawContainer}>
         {draw === "group" ? (

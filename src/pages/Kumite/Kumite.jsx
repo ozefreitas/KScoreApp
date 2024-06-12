@@ -11,6 +11,8 @@ import { useEffect, useState } from "react";
 export default function Kumite({
   competitors,
   match,
+  tatami,
+  setTatami,
   isMenuOpen,
   setIsMenuOpen,
   blinking,
@@ -23,6 +25,7 @@ export default function Kumite({
   setNotificationTitle,
   notificationBody,
   setNotificationBody,
+  compRef,
 }) {
   const [akaWazaari, setAkaWazaari] = useState(0);
   const [akaIppon, setAkaIppon] = useState(0);
@@ -97,6 +100,8 @@ export default function Kumite({
       )}
       <Header
         match={match}
+        tatami={tatami}
+        setTatami={setTatami}
         isDefault={isDefault}
         setIsDefault={setIsDefault}
       ></Header>
@@ -153,6 +158,7 @@ export default function Kumite({
           setBlinking={setBlinking}
           isMenuOpen={isMenuOpen}
           setIsMenuOpen={setIsMenuOpen}
+          compRef={compRef}
         ></FileMissing>
       )}
     </div>
