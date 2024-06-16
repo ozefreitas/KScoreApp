@@ -19,18 +19,6 @@
   cursor: pointer;
 }
 
-.matchTypeButton {
-  width: 30%;
-  display: inline-block;
-  background-color: #bf0303;
-  color: white;
-  border: none;
-  padding: 15px;
-  font-size: 2vw;
-  border-radius: 20px;
-  cursor: pointer;
-}
-
 .downloadButton {
   background-color: #bf0303;
   color: white;

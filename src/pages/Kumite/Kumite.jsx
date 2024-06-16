@@ -19,6 +19,10 @@ export default function Kumite({
   setBlinking,
   isDefault,
   setIsDefault,
+  modality,
+  setModality,
+  matchType,
+  setMatchType,
   showNotification,
   setShowNotification,
   notificationTitle,
@@ -45,12 +49,24 @@ export default function Kumite({
     squaresM: [],
   });
 
+  useEffect(() => {
+    if (match === "kumite") {
+      setModality("Individual");
+    } else {
+      setModality("Equipa");
+    }
+    setMatchType("Kumite");
+  });
+
   const isInputFocused = () => {
     return document.activeElement.tagName.toLowerCase() === "input";
   };
 
   const handleKeyPress = (event) => {
-    if (event.key === "Backspace" && event.ctrlKey && !isInputFocused()) {
+    if (
+      (event.key === "Backspace" && event.ctrlKey && !isInputFocused()) ||
+      (event.key === "Enter" && event.ctrlKey && !isInputFocused())
+    ) {
       setWinner({ aka: false, shiro: false });
       setAkaIppon(0);
       setAkaWazaari(0);
@@ -104,8 +120,10 @@ export default function Kumite({
         setTatami={setTatami}
         isDefault={isDefault}
         setIsDefault={setIsDefault}
+        modality={modality}
+        matchType={matchType}
       ></Header>
-      {competitors.length !== 0 ? (
+      {competitors.length !== 0 || match === "teamkumite" ? (
         <div>
           <KumiteCompCard
             match={match}

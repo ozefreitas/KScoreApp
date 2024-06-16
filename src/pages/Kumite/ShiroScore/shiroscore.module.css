@@ -3,6 +3,7 @@
   height: 40vh;
   float: left;
   display: flex;
+  justify-content: flex-end;
 }
 
 .pointNumberContainer input {

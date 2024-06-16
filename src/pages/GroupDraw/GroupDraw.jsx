@@ -23,6 +23,8 @@ export default function GroupDraw({
   setCategory,
   modality,
   setModality,
+  matchType,
+  setMatchType,
   setCurrentPage,
   showNotification,
   setShowNotification,
@@ -65,6 +67,8 @@ export default function GroupDraw({
         setModality={setModality}
         setIsDefault={setIsDefault}
         isDefault={isDefault}
+        matchType={matchType}
+        setMatchType={setMatchType}
       ></Header>
       {showNotification ? (
         <CustomNotification
@@ -87,6 +91,8 @@ export default function GroupDraw({
         setCategory={setCategory}
         modality={modality}
         setModality={setModality}
+        matchType={matchType}
+        setMatchType={setMatchType}
         setCompList={setCompList}
         setTeamList={setTeamList}
         setGroups={setGroups}
@@ -124,6 +130,7 @@ export default function GroupDraw({
             compList={compList}
             teamList={teamList}
             category={category}
+            matchType={matchType}
             runDraw={runDraw}
             setRunDraw={setRunDraw}
             deleteDraw={deleteDraw}

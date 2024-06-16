@@ -18,12 +18,22 @@ export default function Time({
   const [timeLow, setTimeLow] = useState(false);
   const [ended, setEnded] = useState(false);
   const [matchClick, setMatchClick] = useState({
-    aka1: { backgroundColor: "" },
-    aka2: { backgroundColor: "" },
-    aka3: { backgroundColor: "" },
-    shiro1: { backgroundColor: "" },
-    shiro2: { backgroundColor: "" },
-    shiro3: { backgroundColor: "" },
+    match1: { backgroundColor: "" },
+    match2: { backgroundColor: "" },
+    match3: { backgroundColor: "" },
+    match4: { backgroundColor: "" },
+    match5: { backgroundColor: "" },
+  });
+  const [winnerTeam, setWinnerTeam] = useState({
+    match1: false,
+    match2: false,
+    match3: false,
+    match4: false,
+    match5: false,
+  });
+  const [teamMatchEnded, setTeamMatchEnded] = useState({
+    aka: false,
+    shiro: false,
   });
   const sound = document.getElementById("gong");
 
@@ -75,6 +85,65 @@ export default function Time({
     }
   }, [timeLow, ended]);
 
+  useEffect(() => {
+    const newCounts = { aka: 0, shiro: 0, tie: 0 };
+
+    Object.values(winnerTeam).forEach((winner) => {
+      if (winner === "aka") newCounts.aka += 1;
+      else if (winner === "shiro") newCounts.shiro += 1;
+      else if (winner === "tie") newCounts.tie += 1;
+    });
+    if (newCounts.tie <= 1) {
+      if (newCounts.aka === 2) {
+        const updatedWinnerTeam = { ...winnerTeam };
+        for (let match in updatedWinnerTeam) {
+          if (updatedWinnerTeam[match] === "aka") {
+            updatedWinnerTeam[match] = true;
+          }
+          setWinnerTeam(updatedWinnerTeam);
+        }
+        setTeamMatchEnded({ ...teamMatchEnded, aka: true });
+      } else if (newCounts.shiro === 2) {
+        const updatedWinnerTeam = { ...winnerTeam };
+        for (let match in updatedWinnerTeam) {
+          if (updatedWinnerTeam[match] === "shiro") {
+            updatedWinnerTeam[match] = true;
+          }
+          setWinnerTeam(updatedWinnerTeam);
+        }
+        setTeamMatchEnded({ ...teamMatchEnded, shiro: true });
+      }
+    } else {
+      if (newCounts.aka === 1) {
+        const updatedWinnerTeam = { ...winnerTeam };
+        for (let match in updatedWinnerTeam) {
+          if (updatedWinnerTeam[match] === "aka") {
+            updatedWinnerTeam[match] = true;
+          }
+          setWinnerTeam(updatedWinnerTeam);
+        }
+        setTeamMatchEnded({ ...teamMatchEnded, aka: true });
+      } else if (newCounts.shiro === 1) {
+        const updatedWinnerTeam = { ...winnerTeam };
+        for (let match in updatedWinnerTeam) {
+          if (updatedWinnerTeam[match] === "shiro") {
+            updatedWinnerTeam[match] = true;
+          }
+          setWinnerTeam(updatedWinnerTeam);
+        }
+        setTeamMatchEnded({ ...teamMatchEnded, shiro: true });
+      }
+    }
+  }, [winnerTeam, teamMatchEnded]);
+
+  useEffect(() => {
+    if (teamMatchEnded.aka) {
+      setWinner({ ...winner, aka: true });
+    } else if (teamMatchEnded.shiro) {
+      setWinner({ ...winner, shiro: true });
+    }
+  }, [teamMatchEnded]);
+
   const formatTime = (time) => {
     return time < 10 ? `0${time}` : time;
   };
@@ -106,13 +175,18 @@ export default function Time({
         setMinutes((prevMinutes) => prevMinutes - 1);
         setSeconds(59);
       }
-    } else if (event.key === "Backspace" && event.ctrlKey) {
+    } else if (
+      event.key === "Backspace" &&
+      event.ctrlKey &&
+      !isInputFocused()
+    ) {
       setMilliseconds(0);
       setSeconds(0);
       setMinutes(0);
       setIsRunning(false);
       setTimeLow(false);
       setEnded(false);
+      setTeamMatchEnded(false);
     } else if (event.key === "r" && !isInputFocused()) {
       setMilliseconds(0);
       setSeconds(0);
@@ -124,6 +198,14 @@ export default function Time({
       setMilliseconds(0);
       setSeconds(30);
       setMinutes(1);
+      setIsRunning(false);
+      setTimeLow(false);
+      setEnded(false);
+    } else if (event.key === "Enter" && event.ctrlKey && !isInputFocused()) {
+      matchEnded();
+      setMilliseconds(0);
+      setSeconds(0);
+      setMinutes(0);
       setIsRunning(false);
       setTimeLow(false);
       setEnded(false);
@@ -152,32 +234,53 @@ export default function Time({
     }
   };
 
+  const matchEnded = () => {
+    for (let key of Object.keys(matchClick)) {
+      if (matchClick[key].backgroundColor === "") {
+        if (akaScore > shiroScore) {
+          setMatchClick({
+            ...matchClick,
+            [key]: {
+              ...matchClick[key],
+              backgroundColor: "#bf0303",
+            },
+          });
+          setWinnerTeam({ ...winnerTeam, [key]: "aka" });
+        } else if (akaScore < shiroScore) {
+          setMatchClick({
+            ...matchClick,
+            [key]: {
+              ...matchClick[key],
+              backgroundColor: "white",
+            },
+          });
+          setWinnerTeam({ ...winnerTeam, [key]: "shiro" });
+        } else {
+          setMatchClick({
+            ...matchClick,
+            [key]: {
+              ...matchClick[key],
+              backgroundColor: "yellow",
+            },
+          });
+          setWinnerTeam({ ...winnerTeam, [key]: "tie" });
+        }
+        document.getElementById(key).innerText = `${akaScore} - ${shiroScore}`;
+        break;
+      } else {
+        continue;
+      }
+    }
+  };
+
   const handleDivClick = (e) => {
     const matchNumber = e.target.id;
-    if (matchClick[matchNumber].backgroundColor === "") {
-      if (matchNumber.includes("aka")) {
-        setMatchClick({
-          ...matchClick,
-          [matchNumber]: {
-            ...matchClick[matchNumber],
-            backgroundColor: "#bf0303",
-          },
-        });
-      } else {
-        setMatchClick({
-          ...matchClick,
-          [matchNumber]: {
-            ...matchClick[matchNumber],
-            backgroundColor: "white",
-          },
-        });
-      }
-    } else {
-      setMatchClick({
-        ...matchClick,
-        [matchNumber]: { ...matchClick[matchNumber], backgroundColor: "" },
-      });
-    }
+    setMatchClick({
+      ...matchClick,
+      [matchNumber]: { ...matchClick[matchNumber], backgroundColor: "" },
+    });
+    setWinnerTeam({ ...winnerTeam, [matchNumber]: false });
+    document.getElementById(matchNumber).innerText = "";
   };
 
   const changeMinutes = (e) => {
@@ -230,43 +333,70 @@ export default function Time({
       </div>
       {match !== "kumite" ? (
         <div className={styles.matches}>
-          <div className={styles.akaMatches}>
+          <div className={styles.matchesResults}>
             <div
-              id="aka1"
-              className={styles.wonMatches}
-              style={matchClick.aka1}
+              id="match1"
+              className={`${styles.wonMatches} ${
+                winnerTeam.match1 === true ? styles.blinking : ""
+              } ${
+                matchClick.match1.backgroundColor === "white" ||
+                matchClick.match1.backgroundColor === "yellow"
+                  ? styles.white
+                  : ""
+              }`}
+              style={matchClick.match1}
               onClick={handleDivClick}
             ></div>
             <div
-              id="aka2"
-              className={styles.wonMatches}
-              style={matchClick.aka2}
+              id="match2"
+              className={`${styles.wonMatches} ${
+                winnerTeam.match2 === true ? styles.blinking : ""
+              } ${
+                matchClick.match2.backgroundColor === "white" ||
+                matchClick.match2.backgroundColor === "yellow"
+                  ? styles.white
+                  : ""
+              }`}
+              style={matchClick.match2}
               onClick={handleDivClick}
             ></div>
             <div
-              id="aka3"
-              className={styles.wonMatches}
-              style={matchClick.aka3}
-              onClick={handleDivClick}
-            ></div>
-          </div>
-          <div className={styles.shiroMatches}>
-            <div
-              id="shiro1"
-              className={styles.wonMatches}
-              style={matchClick.shiro1}
-              onClick={handleDivClick}
-            ></div>
-            <div
-              id="shiro2"
-              className={styles.wonMatches}
-              style={matchClick.shiro2}
+              id="match3"
+              className={`${styles.wonMatches} ${
+                winnerTeam.match3 === true ? styles.blinking : ""
+              } ${
+                matchClick.match3.backgroundColor === "white" ||
+                matchClick.match3.backgroundColor === "yellow"
+                  ? styles.white
+                  : ""
+              }`}
+              style={matchClick.match3}
               onClick={handleDivClick}
             ></div>
             <div
-              id="shiro3"
-              className={styles.wonMatches}
-              style={matchClick.shiro3}
+              id="match4"
+              className={`${styles.wonMatches} ${
+                winnerTeam.match4 === true ? styles.blinking : ""
+              } ${
+                matchClick.match4.backgroundColor === "white" ||
+                matchClick.match4.backgroundColor === "yellow"
+                  ? styles.white
+                  : ""
+              }`}
+              style={matchClick.match4}
+              onClick={handleDivClick}
+            ></div>
+            <div
+              id="match5"
+              className={`${styles.wonMatches} ${
+                winnerTeam.match5 === true ? styles.blinking : ""
+              } ${
+                matchClick.match5.backgroundColor === "white" ||
+                matchClick.match5.backgroundColor === "yellow"
+                  ? styles.white
+                  : ""
+              }`}
+              style={matchClick.match5}
               onClick={handleDivClick}
             ></div>
           </div>

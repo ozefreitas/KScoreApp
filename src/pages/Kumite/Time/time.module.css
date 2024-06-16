@@ -60,36 +60,44 @@
 }
 
 .matches {
-  margin-top: 300px;
-  width: 80%;
+  margin-top: 350px;
+  width: 90%;
   display: flex;
   justify-content: space-between;
 }
 
-.akaMatches {
+.matchesResults {
   display: flex;
-  justify-content: space-evenly;
-  width: 40%;
-  
-}
-
-.shiroMatches {
-  justify-content: space-evenly;
-  display: flex;
-  width: 40%;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .wonMatches {
-  border-radius: 50%;
+  border-radius: 20%;
   cursor: pointer;
-  width: 50px;
-  height: 50px;
+  width: 90px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.7vw;
+  font-weight: bold;
 }
 
-.akaMatches .wonMatches {
-  border: 2px solid #bf0303;
+.matchesResults .wonMatches {
+  border: 1px solid rgb(128, 128, 128);
 }
 
-.shiroMatches .wonMatches {
-  border: 2px solid white;
+.white {
+  color: black
+}
+
+.blinking {
+  animation: blinker 0.8s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
 }

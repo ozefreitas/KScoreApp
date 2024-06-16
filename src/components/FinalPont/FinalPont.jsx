@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 
 export default function FinalPont({
   sumScore,
-  setState,
+  setOverline,
   setSumScore,
   setMinIndex,
   setMaxIndex,
@@ -45,7 +45,7 @@ export default function FinalPont({
         setMaxIndex("");
         setMinIndex("");
         setFinalScore(0);
-        setState({
+        setOverline({
           overline1: undefined,
           overline2: undefined,
           overline3: undefined,
@@ -67,7 +67,7 @@ export default function FinalPont({
         setNotificationTitle("Erro de Input");
         setNotificationBody("Insira pontuação/Pontuação errada");
       } else if (Object.keys(sumScore).length !== 5) {
-        setState({
+        setOverline({
           overline1: undefined,
           overline2: undefined,
           overline3: undefined,
@@ -78,7 +78,7 @@ export default function FinalPont({
     },
     [
       setSumScore,
-      setState,
+      setOverline,
       sumScore,
       changeFinalInfo,
       setMaxIndex,
@@ -102,7 +102,6 @@ export default function FinalPont({
   return (
     <div className={styles.finalPontCard}>
       <input
-        placeholder="0.0"
         readOnly
         className={styles.finalscore}
         value={finalScore.toFixed(1)}

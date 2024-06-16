@@ -1,57 +1,52 @@
+import CustomNotification from "../../components/CustomNotification/CustomNotification";
+import Header from "../../components/Header/Header";
+import CompCard from "../KataElim/CompCard/CompCard";
 import { useEffect } from "react";
-import Kumite from "../Kumite/Kumite";
 
-export default function TeamKumite({
-  competitors,
+export default function Kihon({
   match,
   tatami,
   setTatami,
-  isMenuOpen,
-  setIsMenuOpen,
-  blinking,
-  setBlinking,
   isDefault,
   setIsDefault,
   modality,
   setModality,
-  matchType,
-  setMatchType,
   showNotification,
   setShowNotification,
   notificationTitle,
   setNotificationTitle,
   notificationBody,
   setNotificationBody,
-  compRef,
 }) {
   useEffect(() => {
     setModality("Equipa");
   });
+
   return (
     <div>
-      <Kumite
+      {showNotification ? (
+        <CustomNotification
+          setShowNotification={setShowNotification}
+          title={notificationTitle}
+          body={notificationBody}
+        ></CustomNotification>
+      ) : (
+        ""
+      )}
+      <Header
         match={match}
         tatami={tatami}
         setTatami={setTatami}
-        competitors={competitors}
-        isMenuOpen={isMenuOpen}
-        setIsMenuOpen={setIsMenuOpen}
-        blinking={blinking}
-        setBlinking={setBlinking}
         isDefault={isDefault}
         setIsDefault={setIsDefault}
         modality={modality}
-        setModality={setModality}
-        matchType={matchType}
-        setMatchType={setMatchType}
-        showNotification={showNotification}
+      ></Header>
+      <CompCard
+        match={match}
         setShowNotification={setShowNotification}
-        notificationTitle={notificationTitle}
         setNotificationTitle={setNotificationTitle}
-        notificationBody={notificationBody}
         setNotificationBody={setNotificationBody}
-        compRef={compRef}
-      ></Kumite>
+      ></CompCard>
     </div>
   );
 }

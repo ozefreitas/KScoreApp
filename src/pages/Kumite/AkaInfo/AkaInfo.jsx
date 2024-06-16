@@ -123,7 +123,7 @@ export default function AkaInfo({
     const newArray = [...akaSquares[squareFoul].slice(0, -1)];
     if (newArray.length === 1) {
       setShiroWazaari((prevShiroWazaari) => prevShiroWazaari - 1);
-    } else if (newArray.length <= 2) {
+    } else if (newArray.length === 2) {
       setWinner({ ...winner, shiro: false });
       changeClass(`aka${foul.toLowerCase()}0`, styles.foulSquare);
       changeClass(`aka${foul.toLowerCase()}1`, styles.foulSquare);
@@ -139,6 +139,7 @@ export default function AkaInfo({
     const newArray = [
       ...akaSquares[squareFoul],
       <div
+        id={`aka${foul.toLowerCase()}${akaSquares[squareFoul].length}`}
         key={`${foul}${akaSquares[squareFoul].length}`}
         className={styles.foulSquare}
       ></div>,
@@ -205,7 +206,15 @@ export default function AkaInfo({
       <div style={{ display: "flex", marginTop: "-50px" }}>
         <div className={styles.pointCounterContainer}>
           <div className={styles.ippon}>
-            <span>Ippon</span>
+            <span
+              onClick={() =>
+                setAkaIppon((prevNumber) =>
+                  prevNumber > 0 ? prevNumber - 1 : prevNumber
+                )
+              }
+            >
+              Ippon
+            </span>
             <input
               type="number"
               placeholder="0"
@@ -214,7 +223,9 @@ export default function AkaInfo({
             />
           </div>
           <div className={styles.wazaari}>
-            <span>Waza-ari</span>
+            <span onClick={() => setAkaWazaari((prevNumber) => prevNumber > 0 ? prevNumber - 1 : prevNumber)}>
+              Waza-ari
+            </span>
             <input
               type="number"
               placeholder="0"

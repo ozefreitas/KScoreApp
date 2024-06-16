@@ -12,7 +12,7 @@ export default function KumiteCompCard({ match, competitors, winner }) {
     competitorTeamAka: "",
     competitorNumberAka: 0,
   });
-  // console.log(winner.aka)
+  // console.log(winner)
 
   const handleKeyPress = (event) => {
     if (event.code === "Backspace" && event.ctrlKey) {

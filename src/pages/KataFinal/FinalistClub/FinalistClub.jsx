@@ -1,12 +1,33 @@
 import styles from "./finalistclub.module.css";
 
-export default function FinalistClub({ match, state }) {
+export default function FinalistClub({
+  match,
+  state,
+  id,
+  winner,
+  kataOrKihon,
+}) {
   return (
-    <form id="club_form" className={styles[match]}>
-      <div className={`${styles.clubContainer} ${styles[match]}`}>
-        {match === "teamkata" ? (
+    <form
+      id={`club_form${match === "kihon" ? id : ""}`}
+      className={styles[match]}
+    >
+      <div
+        className={`${styles.clubContainer} ${styles[match]} ${
+          match === "kihon" ? (winner ? styles.blinking : "") : ""
+        }`}
+      >
+        {match === "teamkata" || match === "kihon" ? (
           <input
-            className={`${styles.clubName} ${styles[match]}`}
+            className={`${styles.clubName} ${
+              kataOrKihon === "Kihon Finais " ? styles.kihon : ""
+            } ${styles[match]} ${
+              match === "kihon"
+                ? id === "shiro"
+                  ? styles.black
+                  : styles.white
+                : ""
+            }`}
             type="text"
             placeholder="clube"
           ></input>

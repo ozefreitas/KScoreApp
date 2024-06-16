@@ -18,6 +18,8 @@ export default function TeamKata({
   setBlinking,
   isDefault,
   setIsDefault,
+  modality,
+  setModality,
   showNotification,
   setShowNotification,
   notificationTitle,
@@ -29,13 +31,21 @@ export default function TeamKata({
   const [sumScore, setSumScore] = useState({});
   const [minIndex, setMinIndex] = useState("");
   const [maxIndex, setMaxIndex] = useState("");
-  const [state, setState] = useState({
+  const [overline, setOverline] = useState({
     overline1: undefined,
     overline2: undefined,
     overline3: undefined,
     overline4: undefined,
     overline5: undefined,
   });
+  const [activeCard, setActiveCard] = useState({
+    card1: false,
+    card2: false,
+    card3: false,
+    card4: false,
+    card5: false,
+  });
+  const [kataOrKihon, setKataOrKihon] = useState("Kata Equipa ");
 
   useEffect(() => {
     setBlinking((prevState) => ({
@@ -43,16 +53,77 @@ export default function TeamKata({
       kata: false,
     }));
     if (minIndex !== "" && maxIndex !== "") {
-      setState((prevState) => ({
+      setOverline((prevState) => ({
         ...prevState,
         [`overline${minIndex}`]: true,
       }));
-      setState((prevState) => ({
+      setOverline((prevState) => ({
         ...prevState,
         [`overline${maxIndex}`]: true,
       }));
     }
   }, [katas, setBlinking, setIsMenuOpen, minIndex, maxIndex]);
+
+  useEffect(() => {
+    setModality("Equipa");
+  });
+
+  const handleMousePress = (event) => {
+    setActiveCard({
+      card1: false,
+      card2: false,
+      card3: false,
+      card4: false,
+      card5: false,
+    });
+    const elementsIds = ["1", "2", "3", "4", "5"];
+    if (elementsIds.includes(document.activeElement.id)) {
+      const activeElementCard = `card${document.activeElement.id}`;
+      const newActiveCard = {
+        card1: false,
+        card2: false,
+        card3: false,
+        card4: false,
+        card5: false,
+      };
+      newActiveCard[activeElementCard] = true;
+      setActiveCard(newActiveCard);
+    }
+  };
+
+  const handleKeyPress = (event) => {
+    setActiveCard({
+      card1: false,
+      card2: false,
+      card3: false,
+      card4: false,
+      card5: false,
+    });
+    const elementsIds = ["1", "2", "3", "4", "5"];
+    if (elementsIds.includes(document.activeElement.id)) {
+      const activeElementCard = `card${document.activeElement.id}`;
+      const newActiveCard = {
+        card1: false,
+        card2: false,
+        card3: false,
+        card4: false,
+        card5: false,
+      };
+      newActiveCard[activeElementCard] = true;
+      setActiveCard(newActiveCard);
+    }
+  };
+
+  useEffect(() => {
+    // attach the event listener
+    document.addEventListener("mouseup", handleMousePress);
+    document.addEventListener("keyup", handleKeyPress);
+    // remove the event listener
+    return () => {
+      document.removeEventListener("mouseup", handleMousePress);
+      document.removeEventListener("keyup", handleKeyPress);
+    };
+  }, [handleMousePress, handleKeyPress]);
 
   return (
     <div>
@@ -71,8 +142,11 @@ export default function TeamKata({
         setTatami={setTatami}
         isDefault={isDefault}
         setIsDefault={setIsDefault}
+        modality={modality}
+        kataOrKihon={kataOrKihon}
+        setKataOrKihon={setKataOrKihon}
       ></Header>
-      {katas.length !== 0 ? (
+      {katas.length !== 0 || kataOrKihon === "Kihon Finais " ? (
         <div className={styles.flexContainer}>
           <div className={styles.bigContainer}>
             <TeamCard
@@ -81,38 +155,44 @@ export default function TeamKata({
               setShowNotification={setShowNotification}
               setNotificationTitle={setNotificationTitle}
               setNotificationBody={setNotificationBody}
+              kataOrKihon={kataOrKihon}
             ></TeamCard>
             <form id="pont_form" className={styles.pontsContainer}>
               <PontCard
                 judge="1"
-                overline={state.overline1}
+                active={activeCard.card1}
+                overline={overline.overline1}
                 setSumScore={setSumScore}
               ></PontCard>
               <PontCard
                 judge="2"
-                overline={state.overline2}
+                active={activeCard.card2}
+                overline={overline.overline2}
                 setSumScore={setSumScore}
               ></PontCard>
               <PontCard
                 judge="3"
-                overline={state.overline3}
+                active={activeCard.card3}
+                overline={overline.overline3}
                 setSumScore={setSumScore}
               ></PontCard>
               <PontCard
                 judge="4"
-                overline={state.overline4}
+                active={activeCard.card4}
+                overline={overline.overline4}
                 setSumScore={setSumScore}
               ></PontCard>
               <PontCard
                 judge="5"
-                overline={state.overline5}
+                active={activeCard.card5}
+                overline={overline.overline5}
                 setSumScore={setSumScore}
               ></PontCard>
             </form>
           </div>
           <FinalPont
             sumScore={sumScore}
-            setState={setState}
+            setOverline={setOverline}
             setSumScore={setSumScore}
             setMinIndex={setMinIndex}
             setMaxIndex={setMaxIndex}
@@ -121,7 +201,7 @@ export default function TeamKata({
             setNotificationBody={setNotificationBody}
           ></FinalPont>
         </div>
-      ) : (
+      ) : katas.length === 0 && kataOrKihon === "Kata Equipa " ? (
         <FileMissing
           match={match}
           katas={katas}
@@ -131,6 +211,8 @@ export default function TeamKata({
           setIsMenuOpen={setIsMenuOpen}
           kataRef={kataRef}
         ></FileMissing>
+      ) : (
+        ""
       )}
     </div>
   );

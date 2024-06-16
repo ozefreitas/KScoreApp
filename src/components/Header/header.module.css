@@ -2,6 +2,7 @@
   font-size: 2.7vw;
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   padding: 10px;
   margin-bottom: 30px;
@@ -42,9 +43,14 @@ input {
   color: white;
 }
 
-.tatamiText {
+.modText {
   padding-left: 8vw;
   width: 35%;
+}
+
+.tatamiText {
+  padding-left: 8vw;
+  width: 25%;
 }
 
 .tatamiInput {
@@ -64,7 +70,7 @@ input {
 }
 
 .teamkata {
-  width: 70%;
+  width: 60%;
 }
 
 .kumite {
@@ -72,7 +78,7 @@ input {
 }
 
 .teamkumite {
-  width: 75%;
+  width: 60%;
 }
 
 .modInput {
@@ -101,16 +107,42 @@ input {
   color: white;
 }
 
-.valueDefault {
-  color: rgb(72, 72, 72);
-}
-
 .categoryInput option {
   color: white;
   max-height: 30px !important;
   font-size: 1.5vw;
   height: 40px;
   background-color: black;
+}
+
+.matchTypeText {
+  margin-top: 20px;
+  width: 25%;
+}
+
+.noTopMargin {
+  margin-top: 0;
+}
+
+.typeInput {
+  outline: none;
+  background-color: transparent;
+  font-size: 2.7vw;
+  width: 60%;
+  border: none;
+  color: white;
+}
+
+.typeInput option {
+  color: white;
+  max-height: 30px !important;
+  font-size: 1.5vw;
+  height: 40px;
+  background-color: black;
+}
+
+.valueDefault {
+  color: rgb(72, 72, 72);
 }
 
 input:focus {

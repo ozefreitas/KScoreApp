@@ -14,6 +14,7 @@ import GroupDraw from "./pages/GroupDraw/GroupDraw";
 import MatchesDraw from "./pages/MatchesDraw/MatchesDraw";
 import Credits from "./pages/Credits/Credits";
 import CustomNotification from "./components/CustomNotification/CustomNotification";
+import Kihon from "./pages/Kihon/Kihon";
 
 function App() {
   const [tatami, setTatami] = useState("");
@@ -32,6 +33,7 @@ function App() {
   const [isDefault, setIsDefault] = useState({
     modality: true,
     category: true,
+    matchtype: true,
   });
   const [showNotification, setShowNotification] = useState(false);
   const [notificationTitle, setNotificationTitle] = useState("");
@@ -46,18 +48,21 @@ function App() {
     kataElim: false,
     kataFinal: false,
     teamKata: false,
+    kihon: false,
     kumite: false,
     teamKumite: false,
     credits: false,
   });
   const [modality, setModality] = useState("default");
+  const [matchType, setMatchType] = useState("default");
   const compRef = useRef(null);
   const kataRef = useRef(null);
   const teamRef = useRef(null);
-  
+
   useEffect(() => {
-    setIsDefault({ category: true, modality: true });
+    setIsDefault({ category: true, modality: true, matchtype: true });
     setModality("default");
+    setMatchType("default");
   }, [currentPage]);
 
   return (
@@ -129,6 +134,8 @@ function App() {
               setCategory={setCategory}
               modality={modality}
               setModality={setModality}
+              matchType={matchType}
+              setMatchType={setMatchType}
               showNotification={showNotification}
               setShowNotification={setShowNotification}
               notificationTitle={notificationTitle}
@@ -161,6 +168,8 @@ function App() {
               setIsDefault={setIsDefault}
               category={category}
               setCategory={setCategory}
+              matchType={matchType}
+              setMatchType={setMatchType}
               setCurrentPage={setCurrentPage}
               showNotification={showNotification}
               setShowNotification={setShowNotification}
@@ -204,6 +213,8 @@ function App() {
               setBlinking={setBlinking}
               isDefault={isDefault}
               setIsDefault={setIsDefault}
+              matchType={matchType}
+              setMatchType={setMatchType}
               showNotification={showNotification}
               setShowNotification={setShowNotification}
               notificationTitle={notificationTitle}
@@ -229,6 +240,8 @@ function App() {
               setBlinking={setBlinking}
               isDefault={isDefault}
               setIsDefault={setIsDefault}
+              matchType={matchType}
+              setMatchType={setMatchType}
               showNotification={showNotification}
               setShowNotification={setShowNotification}
               notificationTitle={notificationTitle}
@@ -253,6 +266,8 @@ function App() {
               setBlinking={setBlinking}
               isDefault={isDefault}
               setIsDefault={setIsDefault}
+              modality={modality}
+              setModality={setModality}
               showNotification={showNotification}
               setShowNotification={setShowNotification}
               notificationTitle={notificationTitle}
@@ -261,6 +276,26 @@ function App() {
               setNotificationBody={setNotificationBody}
               kataRef={kataRef}
             ></TeamKata>
+          }
+        ></Route>
+        <Route
+          path="/kihon"
+          element={
+            <Kihon
+              match="kihon"
+              tatami={tatami}
+              setTatami={setTatami}
+              isDefault={isDefault}
+              setIsDefault={setIsDefault}
+              modality={modality}
+              setModality={setModality}
+              showNotification={showNotification}
+              setShowNotification={setShowNotification}
+              notificationTitle={notificationTitle}
+              setNotificationTitle={setNotificationTitle}
+              notificationBody={setNotificationBody}
+              setNotificationBody={setNotificationBody}
+            ></Kihon>
           }
         ></Route>
         <Route
@@ -276,6 +311,10 @@ function App() {
               setBlinking={setBlinking}
               isDefault={isDefault}
               setIsDefault={setIsDefault}
+              modality={modality}
+              setModality={setModality}
+              matchType={matchType}
+              setMatchType={setMatchType}
               showNotification={showNotification}
               setShowNotification={setShowNotification}
               notificationTitle={notificationTitle}
@@ -299,6 +338,10 @@ function App() {
               setBlinking={setBlinking}
               isDefault={isDefault}
               setIsDefault={setIsDefault}
+              modality={modality}
+              setModality={setModality}
+              matchType={matchType}
+              setMatchType={setMatchType}
               showNotification={showNotification}
               setShowNotification={setShowNotification}
               notificationTitle={notificationTitle}

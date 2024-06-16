@@ -12,6 +12,8 @@ export default function CompetitorList({
   setCategory,
   modality,
   setModality,
+  matchType,
+  setMatchType,
   setCompList,
   setTeamList,
   setGroups,
@@ -239,11 +241,13 @@ export default function CompetitorList({
     selectElement("categoryList", "default");
     if (draw === "elimination") {
       selectElement("modList", "default");
+      selectElement("typeList", "default");
     }
     setGroups([]);
     setCategory("default");
-    setIsDefault({ modality: true, category: true });
+    setIsDefault({ modality: true, category: true, matchtype: true });
     setModality("default");
+    setMatchType("default");
     ScrollTop(topRef);
     setDeleteDraw(true);
     setDrawIsSet(false);
@@ -260,7 +264,11 @@ export default function CompetitorList({
   }, [handleKeyPress]);
 
   return (
-    <div className={styles.centerForm}>
+    <div
+      className={`${styles.centerForm} ${
+        draw === "elimination" ? styles.extendTopMargin : ""
+      }`}
+    >
       <form
         id="group_form"
         onSubmit={(event) => handleSubmit(event, modality)}
@@ -281,7 +289,11 @@ export default function CompetitorList({
         {modality === "Individual" || draw === "group"
           ? category !== "default"
             ? competitors
-                .filter((competitor) => competitor.category.includes(category))
+                .filter(
+                  (competitor) =>
+                    competitor.category.includes(category) &&
+                    competitor.type === matchType
+                )
                 .map((competitor, index) => (
                   <CompetitorItem
                     key={index}
@@ -305,7 +317,10 @@ export default function CompetitorList({
           : modality === "Equipa"
           ? category !== "default"
             ? teams
-                .filter((team) => team.category.includes(category))
+                .filter(
+                  (team) =>
+                    team.category.includes(category) && team.type === matchType
+                )
                 .map((team, index) => (
                   <CompetitorItem
                     key={index}

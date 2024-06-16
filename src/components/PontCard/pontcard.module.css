@@ -13,9 +13,18 @@
   background-color: transparent;
   height: 23vh;
   border: none;
-  color: black;
+  color: transparent;
+  text-shadow: 0 0 0 black;
+
+  &:focus {
+    outline: none;
+  }
 }
 
 .overline {
   text-decoration: line-through 0.2vw;
+}
+
+.active {
+  background-color: grey;
 }

@@ -34,3 +34,13 @@
   height: 67vh;
   border-radius: 10px;
 }
+
+.blinking {
+  animation: blinker 0.8s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}

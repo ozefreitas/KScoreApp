@@ -15,6 +15,8 @@ export default function KataElim({
   setBlinking,
   isDefault,
   setIsDefault,
+  matchType,
+  setMatchType,
   showNotification,
   setShowNotification,
   notificationTitle,
@@ -24,6 +26,10 @@ export default function KataElim({
   compRef,
   kataRef,
 }) {
+  useEffect(() => {
+    setMatchType("Kata");
+  });
+
   useEffect(() => {
     setBlinking((prevState) => ({
       ...prevState,
@@ -45,11 +51,12 @@ export default function KataElim({
         ""
       )}
       <Header
-        match="kata"
+        match={match}
         tatami={tatami}
         setTatami={setTatami}
         isDefault={isDefault}
         setIsDefault={setIsDefault}
+        matchType={matchType}
       ></Header>
       {competitors.length !== 0 && katas.length !== 0 ? (
         <CompCard

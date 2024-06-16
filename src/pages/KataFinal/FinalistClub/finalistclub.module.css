@@ -34,3 +34,30 @@
 .teamkata input {
   margin-right: 100px;
 }
+
+.kihon {
+  width: 100%;
+  text-align: center;
+}
+
+.white {
+  color: white;
+  direction: ltr;
+  margin: 50px 0 80px 0;
+}
+
+.black {
+  color: black;
+  direction: rtl;
+  margin: 50px 0 80px 0;
+}
+
+.blinking {
+  animation: blinker 0.8s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}

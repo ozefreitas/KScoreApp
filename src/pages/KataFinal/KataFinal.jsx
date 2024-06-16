@@ -19,6 +19,8 @@ export default function KataFinal({
   setBlinking,
   isDefault,
   setIsDefault,
+  matchType,
+  setMatchType,
   showNotification,
   setShowNotification,
   notificationTitle,
@@ -31,12 +33,23 @@ export default function KataFinal({
   const [sumScore, setSumScore] = useState({});
   const [minIndex, setMinIndex] = useState("");
   const [maxIndex, setMaxIndex] = useState("");
-  const [state, setState] = useState({
+  const [overline, setOverline] = useState({
     overline1: undefined,
     overline2: undefined,
     overline3: undefined,
     overline4: undefined,
     overline5: undefined,
+  });
+  const [activeCard, setActiveCard] = useState({
+    card1: false,
+    card2: false,
+    card3: false,
+    card4: false,
+    card5: false,
+  });
+
+  useEffect(() => {
+    setMatchType("Kata");
   });
 
   useEffect(() => {
@@ -47,16 +60,73 @@ export default function KataFinal({
     }));
     setIsMenuOpen(false);
     if (minIndex !== "" && maxIndex !== "") {
-      setState((prevState) => ({
+      setOverline((prevState) => ({
         ...prevState,
         [`overline${minIndex}`]: true,
       }));
-      setState((prevState) => ({
+      setOverline((prevState) => ({
         ...prevState,
         [`overline${maxIndex}`]: true,
       }));
     }
   }, [competitors, katas, setBlinking, setIsMenuOpen, minIndex, maxIndex]);
+
+  const handleMousePress = (event) => {
+    setActiveCard({
+      card1: false,
+      card2: false,
+      card3: false,
+      card4: false,
+      card5: false,
+    });
+    const elementsIds = ["1", "2", "3", "4", "5"];
+    if (elementsIds.includes(document.activeElement.id)) {
+      const activeElementCard = `card${document.activeElement.id}`;
+      const newActiveCard = {
+        card1: false,
+        card2: false,
+        card3: false,
+        card4: false,
+        card5: false,
+      };
+      newActiveCard[activeElementCard] = true;
+      setActiveCard(newActiveCard);
+    }
+  };
+
+  const handleKeyPress = (event) => {
+    setActiveCard({
+      card1: false,
+      card2: false,
+      card3: false,
+      card4: false,
+      card5: false,
+    });
+    const elementsIds = ["1", "2", "3", "4", "5"];
+    if (elementsIds.includes(document.activeElement.id)) {
+      const activeElementCard = `card${document.activeElement.id}`;
+      const newActiveCard = {
+        card1: false,
+        card2: false,
+        card3: false,
+        card4: false,
+        card5: false,
+      };
+      newActiveCard[activeElementCard] = true;
+      setActiveCard(newActiveCard);
+    }
+  };
+
+  useEffect(() => {
+    // attach the event listener
+    document.addEventListener("mouseup", handleMousePress);
+    document.addEventListener("keyup", handleKeyPress);
+    // remove the event listener
+    return () => {
+      document.removeEventListener("mouseup", handleMousePress);
+      document.removeEventListener("keyup", handleKeyPress);
+    };
+  }, [handleMousePress, handleKeyPress]);
 
   return (
     <div>
@@ -75,6 +145,7 @@ export default function KataFinal({
         setTatami={setTatami}
         isDefault={isDefault}
         setIsDefault={setIsDefault}
+        matchType={matchType}
       ></Header>
       {competitors.length !== 0 && katas.length !== 0 ? (
         <div className={styles.flexContainer}>
@@ -90,34 +161,39 @@ export default function KataFinal({
             <form id="pont_form" className={styles.pontsContainer}>
               <PontCard
                 judge="1"
-                overline={state.overline1}
+                active={activeCard.card1}
+                overline={overline.overline1}
                 setSumScore={setSumScore}
               ></PontCard>
               <PontCard
                 judge="2"
-                overline={state.overline2}
+                active={activeCard.card2}
+                overline={overline.overline2}
                 setSumScore={setSumScore}
               ></PontCard>
               <PontCard
                 judge="3"
-                overline={state.overline3}
+                active={activeCard.card3}
+                overline={overline.overline3}
                 setSumScore={setSumScore}
               ></PontCard>
               <PontCard
                 judge="4"
-                overline={state.overline4}
+                active={activeCard.card4}
+                overline={overline.overline4}
                 setSumScore={setSumScore}
               ></PontCard>
               <PontCard
                 judge="5"
-                overline={state.overline5}
+                active={activeCard.card5}
+                overline={overline.overline5}
                 setSumScore={setSumScore}
               ></PontCard>
             </form>
           </div>
           <FinalPont
             sumScore={sumScore}
-            setState={setState}
+            setOverline={setOverline}
             setSumScore={setSumScore}
             setMinIndex={setMinIndex}
             setMaxIndex={setMaxIndex}

@@ -83,7 +83,7 @@ export default function NavBar({
     const content = fileReader.result;
     const jsonResources = JSON.parse(content);
     const groupedCompetitors = {};
-    const neededKeys = ["number", "name", "team", "category", "favorite"];
+    const neededKeys = ["number", "name", "team", "category", "type", "favorite"];
     jsonResources.forEach((resource, index) => {
       if (neededKeys.every((key) => Object.keys(resource).includes(key))) {
         const key = `${resource.number}-${resource.name}-${resource.team}`;
@@ -180,6 +180,7 @@ export default function NavBar({
         kataElim: false,
         kataFinal: false,
         teamKata: false,
+        kihon: false,
         kumite: false,
         teamKumite: false,
         credits: false,
@@ -304,7 +305,16 @@ export default function NavBar({
                 onClick={() => handleClick("teamKata")}
                 style={{ textDecoration: "none", color: "white" }}
               >
-                Kata Equipa
+                Kata Equipa / Kihon Finais
+              </Link>
+            </li>
+            <li className={currentPage.kihon ? styles.currentPage : ""}>
+              <Link
+                to="/kihon"
+                onClick={() => handleClick("kihon")}
+                style={{ textDecoration: "none", color: "white" }}
+              >
+                Kihon
               </Link>
             </li>
             <li className={currentPage.kumite ? styles.currentPage : ""}>

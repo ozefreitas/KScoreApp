@@ -7,6 +7,7 @@ export default function EliminationDraw({
   compList,
   teamList,
   category,
+  matchType,
   runDraw,
   setRunDraw,
   deleteDraw,
@@ -14,7 +15,6 @@ export default function EliminationDraw({
 }) {
   const [allMatches, setAllMatches] = useState([]);
   const [playersInFinals, setPlayersInFinals] = useState(8);
-  const [matchType, setMatchType] = useState("Kata");
   const [filtered, setFiltered] = useState([]);
   const ipcRenderer = window.ipcRenderer;
 
@@ -363,21 +363,6 @@ export default function EliminationDraw({
 
   return (
     <div className={styles.matchesDiv}>
-      {allMatches.length !== 0
-        ? modality === "Individual" && (
-            <button
-              title="Mudar entre Kata e Kumite"
-              className={styles.matchTypeButton}
-              onClick={() =>
-                setMatchType((prevType) =>
-                  prevType === "Kata" ? "Kumite" : "Kata"
-                )
-              }
-            >
-              Tipo: <strong>{matchType}</strong>
-            </button>
-          )
-        : ""}
       {allMatches.length !== 0 && matchType === "Kata" ? (
         <button
           title="Se o número de atletas for inferior ao número admitido para final, irá apenas sortear a ordem dos mesmos"

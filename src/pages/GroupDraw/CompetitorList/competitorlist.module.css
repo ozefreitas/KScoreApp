@@ -5,6 +5,10 @@
   align-items: center;
 }
 
+.extendTopMargin {
+  margin-top: 19vh;
+}
+
 .notHidden {
   width: 90%;
   overflow: auto;

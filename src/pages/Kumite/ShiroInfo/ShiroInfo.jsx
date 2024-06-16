@@ -15,11 +15,6 @@ export default function ShiroInfo({
   winner,
   setWinner,
 }) {
-  const [lostByFouls, setLostByFouls] = useState({
-    lostforK: false,
-    lostforJ: false,
-    lostforM: false,
-  });
   const isInputFocused = () => {
     return document.activeElement.tagName.toLowerCase() === "input";
   };
@@ -132,7 +127,7 @@ export default function ShiroInfo({
     const newArray = [...shiroSquares[squareFoul].slice(0, -1)];
     if (newArray.length === 1) {
       setAkaWazaari((prevAkaWazaari) => prevAkaWazaari - 1);
-    } else if (newArray.length <= 2) {
+    } else if (newArray.length === 2) {
       setWinner({ ...winner, aka: false });
       changeClass(`shiro${foul.toLowerCase()}0`, styles.foulSquare);
       changeClass(`shiro${foul.toLowerCase()}1`, styles.foulSquare);
@@ -148,6 +143,7 @@ export default function ShiroInfo({
     const newArray = [
       ...shiroSquares[squareFoul],
       <div
+        id={`shiro${foul.toLowerCase()}${shiroSquares[squareFoul].length}`}
         key={`${foul}${shiroSquares[squareFoul].length}`}
         className={styles.foulSquare}
       ></div>,
@@ -222,7 +218,15 @@ export default function ShiroInfo({
         ></ShiroScore>
         <div className={styles.pointCounterContainer}>
           <div className={styles.ippon}>
-            <span>Ippon</span>
+            <span
+              onClick={() =>
+                setShiroIppon((prevNumber) =>
+                  prevNumber > 0 ? prevNumber - 1 : prevNumber
+                )
+              }
+            >
+              Ippon
+            </span>
             <input
               type="number"
               placeholder="0"
@@ -231,7 +235,15 @@ export default function ShiroInfo({
             />
           </div>
           <div className={styles.wazaari}>
-            <span>Waza-ari</span>
+            <span
+              onClick={() =>
+                setShiroWazaari((prevNumber) =>
+                  prevNumber > 0 ? prevNumber - 1 : prevNumber
+                )
+              }
+            >
+              Waza-ari
+            </span>
             <input
               type="number"
               placeholder="0"
