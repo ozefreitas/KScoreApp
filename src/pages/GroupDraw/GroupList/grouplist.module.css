@@ -9,8 +9,8 @@
 }
 
 .downloadButton {
-  background-color: #bf0303;
-  color: white;
+  background-color: var(--aka-color);
+  color: var(--aka-contrast-color);
   border: none;
   padding: 15px;
   margin-top: 2vh;
@@ -22,7 +22,7 @@
 .eachGroup {
   display: flex;
   flex-direction: column;
-  border: 5px solid #bf0303;
+  border: 5px solid var(--aka-color);
   border-radius: 20px;
   padding: 30px;
   font-size: 2.7vw;

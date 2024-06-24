@@ -23,8 +23,8 @@
 
 .drawButton {
   display: inline-block;
-  background-color: #bf0303;
-  color: white;
+  background-color: var(--aka-color);
+  color: var(--aka-contrast-color);
   border: none;
   padding: 15px;
   margin-top: 5vh;
@@ -36,8 +36,8 @@
 
 .clearButton {
   display: inline-block;
-  background-color: #bf0303;
-  color: white;
+  background-color: var(--aka-color);
+  color: var(--aka-contrast-color);
   border: none;
   padding: 15px;
   font-size: 2vw;

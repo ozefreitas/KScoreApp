@@ -13,9 +13,9 @@
   justify-content: center;
   padding: 20px;
   margin: 0;
-  border-bottom: 10px solid black;
+  border-bottom: 10px solid var(--theme-background-color);;
   position: fixed;
-  background-color: black;
+  background-color: var(--theme-background-color);
   z-index: 1;
 }
 
@@ -23,9 +23,9 @@
   justify-content: center;
   padding: 20px;
   margin: 0;
-  border-bottom: 10px solid black;
+  border-bottom: 10px solid var(--theme-background-color);;
   position: fixed;
-  background-color: black;
+  background-color: var(--theme-background-color);
   z-index: 1;
 }
 
@@ -33,14 +33,14 @@
   justify-content: center;
   padding: 20px;
   margin: 0;
-  border-bottom: 10px solid black;
+  border-bottom: 10px solid var(--theme-background-color);;
   position: fixed;
-  background-color: black;
+  background-color: var(--theme-background-color);
   z-index: 1;
 }
 
 input {
-  color: white;
+  color: var(--theme-text-color);
 }
 
 .modText {
@@ -87,7 +87,7 @@ input {
   font-size: 2.7vw;
   width: 45%;
   border: none;
-  color: white;
+  color: var(--theme-text-color);
 }
 
 .modInput option {
@@ -95,7 +95,7 @@ input {
   max-height: 30px !important;
   font-size: 1.5vw;
   height: 40px;
-  background-color: black;
+  background-color: var(--theme-background-color);;
 }
 
 .categoryInput {
@@ -104,15 +104,15 @@ input {
   font-size: 2.7vw;
   width: 65%;
   border: none;
-  color: white;
+  color: var(--theme-text-color);
 }
 
 .categoryInput option {
-  color: white;
+  color: var(--theme-text-color);
   max-height: 30px !important;
   font-size: 1.5vw;
   height: 40px;
-  background-color: black;
+  background-color: var(--theme-background-color);;
 }
 
 .matchTypeText {
@@ -130,15 +130,15 @@ input {
   font-size: 2.7vw;
   width: 60%;
   border: none;
-  color: white;
+  color: var(--theme-text-color);
 }
 
 .typeInput option {
-  color: white;
+  color: var(--theme-text-color);
   max-height: 30px !important;
   font-size: 1.5vw;
   height: 40px;
-  background-color: black;
+  background-color: var(--theme-background-color);;
 }
 
 .valueDefault {

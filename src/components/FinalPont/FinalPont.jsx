@@ -4,7 +4,6 @@ import { useCallback, useEffect } from "react";
 export default function FinalPont({
   sumScore,
   setOverline,
-  setSumScore,
   setMinIndex,
   setMaxIndex,
   finalScore,

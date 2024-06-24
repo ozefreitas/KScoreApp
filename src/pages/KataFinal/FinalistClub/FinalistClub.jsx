@@ -6,6 +6,7 @@ export default function FinalistClub({
   id,
   winner,
   kataOrKihon,
+  setClubName,
 }) {
   return (
     <form
@@ -30,6 +31,7 @@ export default function FinalistClub({
             }`}
             type="text"
             placeholder="clube"
+            onChange={(e) => setClubName(e.target.value.toUpperCase())}
           ></input>
         ) : (
           <input

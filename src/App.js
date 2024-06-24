@@ -18,6 +18,8 @@ import Kihon from "./pages/Kihon/Kihon";
 import { selectElement } from "./utils";
 
 function App() {
+  const [theme, setTheme] = useState("dark");
+  // console.log(theme);
   const [tatami, setTatami] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [competitors, setCompetitors] = useState([]);
@@ -39,7 +41,7 @@ function App() {
   const [showNotification, setShowNotification] = useState(false);
   const [notificationTitle, setNotificationTitle] = useState("");
   const [notificationBody, setNotificationBody] = useState("");
-  const [showClassification, setShowClassification] = useState(false)
+  const [showClassification, setShowClassification] = useState(false);
   const [actions, setActions] = useState(false);
   const [proceed, setProceed] = useState(true);
   const [currentPage, setCurrentPage] = useState({
@@ -61,14 +63,49 @@ function App() {
   const kataRef = useRef(null);
   const teamRef = useRef(null);
 
+  const toggleTheme = () => {
+    setTheme((currentTheme) => (currentTheme === "dark" ? "light" : "dark"));
+    if (theme === "dark") {
+      document.documentElement.style.setProperty(
+        "--theme-background-color",
+        "rgb(192, 192, 192)"
+      );
+      document.documentElement.style.setProperty(
+        "--theme-navBar-color",
+        "rgba(192, 192, 192, 0.8)"
+      );
+      document.documentElement.style.setProperty(
+        "--theme-text-color",
+        "rgb(39, 39, 39)"
+      );
+    } else {
+      document.documentElement.style.setProperty(
+        "--theme-background-color",
+        "black"
+      );
+      document.documentElement.style.setProperty(
+        "--theme-navBar-color",
+        "rgba(0, 0, 0, 0.8)"
+      );
+      document.documentElement.style.setProperty("--theme-text-color", "white");
+    }
+  };
+
+  // useEffect(() => {toggleTheme()});
+
   useEffect(() => {
     setIsDefault({ category: true, modality: true, matchtype: true });
     setModality("default");
     setMatchType("default");
     selectElement("typeList", "default");
-    if (currentPage.kumite || currentPage.teamKumite) {
+    if (
+      !currentPage.groupDraw ||
+      !currentPage.elimDraw ||
+      !currentPage.matchesDraw
+    ) {
       setCategory("default");
     }
+    setShowClassification(false);
   }, [currentPage]);
 
   return (
@@ -84,6 +121,7 @@ function App() {
             isMenuOpen={isMenuOpen}
             setIsMenuOpen={setIsMenuOpen}
             setCompetitors={setCompetitors}
+            theme={theme}
             setTeams={setTeams}
             setKatas={setKatas}
             blinking={blinking}
@@ -122,7 +160,10 @@ function App() {
             ></Login>
           }
         ></Route>
-        <Route path="/home" element={<Home></Home>}></Route>
+        <Route
+          path="/home"
+          element={<Home theme={theme} toggleTheme={toggleTheme}></Home>}
+        ></Route>
         <Route
           path="/eliminationdraw"
           element={
@@ -221,6 +262,8 @@ function App() {
               setBlinking={setBlinking}
               isDefault={isDefault}
               setIsDefault={setIsDefault}
+              category={category}
+              setCategory={setCategory}
               matchType={matchType}
               setMatchType={setMatchType}
               showNotification={showNotification}
@@ -278,6 +321,8 @@ function App() {
               setBlinking={setBlinking}
               isDefault={isDefault}
               setIsDefault={setIsDefault}
+              category={category}
+              setCategory={setCategory}
               modality={modality}
               setModality={setModality}
               showNotification={showNotification}
@@ -286,6 +331,8 @@ function App() {
               setNotificationTitle={setNotificationTitle}
               notificationBody={notificationBody}
               setNotificationBody={setNotificationBody}
+              showClassification={showClassification}
+              setShowClassification={setShowClassification}
               kataRef={kataRef}
             ></TeamKata>
           }

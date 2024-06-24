@@ -1,6 +1,9 @@
 .header {
   font-size: 2.7vw;
   position: absolute;
+  top: 30px;
+  width: 100%;
+  text-align: center;
 }
 
 .classificationContainer {

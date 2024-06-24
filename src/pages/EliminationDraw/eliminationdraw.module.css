@@ -10,8 +10,8 @@
 .finalButton {
   width: 20%;
   display: inline-block;
-  background-color: #bf0303;
-  color: white;
+  background-color: var(--aka-color);
+  color: var(--aka-contrast-color);
   border: none;
   padding: 15px;
   font-size: 2vw;
@@ -20,8 +20,8 @@
 }
 
 .downloadButton {
-  background-color: #bf0303;
-  color: white;
+  background-color: var(--aka-color);
+  color: var(--aka-contrast-color);
   border: none;
   padding: 15px;
   margin: auto;
@@ -36,6 +36,6 @@
   padding: 20px;
   font-size: 2vw;
   text-align: center;
-  border: 5px solid #bf0303;
+  border: 5px solid var(--aka-color);
   border-radius: 20px;
 }

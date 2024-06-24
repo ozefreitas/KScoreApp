@@ -60,7 +60,6 @@ export default function KataFinal({
     card5: false,
   });
   const [results, setResults] = useState({});
-  console.log(results);
 
   useEffect(() => {
     setMatchType("Kata");
@@ -274,7 +273,6 @@ export default function KataFinal({
               <FinalPont
                 sumScore={sumScore}
                 setOverline={setOverline}
-                setSumScore={setSumScore}
                 setMinIndex={setMinIndex}
                 setMaxIndex={setMaxIndex}
                 finalScore={finalScore}

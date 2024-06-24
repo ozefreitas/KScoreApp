@@ -15,7 +15,7 @@
 }
 
 .shiroCard {
-  background-color: var(--shiro-light-theme-color);
+  background-color: var(--shiro-color);
 }
 
 .colorName {
@@ -32,7 +32,7 @@
 .shiroName {
   padding-right: 70px;
   font-size: 2.3vw;
-  color: var(--shiro-light-theme-color);
+  color: var(--shiro-color);
 }
 
 .outerCard {

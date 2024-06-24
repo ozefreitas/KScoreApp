@@ -1,12 +1,21 @@
 :root {
+  --theme-background-color: black;
+  /* --theme-background-color: rgb(192, 192, 192); */
+  --theme-navBar-color: rgba(0, 0, 0, 0.8);
+  /* --theme-navBar-color: rgba(192, 192, 192, 0.8); */
+  --theme-text-color: white;
   --aka-color: #bf0303;
   --aka-contrast-color: white;
-  --shiro-light-theme-color: white;
-  --shiro-contrast-light-theme-color: black;
+  --shiro-color: white;
+  --shiro-contrast-color: black;
   --lost-by-fouls-color: rgb(255, 78, 18);
   --clock-color: yellow;
   --clock-last-seconds-color: orange;
 }
+
+/* * {
+  transition: all 0.3s ease-in-out;
+} */
 
 .blinking {
   animation: blinker 0.8s linear infinite;

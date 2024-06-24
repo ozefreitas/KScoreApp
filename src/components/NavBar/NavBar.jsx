@@ -5,6 +5,7 @@ export default function NavBar({
   isMenuOpen,
   setIsMenuOpen,
   setCompetitors,
+  theme,
   setTeams,
   setKatas,
   blinking,
@@ -218,14 +219,20 @@ export default function NavBar({
               <Link
                 to="/home"
                 onClick={() => handleClick("home")}
-                style={{ textDecoration: "none", color: "white" }}
+                className={styles.liStyling}
               >
                 Início
               </Link>
             </li>
             <li
               ref={compRef}
-              className={`${blinking.comp ? styles.blinker : ""}`}
+              className={`${
+                blinking.comp
+                  ? theme === "dark"
+                    ? styles.blinker_dark_theme
+                    : styles.blinker_light_theme
+                  : ""
+              }`}
             >
               <span onClick={handleClickCompetitor}>
                 Inserir Lista de Competidores
@@ -234,26 +241,32 @@ export default function NavBar({
                 id="Competitor_Picker"
                 type="file"
                 onChange={handleCompFile}
-                className={styles.inputFile}
+                className={`${styles.inputFile} ${styles.liStyling}`}
               ></input>
             </li>
             <li
               ref={teamRef}
-              className={`${blinking.team ? styles.blinker : ""}`}
+              className={`${
+                blinking.team
+                  ? theme === "dark"
+                    ? styles.blinker_dark_theme
+                    : styles.blinker_light_theme
+                  : ""
+              }`}
             >
               <span onClick={handleClickTeam}>Inserir Lista de Equipas</span>
               <input
                 id="Team_Picker"
                 type="file"
                 onChange={handleTeamFile}
-                className={styles.inputFile}
+                className={`${styles.inputFile} ${styles.liStyling}`}
               ></input>
             </li>
             <li className={currentPage.elimDraw ? styles.currentPage : ""}>
               <Link
                 to="/eliminationdraw"
                 onClick={() => handleClick("elimDraw")}
-                style={{ textDecoration: "none", color: "white" }}
+                className={styles.liStyling}
               >
                 Fazer Novo Sorteio (Eliminatórias)
               </Link>
@@ -262,7 +275,7 @@ export default function NavBar({
               <Link
                 to="/groupdraw"
                 onClick={() => handleClick("groupDraw")}
-                style={{ textDecoration: "none", color: "white" }}
+                className={styles.liStyling}
               >
                 Fazer Novo Sorteio (por Escalão)
               </Link>
@@ -271,28 +284,34 @@ export default function NavBar({
               <Link
                 to="/matchesdraw"
                 onClick={() => handleClick("matchesDraw")}
-                style={{ textDecoration: "none", color: "white" }}
+                className={styles.liStyling}
               >
                 Fazer Novo Sorteio (dentro de Grupo)
               </Link>
             </li>
             <li
               ref={kataRef}
-              className={`${blinking.kata ? styles.blinker : ""}`}
+              className={`${
+                blinking.kata
+                  ? theme === "dark"
+                    ? styles.blinker_dark_theme
+                    : styles.blinker_light_theme
+                  : ""
+              }`}
             >
               <span onClick={handleClickKata}>Inserir Lista de Katas</span>
               <input
                 id="Kata_Picker"
                 type="file"
                 onChange={handleKataFile}
-                className={styles.inputFile}
+                className={`${styles.inputFile} ${styles.liStyling}`}
               ></input>
             </li>
             <li className={currentPage.kataElim ? styles.currentPage : ""}>
               <Link
                 to="/kataelim"
                 onClick={() => handleClick("kataElim")}
-                style={{ textDecoration: "none", color: "white" }}
+                className={styles.liStyling}
               >
                 Kata Eliminação
               </Link>
@@ -301,7 +320,7 @@ export default function NavBar({
               <Link
                 to="/katafinal"
                 onClick={() => handleClick("kataFinal")}
-                style={{ textDecoration: "none", color: "white" }}
+                className={styles.liStyling}
               >
                 Kata Finais
               </Link>
@@ -310,7 +329,7 @@ export default function NavBar({
               <Link
                 to="/teamkata"
                 onClick={() => handleClick("teamKata")}
-                style={{ textDecoration: "none", color: "white" }}
+                className={styles.liStyling}
               >
                 Kata Equipa / Kihon Finais
               </Link>
@@ -319,7 +338,7 @@ export default function NavBar({
               <Link
                 to="/kihon"
                 onClick={() => handleClick("kihon")}
-                style={{ textDecoration: "none", color: "white" }}
+                className={styles.liStyling}
               >
                 Kihon
               </Link>
@@ -328,7 +347,7 @@ export default function NavBar({
               <Link
                 to="/kumite"
                 onClick={() => handleClick("kumite")}
-                style={{ textDecoration: "none", color: "white" }}
+                className={styles.liStyling}
               >
                 Kumite
               </Link>
@@ -337,7 +356,7 @@ export default function NavBar({
               <Link
                 to="/teamkumite"
                 onClick={() => handleClick("teamKumite")}
-                style={{ textDecoration: "none", color: "white" }}
+                className={styles.liStyling}
               >
                 Kumite Equipa
               </Link>
@@ -346,7 +365,7 @@ export default function NavBar({
               <Link
                 to="/credits"
                 onClick={() => handleClick("credits")}
-                style={{ textDecoration: "none", color: "white" }}
+                className={styles.liStyling}
               >
                 Créditos
               </Link>

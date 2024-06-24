@@ -8,7 +8,7 @@
 }
 
 .shiroCard {
-  background-color: white;
+  background-color: var(--shiro-color);
 }
 
 .colorName {

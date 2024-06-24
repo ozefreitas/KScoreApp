@@ -1,6 +1,7 @@
 body {
-  background-color: black;
-  color: white;
+  background-color: var(--theme-background-color);
+  color: var(--theme-text-color);
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
   margin: 10px;
   overflow: hidden;
   font-family: Arial, Helvetica, sans-serif;

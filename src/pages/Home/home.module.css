@@ -1,3 +1,15 @@
+.flexDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.themeButton {
+  left: 10%;
+  position: relative;
+}
+
 .appName {
   padding: 15px;
   text-align: center;

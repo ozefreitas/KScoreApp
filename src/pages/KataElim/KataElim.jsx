@@ -15,6 +15,8 @@ export default function KataElim({
   setBlinking,
   isDefault,
   setIsDefault,
+  category,
+  setCategory,
   matchType,
   setMatchType,
   showNotification,
@@ -56,6 +58,8 @@ export default function KataElim({
         setTatami={setTatami}
         isDefault={isDefault}
         setIsDefault={setIsDefault}
+        category={category}
+        setCategory={setCategory}
         matchType={matchType}
       ></Header>
       {competitors.length !== 0 && katas.length !== 0 ? (

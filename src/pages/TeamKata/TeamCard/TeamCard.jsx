@@ -6,6 +6,7 @@ import { useEffect } from "react";
 export default function TeamCard({
   match,
   katas,
+  setClubName,
   setShowNotification,
   setNotificationTitle,
   setNotificationBody,
@@ -43,7 +44,11 @@ export default function TeamCard({
         ""
       )}
       <div className={`${kataOrKihon === "Kihon Finais " ? styles.kihon : ""}`}>
-        <FinalistClub match={match} kataOrKihon={kataOrKihon}></FinalistClub>
+        <FinalistClub
+          match={match}
+          kataOrKihon={kataOrKihon}
+          setClubName={setClubName}
+        ></FinalistClub>
       </div>
     </div>
   );

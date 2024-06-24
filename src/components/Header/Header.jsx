@@ -118,11 +118,12 @@ export default function Header({
       draw === "elimination" ||
       match === "kumite" ||
       match === "teamkumite" ||
-      match === "kata"
+      match === "kata" ||
+      match === "teamkata"
     ) {
       setCategory(event.target.value);
       if (event.target.value !== "default") {
-        setIsDefault((prevState) => ({ ...prevState, category: false }));
+        setIsDefault((prevState) => ({ ...prevState, category: false })); // ao mudar de pagina mantem o estado de default
       } else {
         setIsDefault((prevState) => ({ ...prevState, category: true }));
       }

@@ -2,7 +2,6 @@ import styles from "./classification.module.css";
 import React from "react";
 
 export default function Classification({ category, match, results }) {
-  console.log(category);
   const sortResults = (object) => {
     const sortable = Object.fromEntries(
       Object.entries(object).sort((a, b) => {
@@ -121,9 +120,9 @@ export default function Classification({ category, match, results }) {
   };
 
   return (
-    <div>
-      <div className={styles.header}>
-        Resultados da prova de {match} {category}
+    <div className={styles.header}>
+      <div style={{ background: "black" }}>
+        Resultados da prova de {match} {category !== "default" ? category : ""}
       </div>
       <div style={{ display: "flex", justifyContent: "center" }}>
         <div className={styles.classificationContainer}>

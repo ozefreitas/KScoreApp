@@ -40,7 +40,7 @@
   font-weight: bold;
   width: 10%;
   height: inherit;
-  background-color: red;
+  background-color: var(--aka-color);
   color: white;
   float: right;
   cursor: pointer;

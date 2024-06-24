@@ -4,7 +4,8 @@
 }
 
 .navBar {
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: var(--theme-navBar-color);
+  transition: background-color 0.3s ease-in-out;
   height: 90vh;
   width: 600px;
   position: fixed;
@@ -32,7 +33,11 @@
   border-bottom: solid;
 }
 
-.blinker {
+.blinker_dark_theme {
+  animation: pulse 1s linear infinite;
+}
+
+.blinker_light_theme {
   animation: pulse 1s linear infinite;
 }
 
@@ -42,7 +47,7 @@
     background-color: rgb(0, 104, 145);
   }
   50% {
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: var(--theme-navBar-color);
   }
 }
 
@@ -52,12 +57,20 @@
 
 .open {
   left: 0;
+  transition: left 0.5s ease-in-out; 
 }
 
 .close {
   left: -620px;
+  transition: left 0.5s ease-in-out;
 }
 
 .inputFile {
   display: none;
+}
+
+.liStyling {
+  color: var(--theme-text-color);
+  text-decoration: none;
+  transition: color 0.3s ease-in-out;
 }
