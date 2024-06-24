@@ -11,11 +11,11 @@
 }
 
 .akaCard {
-  background-color: #bf0303;
+  background-color: var(--aka-color);
 }
 
 .shiroCard {
-  background-color: white;
+  background-color: var(--shiro-light-theme-color);
 }
 
 .colorName {
@@ -26,13 +26,13 @@
 .akaName {
   padding-left: 70px;
   font-size: 2.3vw;
-  color: #bf0303;
+  color: var(--aka-color);
 }
 
 .shiroName {
   padding-right: 70px;
   font-size: 2.3vw;
-  color: white;
+  color: var(--shiro-light-theme-color);
 }
 
 .outerCard {
@@ -40,14 +40,4 @@
   width: 49%;
   height: 18vh;
   border-radius: 10px;
-}
-
-.blinking {
-  animation: blinker 0.8s linear infinite;
-}
-
-@keyframes blinker {
-  50% {
-    opacity: 0;
-  }
 }

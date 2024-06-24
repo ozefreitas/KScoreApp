@@ -83,18 +83,20 @@ export default function NavBar({
     const content = fileReader.result;
     const jsonResources = JSON.parse(content);
     const groupedCompetitors = {};
-    const neededKeys = ["number", "name", "team", "category", "type", "favorite"];
+    const neededKeys = [
+      "number",
+      "name",
+      "team",
+      "category",
+      "type",
+      "favorite",
+    ];
     jsonResources.forEach((resource, index) => {
       if (neededKeys.every((key) => Object.keys(resource).includes(key))) {
-        const key = `${resource.number}-${resource.name}-${resource.team}`;
-        if (groupedCompetitors[key]) {
-          groupedCompetitors[key].category.push(resource.category);
-        } else {
-          groupedCompetitors[key] = {
-            ...resource,
-            category: [resource.category],
-          };
-        }
+        const key = `${resource.number}-${resource.name}-${resource.team}-${resource.type}`;
+        groupedCompetitors[key] = {
+          ...resource,
+        };
       } else {
         setShowNotification(true);
         setNotificationTitle("ERRO - ficheiro não suportado");
@@ -150,10 +152,14 @@ export default function NavBar({
   const handleKataRead = () => {
     const content = fileReader.result;
     const jsonResources = JSON.parse(content);
+    const kataList = {};
     const neededKeys = ["kata_number", "kata_name"];
     jsonResources.forEach((resource, index) => {
       if (neededKeys.every((key) => Object.keys(resource).includes(key))) {
-        return;
+        const key = resource.kata_number;
+        kataList[key] = {
+          ...resource,
+        };
       } else {
         setShowNotification(true);
         setNotificationTitle("ERRO - ficheiro não suportado");
@@ -163,7 +169,8 @@ export default function NavBar({
         jsonResources.length = index + 1;
       }
     });
-    setKatas(JSON.parse(content));
+    const katas = Object.values(kataList);
+    setKatas(katas);
   };
 
   const handleBarClose = () => {

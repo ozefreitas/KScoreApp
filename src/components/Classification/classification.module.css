@@ -1,0 +1,60 @@
+.header {
+  font-size: 2.7vw;
+  position: absolute;
+}
+
+.classificationContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  /* margin-top: 200px; */
+  font-size: 3vw;
+  width: 70%;
+}
+
+.line {
+  padding: 30px 40px 30px 40px;
+  border-radius: 20px;
+  margin-top: 10px;
+  margin-bottom: 30px;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.line:not(:last-child) {
+  border-bottom: 3px solid #ccc;
+}
+
+.clubCenter {
+  position: absolute;
+  left: 23%;
+}
+
+.nameCenter {
+  position: relative;
+  left: 15%;
+  font-size: 3.5vw;
+}
+
+.gold {
+  background-color: #ffd700;
+}
+
+.silver {
+  background-color: #c0c0c0;
+}
+
+.bronze {
+  background-color: hsl(30, 61%, 50%);
+}
+
+.divider {
+  border: 0;
+  border-bottom: 2px solid #ccc;
+  margin: 10px 0;
+  width: 110%;
+}

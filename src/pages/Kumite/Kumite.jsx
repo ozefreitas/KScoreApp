@@ -17,6 +17,8 @@ export default function Kumite({
   setIsMenuOpen,
   blinking,
   setBlinking,
+  category,
+  setCategory,
   isDefault,
   setIsDefault,
   modality,
@@ -58,43 +60,6 @@ export default function Kumite({
     setMatchType("Kumite");
   });
 
-  const isInputFocused = () => {
-    return document.activeElement.tagName.toLowerCase() === "input";
-  };
-
-  const handleKeyPress = (event) => {
-    if (
-      (event.key === "Backspace" && event.ctrlKey && !isInputFocused()) ||
-      (event.key === "Enter" && event.ctrlKey && !isInputFocused())
-    ) {
-      setWinner({ aka: false, shiro: false });
-      setAkaIppon(0);
-      setAkaWazaari(0);
-      setAkaSquares({
-        squaresK: [],
-        squaresJ: [],
-        squaresM: [],
-      });
-      setShiroIppon(0);
-      setShiroWazaari(0);
-      setShiroSquares({
-        squaresK: [],
-        squaresJ: [],
-        squaresM: [],
-      });
-    }
-  };
-
-  useEffect(() => {
-    // attach the event listener
-    document.addEventListener("keydown", handleKeyPress);
-
-    // remove the event listener
-    return () => {
-      document.removeEventListener("keydown", handleKeyPress);
-    };
-  }, [handleKeyPress]);
-
   useEffect(() => {
     setBlinking((prevState) => ({
       ...prevState,
@@ -118,6 +83,8 @@ export default function Kumite({
         match={match}
         tatami={tatami}
         setTatami={setTatami}
+        category={category}
+        setCategory={setCategory}
         isDefault={isDefault}
         setIsDefault={setIsDefault}
         modality={modality}
@@ -132,6 +99,7 @@ export default function Kumite({
           ></KumiteCompCard>
           <div className={styles.kumiteInfoMainContainer}>
             <AkaInfo
+              category={category}
               akaWazaari={akaWazaari}
               setAkaWazaari={setAkaWazaari}
               akaIppon={akaIppon}
@@ -146,6 +114,7 @@ export default function Kumite({
             ></AkaInfo>
             <Time
               match={match}
+              category={category}
               setShowNotification={setShowNotification}
               setNotificationTitle={setNotificationTitle}
               setNotificationBody={setNotificationBody}
@@ -153,8 +122,21 @@ export default function Kumite({
               shiroScore={shiroScore}
               winner={winner}
               setWinner={setWinner}
+              akaWazaari={akaWazaari}
+              setAkaWazaari={setAkaWazaari}
+              akaIppon={akaIppon}
+              setAkaIppon={setAkaIppon}
+              akaSquares={akaSquares}
+              setAkaSquares={setAkaSquares}
+              shiroWazaari={shiroWazaari}
+              setShiroWazaari={setShiroWazaari}
+              shiroIppon={shiroIppon}
+              setShiroIppon={setShiroIppon}
+              shiroSquares={shiroSquares}
+              setShiroSquares={setShiroSquares}
             ></Time>
             <ShiroInfo
+              category={category}
               setAkaWazaari={setAkaWazaari}
               shiroWazaari={shiroWazaari}
               setShiroWazaari={setShiroWazaari}

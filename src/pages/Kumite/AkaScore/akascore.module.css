@@ -11,7 +11,7 @@
   background-color: transparent;
   border: none;
   font-size: 18vw;
-  color: #bf0303;
+  color: var(--aka-color)
 }
 
 .blinking {

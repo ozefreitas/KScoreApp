@@ -10,6 +10,8 @@ export default function TeamKumite({
   setIsMenuOpen,
   blinking,
   setBlinking,
+  category,
+  setCategory,
   isDefault,
   setIsDefault,
   modality,
@@ -38,6 +40,8 @@ export default function TeamKumite({
         setIsMenuOpen={setIsMenuOpen}
         blinking={blinking}
         setBlinking={setBlinking}
+        category={category}
+        setCategory={setCategory}
         isDefault={isDefault}
         setIsDefault={setIsDefault}
         modality={modality}

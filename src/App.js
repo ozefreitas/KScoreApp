@@ -15,6 +15,7 @@ import MatchesDraw from "./pages/MatchesDraw/MatchesDraw";
 import Credits from "./pages/Credits/Credits";
 import CustomNotification from "./components/CustomNotification/CustomNotification";
 import Kihon from "./pages/Kihon/Kihon";
+import { selectElement } from "./utils";
 
 function App() {
   const [tatami, setTatami] = useState("");
@@ -38,6 +39,7 @@ function App() {
   const [showNotification, setShowNotification] = useState(false);
   const [notificationTitle, setNotificationTitle] = useState("");
   const [notificationBody, setNotificationBody] = useState("");
+  const [showClassification, setShowClassification] = useState(false)
   const [actions, setActions] = useState(false);
   const [proceed, setProceed] = useState(true);
   const [currentPage, setCurrentPage] = useState({
@@ -63,6 +65,10 @@ function App() {
     setIsDefault({ category: true, modality: true, matchtype: true });
     setModality("default");
     setMatchType("default");
+    selectElement("typeList", "default");
+    if (currentPage.kumite || currentPage.teamKumite) {
+      setCategory("default");
+    }
   }, [currentPage]);
 
   return (
@@ -168,6 +174,8 @@ function App() {
               setIsDefault={setIsDefault}
               category={category}
               setCategory={setCategory}
+              modality={modality}
+              setModality={setModality}
               matchType={matchType}
               setMatchType={setMatchType}
               setCurrentPage={setCurrentPage}
@@ -240,6 +248,8 @@ function App() {
               setBlinking={setBlinking}
               isDefault={isDefault}
               setIsDefault={setIsDefault}
+              category={category}
+              setCategory={setCategory}
               matchType={matchType}
               setMatchType={setMatchType}
               showNotification={showNotification}
@@ -248,6 +258,8 @@ function App() {
               setNotificationTitle={setNotificationTitle}
               notificationBody={notificationBody}
               setNotificationBody={setNotificationBody}
+              showClassification={showClassification}
+              setShowClassification={setShowClassification}
               compRef={compRef}
               kataRef={kataRef}
             ></KataFinal>
@@ -309,6 +321,8 @@ function App() {
               isMenuOpen={isMenuOpen}
               setIsMenuOpen={setIsMenuOpen}
               setBlinking={setBlinking}
+              category={category}
+              setCategory={setCategory}
               isDefault={isDefault}
               setIsDefault={setIsDefault}
               modality={modality}
@@ -336,6 +350,8 @@ function App() {
               isMenuOpen={isMenuOpen}
               setIsMenuOpen={setIsMenuOpen}
               setBlinking={setBlinking}
+              category={category}
+              setCategory={setCategory}
               isDefault={isDefault}
               setIsDefault={setIsDefault}
               modality={modality}

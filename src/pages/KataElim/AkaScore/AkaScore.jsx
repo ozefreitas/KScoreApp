@@ -1,17 +1,24 @@
 import styles from "./akascore.module.css";
 import { useCallback, useEffect } from "react";
 
-export default function AkaScore({ id, akaScore, setAkaScore, winner }) {
+export default function AkaScore({
+  id,
+  akaScore,
+  setAkaScore,
+  winner,
+  setWinner,
+}) {
   const handleKeyPress = useCallback(
     (event) => {
       const numberKeys = ["0", "1", "2", "3", "4", "5"];
       if (event.ctrlKey && numberKeys.some((anyKey) => event.key === anyKey)) {
         event.preventDefault();
         setAkaScore(event.key);
-      }
-
-      if (event.key === "Backspace" && event.ctrlKey) {
+      } else if (event.key === "Backspace" && event.ctrlKey) {
         setAkaScore("");
+      } else if (event.code === "Space" && event.ctrlKey) {
+        setAkaScore("");
+        setWinner({ aka: false, shiro: false });
       }
     },
     [setAkaScore]

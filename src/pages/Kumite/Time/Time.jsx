@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
 import styles from "./time.module.css";
+import ScoreControl from "../ScoreControl/ScoreControl";
+import "../../../variables.css";
 
 export default function Time({
   match,
+  category,
   setShowNotification,
   setNotificationTitle,
   setNotificationBody,
@@ -10,6 +13,18 @@ export default function Time({
   shiroScore,
   winner,
   setWinner,
+  akaWazaari,
+  setAkaWazaari,
+  akaIppon,
+  setAkaIppon,
+  shiroWazaari,
+  setShiroWazaari,
+  shiroIppon,
+  setShiroIppon,
+  akaSquares,
+  setAkaSquares,
+  shiroSquares,
+  setShiroSquares,
 }) {
   const [milliseconds, setMilliseconds] = useState(0);
   const [seconds, setSeconds] = useState(0);
@@ -25,45 +40,26 @@ export default function Time({
     match5: { backgroundColor: "" },
   });
   const [winnerTeam, setWinnerTeam] = useState({
-    match1: false,
-    match2: false,
-    match3: false,
-    match4: false,
-    match5: false,
+    matchWinner: {
+      match1: false,
+      match2: false,
+      match3: false,
+      match4: false,
+      match5: false,
+    },
+    matchBlinking: {
+      match1: false,
+      match2: false,
+      match3: false,
+      match4: false,
+      match5: false,
+    },
   });
   const [teamMatchEnded, setTeamMatchEnded] = useState({
     aka: false,
     shiro: false,
   });
   const sound = document.getElementById("gong");
-
-  useEffect(() => {
-    let interval;
-    if (isRunning) {
-      interval = setInterval(() => {
-        if (milliseconds > 0) {
-          setMilliseconds((milliseconds) => milliseconds - 1);
-        } else if (seconds > 0) {
-          setSeconds((seconds) => seconds - 1);
-          setMilliseconds(99);
-        } else if (minutes > 0) {
-          setMinutes((minutes) => minutes - 1);
-          setSeconds(59);
-          setMilliseconds(99);
-        }
-        if (seconds < 30 && minutes === 0) {
-          setTimeLow(true);
-          if (seconds === 0 && milliseconds === 0) {
-            setEnded(true);
-          }
-        } else {
-          setTimeLow(false);
-          setEnded(false);
-        }
-      }, 10);
-    }
-    return () => clearInterval(interval);
-  }, [milliseconds, seconds, minutes, isRunning]);
 
   useEffect(() => {
     if (timeLow) {
@@ -85,57 +81,147 @@ export default function Time({
     }
   }, [timeLow, ended]);
 
+  // check for winner team
   useEffect(() => {
     const newCounts = { aka: 0, shiro: 0, tie: 0 };
 
-    Object.values(winnerTeam).forEach((winner) => {
+    Object.values(winnerTeam.matchWinner).forEach((winner) => {
       if (winner === "aka") newCounts.aka += 1;
       else if (winner === "shiro") newCounts.shiro += 1;
       else if (winner === "tie") newCounts.tie += 1;
     });
     if (newCounts.tie <= 1) {
-      if (newCounts.aka === 2) {
-        const updatedWinnerTeam = { ...winnerTeam };
+      if (newCounts.aka === 2 && !teamMatchEnded.aka) {
+        const updatedWinnerTeam = { ...winnerTeam.matchWinner };
         for (let match in updatedWinnerTeam) {
           if (updatedWinnerTeam[match] === "aka") {
             updatedWinnerTeam[match] = true;
           }
-          setWinnerTeam(updatedWinnerTeam);
+          setWinnerTeam((prevWinnerTeam) => ({
+            ...prevWinnerTeam,
+            matchBlinking: updatedWinnerTeam,
+          }));
         }
-        setTeamMatchEnded({ ...teamMatchEnded, aka: true });
-      } else if (newCounts.shiro === 2) {
-        const updatedWinnerTeam = { ...winnerTeam };
+        setTeamMatchEnded((prevTeamMatchEnded) => ({
+          ...prevTeamMatchEnded,
+          aka: true,
+        }));
+      } else if (newCounts.aka !== 2 && teamMatchEnded.aka) {
+        setWinner({ aka: false, shiro: false });
+        setWinnerTeam((prevWinnerTeam) => ({
+          ...prevWinnerTeam,
+          matchBlinking: {
+            match1: false,
+            match2: false,
+            match3: false,
+            match4: false,
+            match5: false,
+          },
+        }));
+        setTeamMatchEnded((prevTeamMatchEnded) => ({
+          ...prevTeamMatchEnded,
+          aka: false,
+        }));
+      } else if (newCounts.shiro === 2 && !teamMatchEnded.shiro) {
+        const updatedWinnerTeam = { ...winnerTeam.matchWinner };
         for (let match in updatedWinnerTeam) {
           if (updatedWinnerTeam[match] === "shiro") {
             updatedWinnerTeam[match] = true;
           }
-          setWinnerTeam(updatedWinnerTeam);
+          setWinnerTeam((prevWinnerTeam) => ({
+            ...prevWinnerTeam,
+            matchBlinking: updatedWinnerTeam,
+          }));
         }
-        setTeamMatchEnded({ ...teamMatchEnded, shiro: true });
+        setTeamMatchEnded((prevTeamMatchEnded) => ({
+          ...prevTeamMatchEnded,
+          shiro: true,
+        }));
+      } else if (newCounts.shiro !== 2 && teamMatchEnded.shiro) {
+        setWinner({ aka: false, shiro: false });
+        setWinnerTeam((prevWinnerTeam) => ({
+          ...prevWinnerTeam,
+          matchBlinking: {
+            match1: false,
+            match2: false,
+            match3: false,
+            match4: false,
+            match5: false,
+          },
+        }));
+        setTeamMatchEnded((prevTeamMatchEnded) => ({
+          ...prevTeamMatchEnded,
+          shiro: false,
+        }));
       }
     } else {
-      if (newCounts.aka === 1) {
-        const updatedWinnerTeam = { ...winnerTeam };
+      if (newCounts.aka === 1 && !teamMatchEnded.aka) {
+        const updatedWinnerTeam = { ...winnerTeam.matchWinner };
         for (let match in updatedWinnerTeam) {
           if (updatedWinnerTeam[match] === "aka") {
             updatedWinnerTeam[match] = true;
           }
-          setWinnerTeam(updatedWinnerTeam);
+          setWinnerTeam((prevWinnerTeam) => ({
+            ...prevWinnerTeam,
+            matchBlinking: updatedWinnerTeam,
+          }));
         }
-        setTeamMatchEnded({ ...teamMatchEnded, aka: true });
-      } else if (newCounts.shiro === 1) {
-        const updatedWinnerTeam = { ...winnerTeam };
+        setTeamMatchEnded((prevTeamMatchEnded) => ({
+          ...prevTeamMatchEnded,
+          aka: true,
+        }));
+      } else if (newCounts.aka === 0 && teamMatchEnded.aka) {
+        setWinner({ aka: false, shiro: false });
+        setWinnerTeam((prevWinnerTeam) => ({
+          ...prevWinnerTeam,
+          matchBlinking: {
+            match1: false,
+            match2: false,
+            match3: false,
+            match4: false,
+            match5: false,
+          },
+        }));
+        setTeamMatchEnded((prevTeamMatchEnded) => ({
+          ...prevTeamMatchEnded,
+          aka: false,
+        }));
+      } else if (newCounts.shiro === 1 && !teamMatchEnded.shiro) {
+        const updatedWinnerTeam = { ...winnerTeam.matchWinner };
         for (let match in updatedWinnerTeam) {
           if (updatedWinnerTeam[match] === "shiro") {
             updatedWinnerTeam[match] = true;
           }
-          setWinnerTeam(updatedWinnerTeam);
+          setWinnerTeam((prevWinnerTeam) => ({
+            ...prevWinnerTeam,
+            matchBlinking: updatedWinnerTeam,
+          }));
         }
-        setTeamMatchEnded({ ...teamMatchEnded, shiro: true });
+        setTeamMatchEnded((prevTeamMatchEnded) => ({
+          ...prevTeamMatchEnded,
+          shiro: true,
+        }));
+      } else if (newCounts.shiro === 0 && teamMatchEnded.shiro) {
+        setWinner({ aka: false, shiro: false });
+        setWinnerTeam((prevWinnerTeam) => ({
+          ...prevWinnerTeam,
+          matchBlinking: {
+            match1: false,
+            match2: false,
+            match3: false,
+            match4: false,
+            match5: false,
+          },
+        }));
+        setTeamMatchEnded((prevTeamMatchEnded) => ({
+          ...prevTeamMatchEnded,
+          shiro: false,
+        }));
       }
     }
   }, [winnerTeam, teamMatchEnded]);
 
+  // if a team won, her card blinks also
   useEffect(() => {
     if (teamMatchEnded.aka) {
       setWinner({ ...winner, aka: true });
@@ -147,80 +233,6 @@ export default function Time({
   const formatTime = (time) => {
     return time < 10 ? `0${time}` : time;
   };
-
-  const isInputFocused = () => {
-    return document.activeElement.tagName.toLowerCase() === "input";
-  };
-
-  const handleKeyPress = (event) => {
-    if (event.code === "Space" && !isInputFocused()) {
-      if (!startTimer()) {
-        return;
-      } else setIsRunning(!isRunning);
-    } else if (event.code === "ArrowUp" && !isInputFocused()) {
-      setIsRunning(false);
-      setSeconds((prevSconds) => prevSconds + 1);
-      setMilliseconds(0);
-      if (seconds === 59) {
-        setMinutes((prevMinutes) => prevMinutes + 1);
-        setSeconds(0);
-      }
-    } else if (event.code === "ArrowDown" && !isInputFocused()) {
-      setIsRunning(false);
-      setSeconds((prevSconds) => prevSconds - 1);
-      setMilliseconds(0);
-      if (minutes === 0 && seconds <= 0) {
-        setSeconds(0);
-      } else if (seconds === 0) {
-        setMinutes((prevMinutes) => prevMinutes - 1);
-        setSeconds(59);
-      }
-    } else if (
-      event.key === "Backspace" &&
-      event.ctrlKey &&
-      !isInputFocused()
-    ) {
-      setMilliseconds(0);
-      setSeconds(0);
-      setMinutes(0);
-      setIsRunning(false);
-      setTimeLow(false);
-      setEnded(false);
-      setTeamMatchEnded(false);
-    } else if (event.key === "r" && !isInputFocused()) {
-      setMilliseconds(0);
-      setSeconds(0);
-      setMinutes(2);
-      setIsRunning(false);
-      setTimeLow(false);
-      setEnded(false);
-    } else if (event.key === "t" && !isInputFocused()) {
-      setMilliseconds(0);
-      setSeconds(30);
-      setMinutes(1);
-      setIsRunning(false);
-      setTimeLow(false);
-      setEnded(false);
-    } else if (event.key === "Enter" && event.ctrlKey && !isInputFocused()) {
-      matchEnded();
-      setMilliseconds(0);
-      setSeconds(0);
-      setMinutes(0);
-      setIsRunning(false);
-      setTimeLow(false);
-      setEnded(false);
-    }
-  };
-
-  useEffect(() => {
-    // attach the event listener
-    document.addEventListener("keydown", handleKeyPress);
-
-    // remove the event listener
-    return () => {
-      document.removeEventListener("keydown", handleKeyPress);
-    };
-  }, [handleKeyPress]);
 
   const startTimer = () => {
     if (minutes !== 0 || seconds !== 0 || milliseconds !== 0) {
@@ -234,6 +246,7 @@ export default function Time({
     }
   };
 
+  // sets the results of the matchs in Team Kumite
   const matchEnded = () => {
     for (let key of Object.keys(matchClick)) {
       if (matchClick[key].backgroundColor === "") {
@@ -245,7 +258,10 @@ export default function Time({
               backgroundColor: "#bf0303",
             },
           });
-          setWinnerTeam({ ...winnerTeam, [key]: "aka" });
+          setWinnerTeam((prevWinnerTeam) => ({
+            ...prevWinnerTeam,
+            matchWinner: { ...prevWinnerTeam.matchWinner, [key]: "aka" },
+          }));
         } else if (akaScore < shiroScore) {
           setMatchClick({
             ...matchClick,
@@ -254,7 +270,10 @@ export default function Time({
               backgroundColor: "white",
             },
           });
-          setWinnerTeam({ ...winnerTeam, [key]: "shiro" });
+          setWinnerTeam((prevWinnerTeam) => ({
+            ...prevWinnerTeam,
+            matchWinner: { ...prevWinnerTeam.matchWinner, [key]: "shiro" },
+          }));
         } else {
           setMatchClick({
             ...matchClick,
@@ -263,7 +282,10 @@ export default function Time({
               backgroundColor: "yellow",
             },
           });
-          setWinnerTeam({ ...winnerTeam, [key]: "tie" });
+          setWinnerTeam((prevWinnerTeam) => ({
+            ...prevWinnerTeam,
+            matchWinner: { ...prevWinnerTeam.matchWinner, [key]: "tie" },
+          }));
         }
         document.getElementById(key).innerText = `${akaScore} - ${shiroScore}`;
         break;
@@ -279,7 +301,10 @@ export default function Time({
       ...matchClick,
       [matchNumber]: { ...matchClick[matchNumber], backgroundColor: "" },
     });
-    setWinnerTeam({ ...winnerTeam, [matchNumber]: false });
+    setWinnerTeam((prevWinnerTeam) => ({
+      ...prevWinnerTeam,
+      matchWinner: { ...prevWinnerTeam.matchWinner, [matchNumber]: false },
+    }));
     document.getElementById(matchNumber).innerText = "";
   };
 
@@ -337,7 +362,7 @@ export default function Time({
             <div
               id="match1"
               className={`${styles.wonMatches} ${
-                winnerTeam.match1 === true ? styles.blinking : ""
+                winnerTeam.matchBlinking.match1 === true ? "blinking" : ""
               } ${
                 matchClick.match1.backgroundColor === "white" ||
                 matchClick.match1.backgroundColor === "yellow"
@@ -350,7 +375,7 @@ export default function Time({
             <div
               id="match2"
               className={`${styles.wonMatches} ${
-                winnerTeam.match2 === true ? styles.blinking : ""
+                winnerTeam.matchBlinking.match2 === true ? "blinking" : ""
               } ${
                 matchClick.match2.backgroundColor === "white" ||
                 matchClick.match2.backgroundColor === "yellow"
@@ -363,7 +388,7 @@ export default function Time({
             <div
               id="match3"
               className={`${styles.wonMatches} ${
-                winnerTeam.match3 === true ? styles.blinking : ""
+                winnerTeam.matchBlinking.match3 === true ? "blinking" : ""
               } ${
                 matchClick.match3.backgroundColor === "white" ||
                 matchClick.match3.backgroundColor === "yellow"
@@ -376,7 +401,7 @@ export default function Time({
             <div
               id="match4"
               className={`${styles.wonMatches} ${
-                winnerTeam.match4 === true ? styles.blinking : ""
+                winnerTeam.matchBlinking.match4 === true ? "blinking" : ""
               } ${
                 matchClick.match4.backgroundColor === "white" ||
                 matchClick.match4.backgroundColor === "yellow"
@@ -389,7 +414,7 @@ export default function Time({
             <div
               id="match5"
               className={`${styles.wonMatches} ${
-                winnerTeam.match5 === true ? styles.blinking : ""
+                winnerTeam.matchBlinking.match5 === true ? "blinking" : ""
               } ${
                 matchClick.match5.backgroundColor === "white" ||
                 matchClick.match5.backgroundColor === "yellow"
@@ -404,6 +429,36 @@ export default function Time({
       ) : (
         ""
       )}
+      <ScoreControl
+        match={match}
+        category={category}
+        milliseconds={milliseconds}
+        setMilliseconds={setMilliseconds}
+        seconds={seconds}
+        setSeconds={setSeconds}
+        minutes={minutes}
+        setMinutes={setMinutes}
+        isRunning={isRunning}
+        setIsRunning={setIsRunning}
+        setEnded={setEnded}
+        setTimeLow={setTimeLow}
+        akaWazaari={akaWazaari}
+        setAkaWazaari={setAkaWazaari}
+        akaIppon={akaIppon}
+        setAkaIppon={setAkaIppon}
+        akaSquares={akaSquares}
+        setAkaSquares={setAkaSquares}
+        shiroWazaari={shiroWazaari}
+        setShiroWazaari={setShiroWazaari}
+        shiroIppon={shiroIppon}
+        setShiroIppon={setShiroIppon}
+        shiroSquares={shiroSquares}
+        setShiroSquares={setShiroSquares}
+        startTimer={startTimer}
+        matchEnded={matchEnded}
+        winner={winner}
+        setWinner={setWinner}
+      ></ScoreControl>
     </div>
   );
 }

@@ -12,19 +12,18 @@
 
 .timeContainer {
   position: fixed;
-  top: 400px
+  top: 400px;
 }
 
 .middleContainer .timeContainer span {
   font-size: 7vw;
-  color: yellow;
+  color: var(--clock-color);
   cursor: pointer;
 }
 
 .middleContainer .timeContainer input {
-  /* direction: rtl; */
   font-size: 12vw;
-  color: yellow;
+  color: var(--clock-color);
   background-color: transparent;
   border: none;
   width: 13vw;
@@ -42,11 +41,11 @@
 }
 
 .middleContainer .lastSeconds input {
-  color: orange;
+  color: var(--clock-last-seconds-color);
 }
 
 .middleContainer .lastSeconds span {
-  color: orange;
+  color: var(--clock-last-seconds-color);
 }
 
 .middleContainer .timerEnded input {
@@ -75,7 +74,7 @@
 .wonMatches {
   border-radius: 20%;
   cursor: pointer;
-  width: 90px;
+  width: 5vw;
   height: 60px;
   display: flex;
   align-items: center;
@@ -89,15 +88,5 @@
 }
 
 .white {
-  color: black
-}
-
-.blinking {
-  animation: blinker 0.8s linear infinite;
-}
-
-@keyframes blinker {
-  50% {
-    opacity: 0;
-  }
+  color: var(--shiro-contrast-light-theme-color);
 }

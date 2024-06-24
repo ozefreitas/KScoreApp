@@ -1,7 +1,8 @@
 import styles from "./shiroscore.module.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function ShiroScore({
+  category,
   shiroWazaari,
   shiroIppon,
   shiroScore,
@@ -9,9 +10,17 @@ export default function ShiroScore({
   winner,
   setWinner,
 }) {
+  const [maxScore, setMaxScore] = useState(3);
+
+  useEffect(() => {
+    if (category.includes("Juvenil") || category.includes("Veterano")) {
+      setMaxScore(2);
+    } else setMaxScore(3);
+  }, [category]);
+
   useEffect(() => {
     setShiroScore(parseInt(shiroIppon) * 2 + parseInt(shiroWazaari));
-    if (parseInt(shiroIppon) * 2 + parseInt(shiroWazaari) >= 3) {
+    if (parseInt(shiroIppon) * 2 + parseInt(shiroWazaari) >= maxScore) {
       setWinner({ ...winner, shiro: true });
     } else {
       setWinner({ ...winner, shiro: false });

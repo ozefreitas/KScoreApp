@@ -29,7 +29,7 @@
   width: 4vw;
 }
 
-.foulSquare {
+.shiroFoulSquare {
   cursor: pointer;
   display: inline-block;
   height: 3vw;
@@ -37,10 +37,6 @@
   background-color: white;
   border-radius: 20px;
   margin-left: 1.5vw;
-}
-
-.lostByFoul {
-  background-color: yellow;
 }
 
 .pointCounterContainer {

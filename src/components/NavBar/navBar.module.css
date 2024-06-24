@@ -47,7 +47,7 @@
 }
 
 .currentPage {
-  background-color: #bf0303;
+  background-color: var(--aka-color);
 }
 
 .open {

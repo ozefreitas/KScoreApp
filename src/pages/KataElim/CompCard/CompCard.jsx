@@ -32,7 +32,6 @@ export default function CompCard({
         if (match !== "kihon") {
           document.getElementById("number_form_aka").reset();
           document.getElementById("number_form_shiro").reset();
-          setWinner({ aka: false, shiro: false });
           setState((prevState) => ({
             ...prevState,
             competitorNameShiro: "",
@@ -93,7 +92,11 @@ export default function CompCard({
           {match !== "kihon" ? (
             <CompName id="aka" state={state} winner={winner.aka}></CompName>
           ) : (
-            <FinalistClub match={match} id="aka" winner={winner.aka}></FinalistClub>
+            <FinalistClub
+              match={match}
+              id="aka"
+              winner={winner.aka}
+            ></FinalistClub>
           )}
           <form id="number_form_aka">
             {match !== "kihon" ? (
@@ -126,13 +129,18 @@ export default function CompCard({
             setAkaScore={setAkaScore}
             setState={setState}
             winner={winner}
+            setWinner={setWinner}
           ></AkaScore>
         </div>
         <div className={`${styles.outerCard} ${styles.shiroCard}`}>
           {match !== "kihon" ? (
             <CompName id="shiro" state={state} winner={winner.shiro}></CompName>
           ) : (
-            <FinalistClub match={match} id="shiro" winner={winner.shiro}></FinalistClub>
+            <FinalistClub
+              match={match}
+              id="shiro"
+              winner={winner.shiro}
+            ></FinalistClub>
           )}
           <form id="number_form_shiro">
             {match !== "kihon" ? (
@@ -149,7 +157,13 @@ export default function CompCard({
             )}
           </form>
           {match !== "kihon" ? (
-            <KataName id="shiro" katas={katas}></KataName>
+            <KataName
+              id="shiro"
+              katas={katas}
+              setShowNotification={setShowNotification}
+              setNotificationTitle={setNotificationTitle}
+              setNotificationBody={setNotificationBody}
+            ></KataName>
           ) : (
             ""
           )}

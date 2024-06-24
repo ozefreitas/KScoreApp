@@ -1,6 +1,7 @@
 import CompInfo from "../../../components/CompInfo/CompInfo";
 import CompName from "../../../components/CompName/CompName";
 import styles from "./kumitecompcard.module.css";
+import "../../../variables.css"
 import { useState, useEffect } from "react";
 
 export default function KumiteCompCard({ match, competitors, winner }) {
@@ -45,13 +46,13 @@ export default function KumiteCompCard({ match, competitors, winner }) {
     <div>
       <div className={styles.colorName}>
         <span
-          className={`${styles.akaName} ${winner.aka ? styles.blinking : ""}`}
+          className={`${styles.akaName} ${winner.aka ? "blinking" : ""}`}
         >
           <i>AKA</i>
         </span>
         <span
           className={`${styles.shiroName} ${
-            winner.shiro ? styles.blinking : ""
+            winner.shiro ? "blinking" : ""
           }`}
         >
           <i>SHIRO</i>
@@ -60,7 +61,7 @@ export default function KumiteCompCard({ match, competitors, winner }) {
       <div className={styles.cardsContainer}>
         <div
           className={`${styles.outerCard} ${styles.akaCard} ${
-            winner.aka ? styles.blinking : ""
+            winner.aka ? "blinking" : ""
           }`}
         >
           {match === "teamkumite" ? (
@@ -83,7 +84,7 @@ export default function KumiteCompCard({ match, competitors, winner }) {
         </div>
         <div
           className={`${styles.outerCard} ${styles.shiroCard} ${
-            winner.shiro ? styles.blinking : ""
+            winner.shiro ? "blinking" : ""
           }`}
         >
           {match === "teamkumite" ? (

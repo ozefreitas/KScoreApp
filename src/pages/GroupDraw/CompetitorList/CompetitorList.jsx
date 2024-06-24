@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import CompetitorItem from "../CompetitorItem/CompetitorItem";
 import FileMissing from "../../../components/FileMissing/FileMissing";
 import styles from "./competitorlist.module.css";
-import { executeScroll, shuffleArray } from "../../../utils";
+import { executeScroll, shuffleArray, selectElement } from "../../../utils";
 
 export default function CompetitorList({
   draw,
@@ -36,6 +36,12 @@ export default function CompetitorList({
   const [teamToChange, setTeamToChange] = useState({});
   const [drawIsSet, setDrawIsSet] = useState(false);
   const [currentNumber, setCurrentNumber] = useState(0);
+
+  useEffect(() => {
+    if (draw === "group") {
+      setModality("Individual");
+    }
+  });
 
   const ScrollDraw = useCallback(
     (ref) => {
@@ -234,10 +240,6 @@ export default function CompetitorList({
   );
 
   const handleClick = () => {
-    function selectElement(id, valueToSelect) {
-      let element = document.getElementById(id);
-      element.value = valueToSelect;
-    }
     selectElement("categoryList", "default");
     if (draw === "elimination") {
       selectElement("modList", "default");

@@ -10,8 +10,8 @@ export default function MatchesDraw({
   setCurrentPage,
   category,
   setCategory,
-  setIsDefault,
   isDefault,
+  setIsDefault,
 }) {
   const [uniquePairs, setUniquePairs] = useState({});
   const ipcRenderer = window.ipcRenderer;

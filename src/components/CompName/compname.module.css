@@ -16,26 +16,16 @@
 }
 
 .white {
-  color: white;
+  color: var(--aka-contrast-color);
   margin: 10px 0 0 70px;
   direction: ltr;
 }
 
 .black {
   float: right;
-  color: black;
+  color: var(--shiro-contrast-light-theme-color);
   margin-left: auto;
   margin-right: 70px;
   margin-top: 10px;
   direction: rtl;
-}
-
-.blinking {
-  animation: blinker 0.8s linear infinite;
-}
-
-@keyframes blinker {
-  50% {
-    opacity: 0;
-  }
 }

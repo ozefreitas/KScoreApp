@@ -1,10 +1,11 @@
 import styles from "./compname.module.css";
+import "../../variables.css"
 
 export default function CompName({ match, id, state, winner }) {
   return (
     <div
       className={`${styles.nameContainer} ${styles[match]} ${
-        winner ? styles.blinking : ""
+        winner ? "blinking" : ""
       }`}
     >
       <input

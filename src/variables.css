@@ -1,0 +1,19 @@
+:root {
+  --aka-color: #bf0303;
+  --aka-contrast-color: white;
+  --shiro-light-theme-color: white;
+  --shiro-contrast-light-theme-color: black;
+  --lost-by-fouls-color: rgb(255, 78, 18);
+  --clock-color: yellow;
+  --clock-last-seconds-color: orange;
+}
+
+.blinking {
+  animation: blinker 0.8s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}

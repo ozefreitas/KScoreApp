@@ -3,22 +3,17 @@ import FinalistKata from "../FinalistKata/FinalistKata";
 import FinalistName from "../FinalistName/FinalistName";
 import FinalistNumber from "../FinalistNumber/FinalistNumber";
 import styles from "./finalistcard.module.css";
-import { useState } from "react";
 
 export default function FinalistCard({
   match,
   competitors,
   katas,
+  state,
+  setState,
   setShowNotification,
   setNotificationTitle,
   setNotificationBody,
 }) {
-  const [state, setState] = useState({
-    competitorName: "",
-    competitorTeam: "",
-    competitorNumber: 0,
-  });
-
   return (
     <div className={styles.finalistCard}>
       <div>

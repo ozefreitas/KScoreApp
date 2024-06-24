@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { selectElement } from "../../utils";
 import styles from "./header.module.css";
 
 export default function Header({
@@ -18,10 +19,6 @@ export default function Header({
   setKataOrKihon,
 }) {
   useEffect(() => {
-    function selectElement(id, valueToSelect) {
-      let element = document.getElementById(id);
-      element.value = valueToSelect;
-    }
     if (draw === "group" || draw === "elimination" || draw === "matches") {
       selectElement("categoryList", category);
     }
@@ -115,7 +112,14 @@ export default function Header({
   renderMatchTypeSpan();
 
   const handleCategoryChange = (event) => {
-    if (draw === "group" || draw === "matches" || draw === "elimination") {
+    if (
+      draw === "group" ||
+      draw === "matches" ||
+      draw === "elimination" ||
+      match === "kumite" ||
+      match === "teamkumite" ||
+      match === "kata"
+    ) {
       setCategory(event.target.value);
       if (event.target.value !== "default") {
         setIsDefault((prevState) => ({ ...prevState, category: false }));

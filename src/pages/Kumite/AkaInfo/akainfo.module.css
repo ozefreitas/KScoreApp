@@ -29,19 +29,15 @@
   width: 4vw;
 }
 
-.foulSquare {
+.akaFoulSquare {
   cursor: pointer;
   display: inline-block;
   height: 3vw;
   width: 5vw;
-  background-color: #bf0303;
+  background-color: var(--aka-color);
   display: inline-block;
   border-radius: 20px;
   margin-left: 1.5vw;
-}
-
-.lostByFoul {
-  background-color: yellow;
 }
 
 .pointCounterContainer {

@@ -1,4 +1,5 @@
 import styles from "./finalistkata.module.css";
+import { isInputFocused } from "../../../utils";
 import { useState, useCallback, useEffect } from "react";
 
 export default function FinalistKata({
@@ -38,7 +39,7 @@ export default function FinalistKata({
 
   const handleKeyPress = useCallback(
     (event) => {
-      if (event.ctrlKey && event.key === "Backspace") {
+      if (event.ctrlKey && event.key === "Backspace" && !isInputFocused()) {
         if (match !== "teamkata") {
           document.getElementById("number_form").reset();
           setKataNumber("");

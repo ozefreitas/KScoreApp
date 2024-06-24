@@ -1,5 +1,5 @@
 import styles from "./finalpont.module.css";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 
 export default function FinalPont({
   sumScore,
@@ -7,14 +7,15 @@ export default function FinalPont({
   setSumScore,
   setMinIndex,
   setMaxIndex,
+  finalScore,
+  setFinalScore,
   setShowNotification,
   setNotificationTitle,
   setNotificationBody,
 }) {
-  const [finalScore, setFinalScore] = useState(0);
   const scoresIndex = Object.values(sumScore);
 
-  const changeFinalInfo = () => {
+  const changeFinalInfo = useCallback(() => {
     let final = 0;
     let minvalue = Infinity;
     let maxvalue = -Infinity;
@@ -35,25 +36,12 @@ export default function FinalPont({
       setMinIndex(1);
       setMaxIndex(5);
     }
-  };
+  }, [scoresIndex, setFinalScore, setMaxIndex, setMinIndex, sumScore]);
 
   const handleKeyPress = useCallback(
     (event) => {
       const activeElement = document.activeElement;
-      if (event.ctrlKey === true && event.key === "Backspace") {
-        setSumScore({});
-        setMaxIndex("");
-        setMinIndex("");
-        setFinalScore(0);
-        setOverline({
-          overline1: undefined,
-          overline2: undefined,
-          overline3: undefined,
-          overline4: undefined,
-          overline5: undefined,
-        });
-        document.getElementById("pont_form").reset();
-      } else if (event.key === "Enter" && Object.keys(sumScore).length === 5) {
+      if (event.key === "Enter" && Object.keys(sumScore).length === 5) {
         changeFinalInfo();
         if (activeElement.type === "number") {
           activeElement.blur();
@@ -77,12 +65,9 @@ export default function FinalPont({
       }
     },
     [
-      setSumScore,
       setOverline,
       sumScore,
       changeFinalInfo,
-      setMaxIndex,
-      setMinIndex,
       setShowNotification,
       setNotificationTitle,
       setNotificationBody,
