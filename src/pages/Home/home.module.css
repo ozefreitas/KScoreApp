@@ -5,9 +5,19 @@
   position: relative;
 }
 
-.themeButton {
-  left: 10%;
-  position: relative;
+.absoluteDiv {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  width: 170px;
+  top: 10px;
+  right: 40px;
+  height: 6vw;
+}
+
+.toogleButton {
+  cursor: pointer;
 }
 
 .appName {
@@ -29,3 +39,24 @@
   height: 60%;
   object-fit: contain;
 }
+
+.sun {
+  width: 2vw;
+  height: 2vw;
+  fill: var(--theme-icons-color);
+  transition: fill 0.3s ease-in-out;
+}
+
+.moon {
+  width: 2vw;
+  height: 2vw;
+  fill: var(--theme-icons-color);
+  transition: fill 0.3s ease-in-out;
+}
+/* .themeButton:checked + .toogleButton .leftIcon {
+  fill: blue;
+}
+
+.themeButton:checked + .toogleButton .rightIcon {
+  fill: red;
+} */

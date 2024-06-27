@@ -6,6 +6,11 @@
   text-align: center;
 }
 
+.overDiv {
+  background-color: var(--theme-background-color);
+  /* transition: background-color 0.3s ease-in-out; */
+}
+
 .classificationContainer {
   display: flex;
   flex-direction: column;

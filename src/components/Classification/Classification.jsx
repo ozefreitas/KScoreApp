@@ -39,7 +39,6 @@ export default function Classification({ category, match, results }) {
         checkMins(tiedCompetitors, sortedResults);
       }
     }
-    // console.log(sortedResults);
   };
 
   const checkMins = (tiedList, sortedResults) => {
@@ -121,7 +120,7 @@ export default function Classification({ category, match, results }) {
 
   return (
     <div className={styles.header}>
-      <div style={{ background: "black" }}>
+      <div className={styles.overDiv}>
         Resultados da prova de {match} {category !== "default" ? category : ""}
       </div>
       <div style={{ display: "flex", justifyContent: "center" }}>

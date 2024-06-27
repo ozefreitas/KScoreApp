@@ -78,6 +78,10 @@ function App() {
         "--theme-text-color",
         "rgb(39, 39, 39)"
       );
+      document.documentElement.style.setProperty(
+        "--theme-icons-color",
+        "rgb(39, 39, 39)"
+      );
     } else {
       document.documentElement.style.setProperty(
         "--theme-background-color",
@@ -88,6 +92,10 @@ function App() {
         "rgba(0, 0, 0, 0.8)"
       );
       document.documentElement.style.setProperty("--theme-text-color", "white");
+      document.documentElement.style.setProperty(
+        "--theme-icons-color",
+        "white"
+      );
     }
   };
 
@@ -162,7 +170,13 @@ function App() {
         ></Route>
         <Route
           path="/home"
-          element={<Home theme={theme} toggleTheme={toggleTheme}></Home>}
+          element={
+            <Home
+              theme={theme}
+              setTheme={setTheme}
+              toggleTheme={toggleTheme}
+            ></Home>
+          }
         ></Route>
         <Route
           path="/eliminationdraw"

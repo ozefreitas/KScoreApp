@@ -4,6 +4,7 @@
   --theme-navBar-color: rgba(0, 0, 0, 0.8);
   /* --theme-navBar-color: rgba(192, 192, 192, 0.8); */
   --theme-text-color: white;
+  --theme-icons-color: white;
   --aka-color: #bf0303;
   --aka-contrast-color: white;
   --shiro-color: white;
@@ -25,4 +26,20 @@
   50% {
     opacity: 0;
   }
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
