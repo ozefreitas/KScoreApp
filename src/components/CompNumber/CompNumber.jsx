@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import styles from "./compnumber.module.css";
 
 export default function CompNumber({ id, state, setState, competitors }) {
+  console.log(state)
   const invertOrder = id !== "aka";
   const handleChange = (e) => {
     if (id === "aka") {

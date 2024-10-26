@@ -23,7 +23,7 @@
 
 .black {
   float: right;
-  color: var(--shiro-contrast-light-theme-color);
+  color: var(--shiro-contrast-color);
   margin-left: auto;
   margin-right: 70px;
   margin-top: 10px;

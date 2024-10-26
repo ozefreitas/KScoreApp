@@ -114,7 +114,7 @@ export default function CompetitorList({
     if (modality === "Individual") {
       const updatedCompList = {};
       competitors.forEach((competitor) => {
-        if (competitor.category.includes(category)) {
+        if (competitor.category === category) {
           updatedCompList[
             `${competitor.name}|${competitor.number}|${competitor.team}`
           ] = true;
