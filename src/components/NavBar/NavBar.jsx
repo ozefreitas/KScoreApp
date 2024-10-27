@@ -1,4 +1,5 @@
 import styles from "./navBar.module.css";
+import katas from "../../data/lista_de_katas.json"
 import { Link } from "react-router-dom";
 
 export default function NavBar({
@@ -217,7 +218,7 @@ export default function NavBar({
           <ul>
             <li className={currentPage.home ? styles.currentPage : ""}>
               <Link
-                to="/home"
+                to="/"
                 onClick={() => handleClick("home")}
                 className={styles.liStyling}
               >

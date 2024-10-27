@@ -9,7 +9,6 @@ import { useEffect, useState, useRef } from "react";
 import { Route, Routes } from "react-router-dom";
 import "./app.css";
 import TeamKata from "./pages/TeamKata/TeamKata";
-import Login from "./pages/Login/Login";
 import GroupDraw from "./pages/GroupDraw/GroupDraw";
 import MatchesDraw from "./pages/MatchesDraw/MatchesDraw";
 import Credits from "./pages/Credits/Credits";
@@ -19,7 +18,6 @@ import { selectElement } from "./utils";
 
 function App() {
   const [theme, setTheme] = useState("dark");
-  // console.log(theme);
   const [tatami, setTatami] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [competitors, setCompetitors] = useState([]);
@@ -32,7 +30,6 @@ function App() {
     team: false,
     kata: false,
   });
-  const [isPinRight, setIsPinRight] = useState(false);
   const [isDefault, setIsDefault] = useState({
     modality: true,
     category: true,
@@ -99,8 +96,6 @@ function App() {
     }
   };
 
-  // useEffect(() => {toggleTheme()});
-
   useEffect(() => {
     setIsDefault({ category: true, modality: true, matchtype: true });
     setModality("default");
@@ -118,34 +113,30 @@ function App() {
 
   return (
     <div className="App">
-      {isPinRight ? (
-        <div>
-          <NavButton
-            isMenuOpen={isMenuOpen}
-            setIsMenuOpen={setIsMenuOpen}
-            setBlinking={setBlinking}
-          ></NavButton>
-          <NavBar
-            isMenuOpen={isMenuOpen}
-            setIsMenuOpen={setIsMenuOpen}
-            setCompetitors={setCompetitors}
-            theme={theme}
-            setTeams={setTeams}
-            setKatas={setKatas}
-            blinking={blinking}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            setShowNotification={setShowNotification}
-            setNotificationTitle={setNotificationTitle}
-            setNotificationBody={setNotificationBody}
-            compRef={compRef}
-            teamRef={teamRef}
-            kataRef={kataRef}
-          ></NavBar>
-        </div>
-      ) : (
-        ""
-      )}
+      <div>
+        <NavButton
+          isMenuOpen={isMenuOpen}
+          setIsMenuOpen={setIsMenuOpen}
+          setBlinking={setBlinking}
+        ></NavButton>
+        <NavBar
+          isMenuOpen={isMenuOpen}
+          setIsMenuOpen={setIsMenuOpen}
+          setCompetitors={setCompetitors}
+          theme={theme}
+          setTeams={setTeams}
+          setKatas={setKatas}
+          blinking={blinking}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          setShowNotification={setShowNotification}
+          setNotificationTitle={setNotificationTitle}
+          setNotificationBody={setNotificationBody}
+          compRef={compRef}
+          teamRef={teamRef}
+          kataRef={kataRef}
+        ></NavBar>
+      </div>
       {showNotification ? (
         <CustomNotification
           setShowNotification={setShowNotification}
@@ -161,15 +152,6 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={
-            <Login
-              isPinRight={isPinRight}
-              setIsPinRight={setIsPinRight}
-            ></Login>
-          }
-        ></Route>
-        <Route
-          path="/home"
           element={
             <Home
               theme={theme}

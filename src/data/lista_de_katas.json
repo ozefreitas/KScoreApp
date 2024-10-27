@@ -1,0 +1,110 @@
+﻿[
+    {
+        "kata_number": "00",
+        "kata_name": "Taikyoku Shodan"
+    },
+    {
+        "kata_number": "01",
+        "kata_name": "Heian Shodan"
+    },
+    {
+        "kata_number": "02",
+        "kata_name": "Heian Nidan"
+    },
+    {
+        "kata_number": "03",
+        "kata_name": "Heian Sandan"
+    },
+    {
+        "kata_number": "04",
+        "kata_name": "Heian Yondan"
+    },
+    {
+        "kata_number": "05",
+        "kata_name": "Heian Godan"
+    },
+    {
+        "kata_number": "06",
+        "kata_name": "Tekki Shodan"
+    },
+    {
+        "kata_number": "07",
+        "kata_name": "Tekki Nidan"
+    },
+    {
+        "kata_number": "08",
+        "kata_name": "Tekki Sandan"
+    },
+    {
+        "kata_number": "09",
+        "kata_name": "Bassai Dai"
+    },
+    {
+        "kata_number": "10",
+        "kata_name": "Bassai Sho"
+    },
+    {
+        "kata_number": "11",
+        "kata_name": "Kanku Dai"
+    },
+    {
+        "kata_number": "12",
+        "kata_name": "Kanku Sho"
+    },
+    {
+        "kata_number": "13",
+        "kata_name": "Enpi"
+    },
+    {
+        "kata_number": "14",
+        "kata_name": "Jion"
+    },
+    {
+        "kata_number": "15",
+        "kata_name": "Gankaku"
+    },
+    {
+        "kata_number": "16",
+        "kata_name": "Hangetsu"
+    },
+    {
+        "kata_number": "17",
+        "kata_name": "Jitte"
+    },
+    {
+        "kata_number": "18",
+        "kata_name": "Chinte"
+    },
+    {
+        "kata_number": "19",
+        "kata_name": "Sochin"
+    },
+    {
+        "kata_number": "20",
+        "kata_name": "Meikyo"
+    },
+    {
+        "kata_number": "21",
+        "kata_name": "Jiin"
+    },
+    {
+        "kata_number": "22",
+        "kata_name": "Gojushiho Dai"
+    },
+    {
+        "kata_number": "23",
+        "kata_name": "Gojushiho Sho"
+    },
+    {
+        "kata_number": "24",
+        "kata_name": "Ninjushiho"
+    },
+    {
+        "kata_number": "25",
+        "kata_name": "Wankan"
+    },
+    {
+        "kata_number": "26",
+        "kata_name": "Unsu"
+    }
+]
