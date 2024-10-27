@@ -1,4 +1,20 @@
-## [] (June 2024) (_not ready_) (LATEST)
+## [1.0.0] (November 2024) (UPCOMMING)
+
+### Added
+
+- 
+
+### Changes
+
+- Group draw now handles different sizes, and distributes players to the groups to avoid groups
+with 1 to 3 elements
+- Maximizes groups with 4 to 6 elements
+
+### Fixes
+
+- Group draw not downloading the excel 
+
+## [0.8.5] (October 2024) (_not ready_) (LATEST)
 
 ### Added
 
@@ -7,11 +23,12 @@
 
 ### Changes
 
--
+- Login removed
 
-## Fixes
+### Fixes
 
--
+- On refresh, page didn't show the navbutton, basically making the app unusable. This was due to
+ the login state set to False
 
 ## [0.8.4] (June 2024) (_not ready_)
 
@@ -29,7 +46,7 @@
 - Not just background, but also the other components in order to provide a better visualization
 - Changed "styles" for "className" in the NavBar.jsx
 
-## Fixes
+### Fixes
 
 - Bugs with the "placeholder" like category default value color
 
@@ -51,7 +68,7 @@
 - Change the color from code to var() function
 - Change .blinking in the CSS modules to just a "blinking" class, retrieving its style from the "variables.css"
 
-## Fixes
+### Fixes
 
 - Bug in the Kata file processing
 - Major bugs with the controls of _Kumite_ fixed
@@ -131,7 +148,7 @@
 - Team Draw bug fixed
 - Fixed some bugs in the player banners
 
-## [0.7.2] (June 2024) (ready to )
+## [0.7.2] (June 2024) (ready to use)
 
 ### **First time public display in 8 June 2024** 🥰
 
