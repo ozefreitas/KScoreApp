@@ -101,7 +101,11 @@ function App() {
     setModality("default");
     setMatchType("default");
     selectElement("typeList", "default");
-    if (
+    if (currentPage.matchesDraw) {
+      setModality((prevModality) => prevModality);
+      setMatchType((prevMatchType) => prevMatchType);
+      setCategory((prevCategory) => prevCategory);
+    } else if (
       !currentPage.groupDraw ||
       !currentPage.elimDraw ||
       !currentPage.matchesDraw
@@ -239,6 +243,8 @@ function App() {
               setCurrentPage={setCurrentPage}
               category={category}
               setCategory={setCategory}
+              modality={modality}
+              matchType={matchType}
               setIsDefault={setIsDefault}
               isDefault={isDefault}
             ></MatchesDraw>

@@ -10,6 +10,8 @@ export default function MatchesDraw({
   setCurrentPage,
   category,
   setCategory,
+  modality,
+  matchType,
   isDefault,
   setIsDefault,
 }) {
@@ -75,7 +77,7 @@ export default function MatchesDraw({
             matchesByGroup[i][name2].length >= 3
           ) {
             continue;
-            // only of both are not full
+            // only if both are not full
           } else if (
             matchesByGroup[i][name1].length < 3 &&
             matchesByGroup[i][name2].length < 3
@@ -88,7 +90,7 @@ export default function MatchesDraw({
 
       const names = Object.keys(matchesByGroup[i]);
       const notMatched = [];
-      names.map((nam) => {
+      names.forEach((nam) => {
         if (matchesByGroup[i][nam].length === 1) {
           notMatched.push(nam);
         }
@@ -137,6 +139,7 @@ export default function MatchesDraw({
 
   useEffect(() => {
     makeMatchesByGroup();
+    console.log(matchesByGroup)
     const unShuffledObject = getUniquePairs(matchesByGroup);
     const shuffledObject = shuffleAndMinimize(unShuffledObject);
     // const shuffledObject = shuffleInnerArrays(unShuffledObject);
@@ -191,6 +194,8 @@ export default function MatchesDraw({
         setCategory={setCategory}
         setIsDefault={setIsDefault}
         isDefault={isDefault}
+        modality={modality}
+        matchType={matchType}
       ></Header>
       <div className={styles.centerForm}>
         {groupByComp.length === 0 ? (

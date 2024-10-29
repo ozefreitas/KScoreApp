@@ -18,11 +18,12 @@ export default function Header({
   kataOrKihon,
   setKataOrKihon,
 }) {
+
   useEffect(() => {
     if (draw === "group" || draw === "elimination" || draw === "matches") {
       selectElement("categoryList", category);
     }
-  }, [category]);
+  }, [category, draw]);
 
   let matchTypeSpan;
   const matchTypesSpan = ["kata", "teamkata", "kumite", "teamkumite", "kihon"];
