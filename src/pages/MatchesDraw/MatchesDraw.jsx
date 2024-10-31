@@ -57,61 +57,60 @@ export default function MatchesDraw({
   };
 
   const makeMatchesByGroup = () => {
-    for (let i = 0; i < groupByComp.length; i++) {
-      const matches = {};
-      for (const element of groupByComp[i]) {
-        if (!Object.keys(matches).includes(element)) {
-          matches[element] = [];
-        }
-      }
-
-      matchesByGroup[i] = matches;
-      const shuffledCompList = shuffleArray(groupByComp[i]);
-      for (let x = 0; x < shuffledCompList.length; x++) {
-        const name1 = shuffledCompList[x];
-        for (let y = x + 1; y < shuffledCompList.length; y++) {
-          const name2 = shuffledCompList[y];
-          // if both already with 3 matches
-          if (
-            matchesByGroup[i][name1].length >= 3 ||
-            matchesByGroup[i][name2].length >= 3
-          ) {
-            continue;
-            // only if both are not full
-          } else if (
-            matchesByGroup[i][name1].length < 3 &&
-            matchesByGroup[i][name2].length < 3
-          ) {
-            matchesByGroup[i][name1].push([name1, name2]);
-            matchesByGroup[i][name2].push([name1, name2]);
-          }
-        }
-      }
-
-      const names = Object.keys(matchesByGroup[i]);
-      const notMatched = [];
-      names.forEach((nam) => {
-        if (matchesByGroup[i][nam].length === 1) {
-          notMatched.push(nam);
-        }
-        return notMatched;
-      });
-
-      const clone = structuredClone(matchesByGroup[i]);
-      // console.log(clone)
-
-      for (let nomatch of notMatched) {
-        let j = 0;
-        for (let names of groupByComp[j].slice(i)) {
-          if (!notMatched.includes(names)) {
-            if (clone[nomatch].length < 3) {
-              clone[nomatch].push([nomatch, names]);
-              j++;
+    groupByComp.forEach((group, group_index) => {
+      matchesByGroup[group_index] = [];
+      console.log(group);
+      switch (group.length) {
+        case 4:
+          // Round-robin for groups of 4
+          for (let i = 0; i < group.length; i++) {
+            for (let j = i + 1; j < group.length; j++) {
+              matchesByGroup[group_index].push([group[i], group[j]]);
             }
           }
+          break;
+        case 5: {
+          // Generate all possible pairs and shuffle them
+          const allPairs = [];
+          for (let i = 0; i < group.length; i++) {
+            for (let j = i + 1; j < group.length; j++) {
+              allPairs.push([group[i], group[j]]);
+            }
+          }
+          shuffleArray(allPairs); // Shuffle for randomness
+          console.log(allPairs)
+          // Track match counts per athlete
+          const matchCounts = new Array(group.length).fill(0);
+
+          // Distribute pairs ensuring each athlete has exactly 3 matches
+          for (const [athlete1, athlete2] of allPairs) {
+            const index1 = group.indexOf(athlete1);
+            const index2 = group.indexOf(athlete2);
+            if (matchCounts[index1] < 3 && matchCounts[index2] < 3) {
+              matchesByGroup[group_index].push([athlete1, athlete2]);
+              matchCounts[index1]++;
+              matchCounts[index2]++;
+            }
+            // Stop if all athletes have reached 3 matches
+            if (matchCounts.every((count) => count === 3)) break;
+          }
+        }
+        case 6: {
+          // Split into two subgroups of 3 for groups of 6
+          const subgroupA = group.slice(0, 3);
+          const subgroupB = group.slice(3, 6);
+
+          // Each athlete in subgroupA plays each athlete in subgroupB
+          subgroupA.forEach((athleteA) => {
+            subgroupB.forEach((athleteB) => {
+              matchesByGroup[group_index].push([athleteA, athleteB]);
+            });
+          });
+          break;
         }
       }
-    }
+    });
+    console.log(matchesByGroup);
   };
 
   const getUniquePairs = (nestedData) => {
@@ -137,21 +136,18 @@ export default function MatchesDraw({
     return uniquePairsObject;
   };
 
-  useEffect(() => {
-    makeMatchesByGroup();
-    console.log(matchesByGroup)
-    const unShuffledObject = getUniquePairs(matchesByGroup);
-    const shuffledObject = shuffleAndMinimize(unShuffledObject);
-    // const shuffledObject = shuffleInnerArrays(unShuffledObject);
-    setUniquePairs(shuffledObject);
-  }, [groupByComp]);
+  // useEffect(() => {
+  //   makeMatchesByGroup();
+  //   const unShuffledObject = getUniquePairs(matchesByGroup);
+  //   const shuffledObject = shuffleAndMinimize(unShuffledObject);
+  //   setUniquePairs(shuffledObject);
+  // }, [groupByComp]);
 
   const handleClick = useCallback(() => {
     makeMatchesByGroup();
-    const unShuffledObject = getUniquePairs(matchesByGroup);
-    const shuffledObject = shuffleAndMinimize(unShuffledObject);
-    // const shuffledObject = shuffleInnerArrays(unShuffledObject);
-    setUniquePairs(shuffledObject);
+    // const unShuffledObject = getUniquePairs(matchesByGroup);
+    // const shuffledObject = shuffleAndMinimize(unShuffledObject);
+    // setUniquePairs(shuffledObject);
   });
 
   function triggerExcelGenerationWithData(data, file) {
