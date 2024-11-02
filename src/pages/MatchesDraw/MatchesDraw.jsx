@@ -56,16 +56,23 @@ export default function MatchesDraw({
     return shuffledObj;
   };
 
+  const swapSides = (arr) => {
+    if (Math.random() > 0.5) {
+      [arr[0], arr[1]] = [arr[1], arr[0]];
+    }
+    return arr;
+  };
+
   const makeMatchesByGroup = () => {
     groupByComp.forEach((group, group_index) => {
       matchesByGroup[group_index] = [];
-      console.log(group);
       switch (group.length) {
         case 4:
           // Round-robin for groups of 4
           for (let i = 0; i < group.length; i++) {
             for (let j = i + 1; j < group.length; j++) {
-              matchesByGroup[group_index].push([group[i], group[j]]);
+              const pair = swapSides([group[i], group[j]]);
+              matchesByGroup[group_index].push(pair);
             }
           }
           break;
@@ -74,26 +81,32 @@ export default function MatchesDraw({
           const allPairs = [];
           for (let i = 0; i < group.length; i++) {
             for (let j = i + 1; j < group.length; j++) {
-              allPairs.push([group[i], group[j]]);
+              const pair = swapSides([group[i], group[j]]);
+              allPairs.push(pair);
             }
           }
           shuffleArray(allPairs); // Shuffle for randomness
-          console.log(allPairs)
-          // Track match counts per athlete
-          const matchCounts = new Array(group.length).fill(0);
 
-          // Distribute pairs ensuring each athlete has exactly 3 matches
-          for (const [athlete1, athlete2] of allPairs) {
-            const index1 = group.indexOf(athlete1);
-            const index2 = group.indexOf(athlete2);
-            if (matchCounts[index1] < 3 && matchCounts[index2] < 3) {
-              matchesByGroup[group_index].push([athlete1, athlete2]);
-              matchCounts[index1]++;
-              matchCounts[index2]++;
+          let athlete1save = allPairs[0][0];
+          let athlete2save = allPairs[0][1];
+
+          for (let i = 0; i < group.length; i++) {
+            let pair = allPairs[i];
+            let athlete1 = pair[0];
+            let athlete2 = pair[1];
+            if (
+              athlete1save !== athlete1 &&
+              athlete2save !== athlete2 &&
+              athlete1save !== athlete2 &&
+              athlete2save !== athlete1
+            ) {
+              allPairs.splice(i, 1);
+              allPairs.shift();
+              matchesByGroup[group_index] = allPairs;
+              break;
             }
-            // Stop if all athletes have reached 3 matches
-            if (matchCounts.every((count) => count === 3)) break;
           }
+          break;
         }
         case 6: {
           // Split into two subgroups of 3 for groups of 6
@@ -103,51 +116,28 @@ export default function MatchesDraw({
           // Each athlete in subgroupA plays each athlete in subgroupB
           subgroupA.forEach((athleteA) => {
             subgroupB.forEach((athleteB) => {
-              matchesByGroup[group_index].push([athleteA, athleteB]);
+              const pair = swapSides([athleteA, athleteB]);
+              matchesByGroup[group_index].push(pair);
             });
           });
           break;
         }
       }
     });
-    console.log(matchesByGroup);
   };
 
-  const getUniquePairs = (nestedData) => {
-    const uniquePairsSet = new Set();
-    const uniquePairsObject = {};
-
-    Object.keys(nestedData).forEach((key) => {
-      uniquePairsObject[key] = [];
-      Object.keys(nestedData[key]).forEach((secondKey) => {
-        nestedData[key][secondKey].forEach((pair) => {
-          const pairString = JSON.stringify(pair); // Convert pair to string for Set comparison
-          if (!uniquePairsSet.has(pairString)) {
-            uniquePairsSet.add(pairString);
-            if (Math.random() > 0.5) {
-              [pair[0], pair[1]] = [pair[1], pair[0]];
-            }
-            uniquePairsObject[key].push(pair);
-          }
-        });
-      });
-    });
-
-    return uniquePairsObject;
-  };
-
-  // useEffect(() => {
-  //   makeMatchesByGroup();
-  //   const unShuffledObject = getUniquePairs(matchesByGroup);
-  //   const shuffledObject = shuffleAndMinimize(unShuffledObject);
-  //   setUniquePairs(shuffledObject);
-  // }, [groupByComp]);
+  useEffect(() => {
+    makeMatchesByGroup();
+    const shuffledObject = shuffleAndMinimize(matchesByGroup);
+    const finalDraw = swapSides(shuffledObject);
+    setUniquePairs(finalDraw);
+  }, [groupByComp]);
 
   const handleClick = useCallback(() => {
     makeMatchesByGroup();
-    // const unShuffledObject = getUniquePairs(matchesByGroup);
-    // const shuffledObject = shuffleAndMinimize(unShuffledObject);
-    // setUniquePairs(shuffledObject);
+    const shuffledObject = shuffleAndMinimize(matchesByGroup);
+    const finalDraw = swapSides(shuffledObject);
+    setUniquePairs(finalDraw);
   });
 
   function triggerExcelGenerationWithData(data, file) {
