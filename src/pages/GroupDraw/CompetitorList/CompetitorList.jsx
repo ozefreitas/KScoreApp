@@ -114,7 +114,7 @@ export default function CompetitorList({
     if (modality === "Individual") {
       const updatedCompList = {};
       competitors.forEach((competitor) => {
-        if (competitor.category === category) {
+        if (competitor.category === category && competitor.type === matchType) {
           updatedCompList[
             `${competitor.name}|${competitor.number}|${competitor.team}`
           ] = true;
