@@ -97,9 +97,11 @@ function App() {
   };
 
   useEffect(() => {
-    setIsDefault({ category: true, modality: true, matchtype: true });
-    setModality("default");
-    setMatchType("default");
+    if (!currentPage.matchesDraw) {
+      setModality("default");
+      setMatchType("default");
+      setIsDefault({ category: true, modality: true, matchtype: true });
+    }
     selectElement("typeList", "default");
     if (currentPage.matchesDraw) {
       setModality((prevModality) => prevModality);
