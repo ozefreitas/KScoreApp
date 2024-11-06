@@ -23,81 +23,74 @@ export default function GroupList({
   const minDojoConflictsDraw = useCallback(
     (athletes) => {
       shuffleArray(athletes);
-      const maxNumberAthletesPerGroup = 6;
-      const minNumberAthletesPerGroup = 4;
-      const numGroups = Math.ceil(athletes.length / minNumberAthletesPerGroup);
-      const groups = Array.from({ length: numGroups }, () => []);
-      athletes.forEach((athlete) => {
-        let bestGroup = null;
-        let minDojoCount = Infinity;
-
-        groups.forEach((group) => {
-          const dojoCount = group.filter(
-            (a) => a.split("|")[2] === athlete.split("|")[2]
-          ).length;
-          if (
-            dojoCount < minDojoCount &&
-            group.length < minNumberAthletesPerGroup
-          ) {
-            bestGroup = group;
-            minDojoCount = dojoCount;
-          }
-        });
-
-        // Place athlete in the best group found
-        bestGroup.push(athlete);
-      });
-      
-      // if there's more athletes than the ones needed to have 4 per group
-      if (athletes.length % minNumberAthletesPerGroup > 0) {
-        // last group will always be the one with the remainer of the athletes
-        groups[groups.length - 1].forEach((athlete) => {
-          // do the same process
+      if (athletes.length === 3 || athletes.length === 2) {
+        // groupByComp must be an array of arrays
+        setGroupByComp([athletes]);
+      } else {
+        const maxNumberAthletesPerGroup = 6;
+        const minNumberAthletesPerGroup = 4;
+        const numGroups = Math.ceil(
+          athletes.length / minNumberAthletesPerGroup
+        );
+        const groups = Array.from({ length: numGroups }, () => []);
+        athletes.forEach((athlete) => {
           let bestGroup = null;
           let minDojoCount = Infinity;
-          groups.slice(0, 2).forEach((group) => {
+
+          groups.forEach((group) => {
             const dojoCount = group.filter(
               (a) => a.split("|")[2] === athlete.split("|")[2]
             ).length;
             if (
               dojoCount < minDojoCount &&
-              group.length < maxNumberAthletesPerGroup
+              group.length < minNumberAthletesPerGroup
             ) {
               bestGroup = group;
               minDojoCount = dojoCount;
             }
           });
-          // athlete is added to one of the already "full" groups
+
+          // Place athlete in the best group found
           bestGroup.push(athlete);
         });
-        // last group has already been distributed
-        groups.pop();
+
+        // when equall to 7, won't distribute
+        if (athletes.length !== 7) {
+          // if there's more athletes than the ones needed to have 4 per group
+          if (athletes.length % minNumberAthletesPerGroup > 0) {
+            // last group will always be the one with the remainer of the athletes
+            groups[groups.length - 1].forEach((athlete) => {
+              // do the same process
+              let bestGroup = null;
+              let minDojoCount = Infinity;
+              groups.slice(0, groups.length - 1).forEach((group) => {
+                const dojoCount = group.filter(
+                  (a) => a.split("|")[2] === athlete.split("|")[2]
+                ).length;
+                if (
+                  dojoCount < minDojoCount &&
+                  group.length < maxNumberAthletesPerGroup
+                ) {
+                  bestGroup = group;
+                  minDojoCount = dojoCount;
+                }
+              });
+              // athlete is added to one of the already "full" groups
+              bestGroup.push(athlete);
+            });
+            // last group has already been distributed
+            groups.pop();
+          }
+        }
+        setGroupByComp(groups);
       }
-      setGroupByComp(groups);
     },
     [setGroupByComp]
   );
 
   useEffect(() => {
     setGroupByComp([]);
-    // function createGroup(groupsArray, compsArray) {
-    //   for (let i = 0; i < groupsArray.length; i++) {
-    //     const oneGroup = [];
-    //     for (const element of groupsArray[i]) {
-    //       const row = [];
-    //       oneGroup.push(compsArray[element - 1]);
-    //       row.push(
-    //         i,
-    //         compsArray[element - 1].split("|")[0],
-    //         compsArray[element - 1].split("|")[1]
-    //       );
-    //       data.push(row);
-    //     }
-    //     setGroupByComp((prevGroupByGroup) => [...prevGroupByGroup, oneGroup]);
-    //   }
-    // }
-    // createGroup(groups, filtered);
-    minDojoConflictsDraw(filtered)
+    minDojoConflictsDraw(filtered);
   }, [groups]);
 
   function triggerExcelGenerationWithData(data, file) {
