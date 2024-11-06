@@ -15,9 +15,11 @@ export default function MatchesDraw({
   isDefault,
   setIsDefault,
 }) {
+  console.log(groupByComp);
   const [uniquePairs, setUniquePairs] = useState({});
+  const [matchesByGroup, setMatchesByGroup] = useState({});
   const ipcRenderer = window.ipcRenderer;
-  const matchesByGroup = {};
+  // const matchesByGroup = {};
 
   const minimizeRepetitions = (array) => {
     for (let i = 0; i < array.length - 1; i++) {
@@ -65,59 +67,147 @@ export default function MatchesDraw({
 
   const makeMatchesByGroup = () => {
     groupByComp.forEach((group, group_index) => {
-      matchesByGroup[group_index] = [];
       switch (group.length) {
+        case 2:
+          {
+            let i = 0;
+            while (i < 3) {
+              const pair = swapSides([group[0], group[1]]);
+              setMatchesByGroup((prevMatchesByGroup) => ({
+                ...prevMatchesByGroup,
+                [group_index]: [
+                  ...(prevMatchesByGroup[group_index] || []),
+                  pair,
+                ],
+              }));
+              i++;
+            }
+          }
+          break;
+        case 3:
+          {
+            // Generate all possible pairs and shuffle them
+            const allPairs = [];
+            for (let i = 0; i < group.length; i++) {
+              for (let j = i + 1; j < group.length; j++) {
+                const pair = swapSides([group[i], group[j]]);
+                allPairs.push(pair);
+              }
+            }
+
+            let done = false;
+            let i = 0;
+            let bestAthlete = null;
+            let minDojoCount = Infinity;
+            while (done === false) {
+              const athlete = group[i];
+              const dojoCount = group.filter(
+                (a) => a.split("|")[2] === athlete.split("|")[2]
+              ).length;
+              if (dojoCount < minDojoCount) {
+                minDojoCount = dojoCount;
+                bestAthlete = athlete;
+              }
+              i++;
+              if (i === 3) {
+                done = true;
+              }
+            }
+            const morePairs = [];
+            const alreadyMatched = [];
+            for (const pairs of allPairs) {
+              for (const player of pairs) {
+                if (player !== bestAthlete) {
+                  if (
+                    player.split("|")[2] !== bestAthlete.split("|")[2] &&
+                    morePairs.length < 2 &&
+                    !alreadyMatched.includes(player)
+                  ) {
+                    const newPair = [bestAthlete, player];
+                    morePairs.push(newPair);
+                    allPairs.push(newPair);
+                    alreadyMatched.push(player);
+                  }
+                }
+              }
+            }
+            setMatchesByGroup((prevMatchesByGroup) => ({
+              ...prevMatchesByGroup,
+              [group_index]: allPairs,
+            }));
+          }
+          break;
         case 4:
           // Round-robin for groups of 4
           for (let i = 0; i < group.length; i++) {
             for (let j = i + 1; j < group.length; j++) {
               const pair = swapSides([group[i], group[j]]);
-              matchesByGroup[group_index].push(pair);
+              setMatchesByGroup((prevMatchesByGroup) => ({
+                ...prevMatchesByGroup,
+                [group_index]: [
+                  ...(prevMatchesByGroup[group_index] || []),
+                  pair,
+                ],
+              }));
             }
           }
           break;
-        case 5: {
-          // Generate all possible pairs and shuffle them
-          const allPairs = [];
-          for (let i = 0; i < group.length; i++) {
-            for (let j = i + 1; j < group.length; j++) {
-              const pair = swapSides([group[i], group[j]]);
-              allPairs.push(pair);
+        case 5:
+          {
+            // Generate all possible pairs and shuffle them
+            const allPairs = [];
+            for (let i = 0; i < group.length; i++) {
+              for (let j = i + 1; j < group.length; j++) {
+                const pair = swapSides([group[i], group[j]]);
+                allPairs.push(pair);
+              }
             }
-          }
-          shuffleArray(allPairs); // Shuffle for randomness
+            shuffleArray(allPairs); // Shuffle for randomness
 
-          let athlete1save = allPairs[0][0];
-          let athlete2save = allPairs[0][1];
+            let athlete1save = allPairs[0][0];
+            let athlete2save = allPairs[0][1];
 
-          for (let i = 0; i < group.length; i++) {
-            let pair = allPairs[i];
-            let athlete1 = pair[0];
-            let athlete2 = pair[1];
-            if (
-              athlete1save !== athlete1 &&
-              athlete2save !== athlete2 &&
-              athlete1save !== athlete2 &&
-              athlete2save !== athlete1
-            ) {
-              allPairs.splice(i, 1);
-              allPairs.shift();
-              matchesByGroup[group_index] = allPairs;
-              break;
+            for (let i = 0; i < group.length; i++) {
+              let pair = allPairs[i];
+              let athlete1 = pair[0];
+              let athlete2 = pair[1];
+              if (
+                athlete1save !== athlete1 &&
+                athlete2save !== athlete2 &&
+                athlete1save !== athlete2 &&
+                athlete2save !== athlete1
+              ) {
+                allPairs.splice(i, 1);
+                allPairs.shift();
+                setMatchesByGroup((prevMatchesByGroup) => ({
+                  ...prevMatchesByGroup,
+                  [group_index]: allPairs,
+                }));
+                break;
+              }
             }
           }
           break;
-        }
         case 6: {
+          const sortedGroup = group
+            .slice()
+            .sort((a, b) => a.split("|")[2].localeCompare(b.split("|")[2]));
+          console.log(sortedGroup);
           // Split into two subgroups of 3 for groups of 6
-          const subgroupA = group.slice(0, 3);
-          const subgroupB = group.slice(3, 6);
+          const subgroupA = sortedGroup.slice(0, 3);
+          const subgroupB = sortedGroup.slice(3, 6);
 
           // Each athlete in subgroupA plays each athlete in subgroupB
           subgroupA.forEach((athleteA) => {
             subgroupB.forEach((athleteB) => {
               const pair = swapSides([athleteA, athleteB]);
-              matchesByGroup[group_index].push(pair);
+              setMatchesByGroup((prevMatchesByGroup) => ({
+                ...prevMatchesByGroup,
+                [group_index]: [
+                  ...(prevMatchesByGroup[group_index] || []),
+                  pair,
+                ],
+              }));
             });
           });
           break;
@@ -126,19 +216,19 @@ export default function MatchesDraw({
     });
   };
 
-  useEffect(() => {
-    makeMatchesByGroup();
-    const shuffledObject = shuffleAndMinimize(matchesByGroup);
-    const finalDraw = swapSides(shuffledObject);
-    setUniquePairs(finalDraw);
-  }, [groupByComp]);
+  // useEffect(() => {
+  //   makeMatchesByGroup();
+  //   const shuffledObject = shuffleAndMinimize(matchesByGroup);
+  //   const finalDraw = swapSides(shuffledObject);
+  //   setUniquePairs(finalDraw);
+  // }, [groupByComp]);
 
-  const handleClick = useCallback(() => {
+  const handleClick = () => {
+    setMatchesByGroup({});
     makeMatchesByGroup();
     const shuffledObject = shuffleAndMinimize(matchesByGroup);
-    const finalDraw = swapSides(shuffledObject);
-    setUniquePairs(finalDraw);
-  });
+    setUniquePairs(shuffledObject);
+  };
 
   function triggerExcelGenerationWithData(data, file) {
     ipcRenderer.send("generate-excel", data, file);
