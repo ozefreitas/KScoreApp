@@ -98,7 +98,22 @@ export default function GroupList({
   }
 
   const downloadByClick = () => {
-    data.splice(0, 0, ["Grupo", "Nome", "Dorsal"]);
+    data.splice(0, 0, ["Grupo", "Dojo", "Nome", "Dorsal"]);
+    let i = 0;
+    groupByComp.forEach((group) => {
+      i++;
+      group.forEach((athlete) => {
+        let row = [];
+        row.push(
+          i,
+          athlete.split("|")[2],
+          athlete.split("|")[0],
+          athlete.split("|")[1]
+        );
+        data.push(row);
+      });
+    });
+    console.log(data);
     const drawFile = `${category.split(" ").join("_")}_Sorteio.xlsx`;
     triggerExcelGenerationWithData(data, drawFile);
   };

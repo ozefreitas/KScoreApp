@@ -15,7 +15,6 @@ export default function MatchesDraw({
   isDefault,
   setIsDefault,
 }) {
-  console.log(groupByComp);
   const [uniquePairs, setUniquePairs] = useState({});
   const [matchesByGroup, setMatchesByGroup] = useState({});
   const ipcRenderer = window.ipcRenderer;
@@ -237,7 +236,7 @@ export default function MatchesDraw({
   const downloadByClick = (groupNumber) => {
     const data = [];
     data.splice(0, 0, ["Dorsal", "Nome", "vs", "Nome", "Dorsal"]);
-    data.splice(0, 0, ["", "Aka", "", "Shiro", ""]);
+    data.splice(0, 0, ["", "Shiro", "", "Aka", ""]);
     for (let i of uniquePairs[groupNumber]) {
       data.push([
         i[0].split("|")[1],
