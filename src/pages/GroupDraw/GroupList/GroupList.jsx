@@ -55,7 +55,7 @@ export default function GroupList({
         });
 
         // when equall to 7, won't distribute
-        if (athletes.length !== 7) {
+        if (athletes.length !== 7 && athletes.length !== 1) {
           // if there's more athletes than the ones needed to have 4 per group
           if (athletes.length % minNumberAthletesPerGroup > 0) {
             // last group will always be the one with the remainer of the athletes
