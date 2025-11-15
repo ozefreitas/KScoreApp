@@ -28,15 +28,14 @@
 }
 
 .centerLogo {
-  height: 80vh;
+  width: 100%;
+  height: 98vh;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
 }
 
 .centerLogo img {
-  width: 40%;
-  height: 60%;
   object-fit: contain;
 }
 

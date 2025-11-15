@@ -289,7 +289,7 @@ export default function EliminationDraw({
   const handleClick = () => {
     const data = [];
     data.splice(0, 0, ["", "", "", ""]);
-    data.splice(0, 0, ["Cinto", "Nome", "Dorsal", "Dojo"]);
+    data.splice(0, 0, ["Cinto", "Nome", "Dojo", "Dorsal"]);
     if (filtered.length <= playersInFinals && matchType === "Kata") {
       for (let i = 0; i < filtered.length; i++) {
         let cinto;
@@ -301,8 +301,8 @@ export default function EliminationDraw({
         data.push([
           cinto,
           filtered[i].split("|")[0],
-          filtered[i].split("|")[1],
           filtered[i].split("|")[2],
+          filtered[i].split("|")[1],
         ]);
       }
     } else {
@@ -311,24 +311,24 @@ export default function EliminationDraw({
         for (let indivMatch of pool) {
           // console.log(indivMatch);
           const byeIndex = shuffleArray(indivMatch).indexOf("bye");
-          if (byeIndex === 0) {
+          if (byeIndex === 0 || indivMatch[0] === 0) {
             data.push(
               ["Aka", "bye", "", ""],
               ["", "vs", "", ""],
               [
                 "Shiro",
                 indivMatch[1].split("|")[0],
-                indivMatch[1].split("|")[1],
                 indivMatch[1].split("|")[2],
+                indivMatch[1].split("|")[1],
               ]
             );
-          } else if (byeIndex === 1) {
+          } else if (byeIndex === 1 || indivMatch[1] === 0) {
             data.push(
               [
                 "Aka",
                 indivMatch[0].split("|")[0],
-                indivMatch[0].split("|")[1],
                 indivMatch[0].split("|")[2],
+                indivMatch[0].split("|")[1],
               ],
               ["", "vs", "", ""],
               ["Shiro", "bye", "", ""]
@@ -338,19 +338,19 @@ export default function EliminationDraw({
               [
                 "Aka",
                 indivMatch[0].split("|")[0],
-                indivMatch[0].split("|")[1],
                 indivMatch[0].split("|")[2],
+                indivMatch[0].split("|")[1],
               ],
               ["", "vs", ""],
               [
                 "Shiro",
                 indivMatch[1].split("|")[0],
-                indivMatch[1].split("|")[1],
                 indivMatch[1].split("|")[2],
+                indivMatch[1].split("|")[1],
               ]
             );
           }
-          data.push(["", "", "", ""]);
+          // data.push(["", "", "", ""]);
         }
       }
     }
@@ -381,8 +381,19 @@ export default function EliminationDraw({
             <>
               {pool.map((match, index) => (
                 <div key={index} className={styles.eachMatch}>
-                  {match[0].split("|")[0]} {match[0].split("|")[1]} vs{" "}
-                  {match[1].split("|")[0]} {match[1].split("|")[1]}
+                  {match[0] !== "bye" && match[0] !== 0
+                    ? match[0].split("|")[0]
+                    : "Bye"}{" "}
+                  {match[0] !== "bye" && match[0] !== 0
+                    ? match[0].split("|")[1]
+                    : "Bye"}{" "}
+                  vs{" "}
+                  {match[1] !== "bye" && match[1] !== 0
+                    ? match[1].split("|")[0]
+                    : "Bye"}{" "}
+                  {match[1] !== "bye" && match[1] !== 0
+                    ? match[1].split("|")[1]
+                    : "Bye"}
                 </div>
               ))}
             </>

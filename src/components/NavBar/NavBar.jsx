@@ -1,5 +1,5 @@
 import styles from "./navBar.module.css";
-import katas from "../../data/lista_de_katas.json"
+import katas from "../../data/lista_de_katas.json";
 import { Link } from "react-router-dom";
 
 export default function NavBar({
@@ -85,20 +85,15 @@ export default function NavBar({
     const content = fileReader.result;
     const jsonResources = JSON.parse(content);
     const groupedCompetitors = {};
-    const neededKeys = [
-      "number",
-      "name",
-      "team",
-      "category",
-      "type",
-      "favorite",
-    ];
+    const neededKeys = ["number", "name", "team", "type", "category", "gender"];
     jsonResources.forEach((resource, index) => {
       if (neededKeys.every((key) => Object.keys(resource).includes(key))) {
         const key = `${resource.number}-${resource.name}-${resource.team}-${resource.type}`;
-        groupedCompetitors[key] = {
+        const newResource = {
           ...resource,
+          category: `${resource.category} ${resource.gender}`,
         };
+        groupedCompetitors[key] = newResource;
       } else {
         setShowNotification(true);
         setNotificationTitle("ERRO - ficheiro não suportado");
